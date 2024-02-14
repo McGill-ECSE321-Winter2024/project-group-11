@@ -8,6 +8,6 @@ Project description
 |------------------|--------------|----------------------|------|
 | Yazid Asselah    | Dramocrystal | Computer Engineering | U2   |
 | Kenny Duy Nguyen | ken-nguyen14 | Computer Engineering | U2   |
-|                  |              |                      |      |
+| Liam Di Chiro    | liamdc11     | Software Engineering | U2   |
 |                  |              |                      |      |
 
