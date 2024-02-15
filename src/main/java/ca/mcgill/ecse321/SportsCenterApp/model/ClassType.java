@@ -25,13 +25,13 @@ public class ClassType
   private String description;
   private boolean approved;
   private DifficultyLevel difficultyLevel;
-  private int id;
+  private Integer id;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ClassType(String aName, String aDescription, boolean aApproved, DifficultyLevel aDifficultyLevel, int aId)
+  public ClassType(String aName, String aDescription, boolean aApproved, DifficultyLevel aDifficultyLevel, Integer aId)
   {
     name = aName;
     description = aDescription;
@@ -76,7 +76,7 @@ public class ClassType
     return wasSet;
   }
 
-  public boolean setId(int aId)
+  public boolean setId(Integer aId)
   {
     boolean wasSet = false;
     id = aId;
@@ -104,7 +104,7 @@ public class ClassType
     return difficultyLevel;
   }
 
-  public int getId()
+  public Integer getId()
   {
     return id;
   }

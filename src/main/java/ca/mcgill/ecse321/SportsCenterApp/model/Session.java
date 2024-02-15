@@ -21,9 +21,9 @@ public class Session
   private Time startTime;
   private Time endTime;
   private float price;
-  private int remainingCapacity;
-  private int roomNumber;
-  private int id;
+  private Integer remainingCapacity;
+  private Integer roomNumber;
+  private Integer id;
 
   //Session Associations
   private Instructor instructor;
@@ -33,7 +33,7 @@ public class Session
   // CONSTRUCTOR
   //------------------------
 
-  public Session(Date aDate, Time aStartTime, Time aEndTime, float aPrice, int aRemainingCapacity, int aRoomNumber, int aId, ClassType aClassType)
+  public Session(Date aDate, Time aStartTime, Time aEndTime, float aPrice, Integer aRemainingCapacity, Integer aRoomNumber, Integer aId, ClassType aClassType)
   {
     date = aDate;
     startTime = aStartTime;
@@ -84,7 +84,7 @@ public class Session
     return wasSet;
   }
 
-  public boolean setRemainingCapacity(int aRemainingCapacity)
+  public boolean setRemainingCapacity(Integer aRemainingCapacity)
   {
     boolean wasSet = false;
     remainingCapacity = aRemainingCapacity;
@@ -92,7 +92,7 @@ public class Session
     return wasSet;
   }
 
-  public boolean setRoomNumber(int aRoomNumber)
+  public boolean setRoomNumber(Integer aRoomNumber)
   {
     boolean wasSet = false;
     roomNumber = aRoomNumber;
@@ -100,7 +100,7 @@ public class Session
     return wasSet;
   }
 
-  public boolean setId(int aId)
+  public boolean setId(Integer aId)
   {
     boolean wasSet = false;
     id = aId;
@@ -128,17 +128,17 @@ public class Session
     return price;
   }
 
-  public int getRemainingCapacity()
+  public Integer getRemainingCapacity()
   {
     return remainingCapacity;
   }
 
-  public int getRoomNumber()
+  public Integer getRoomNumber()
   {
     return roomNumber;
   }
 
-  public int getId()
+  public Integer getId()
   {
     return id;
   }
