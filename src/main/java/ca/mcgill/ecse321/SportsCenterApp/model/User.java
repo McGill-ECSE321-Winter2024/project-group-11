@@ -19,13 +19,13 @@ public class User
   private String lastName;
   private String email;
   private String password;
-  private int id;
+  private Integer id;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aFirstName, String aLastName, String aEmail, String aPassword, int aId)
+  public User(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId)
   {
     firstName = aFirstName;
     lastName = aLastName;
@@ -70,7 +70,7 @@ public class User
     return wasSet;
   }
 
-  public boolean setId(int aId)
+  public boolean setId(Integer aId)
   {
     boolean wasSet = false;
     id = aId;
@@ -98,7 +98,7 @@ public class User
     return password;
   }
 
-  public int getId()
+  public Integer getId()
   {
     return id;
   }

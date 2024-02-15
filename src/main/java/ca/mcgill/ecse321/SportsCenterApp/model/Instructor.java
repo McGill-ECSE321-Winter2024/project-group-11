@@ -15,14 +15,14 @@ public class Instructor extends User
   //------------------------
 
   //Instructor Attributes
-  private int yearsOfExperience;
+  private Integer yearsOfExperience;
   private String biography;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Instructor(String aFirstName, String aLastName, String aEmail, String aPassword, int aId, int aYearsOfExperience, String aBiography)
+  public Instructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, Integer aYearsOfExperience, String aBiography)
   {
     super(aFirstName, aLastName, aEmail, aPassword, aId);
     yearsOfExperience = aYearsOfExperience;
@@ -33,7 +33,7 @@ public class Instructor extends User
   // INTERFACE
   //------------------------
 
-  public boolean setYearsOfExperience(int aYearsOfExperience)
+  public boolean setYearsOfExperience(Integer aYearsOfExperience)
   {
     boolean wasSet = false;
     yearsOfExperience = aYearsOfExperience;
@@ -49,7 +49,7 @@ public class Instructor extends User
     return wasSet;
   }
 
-  public int getYearsOfExperience()
+  public Integer getYearsOfExperience()
   {
     return yearsOfExperience;
   }
