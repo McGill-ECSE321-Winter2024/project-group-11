@@ -4,10 +4,15 @@ package ca.mcgill.ecse321.SportsCenterApp.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 
+import jakarta.persistence.*;
 
 // line 2 "model.ump"
 // line 67 "model.ump"
-public class User
+
+@Entity
+@Table(name = "UserTable")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User
 {
 
   //------------------------
@@ -19,6 +24,8 @@ public class User
   private String lastName;
   private String email;
   private String password;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   //------------------------
@@ -32,6 +39,17 @@ public class User
     email = aEmail;
     password = aPassword;
     id = aId;
+  }
+
+  public User(String firstName, String lastName, String email, String password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
+
+  public User() {
+
   }
 
   //------------------------
