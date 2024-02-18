@@ -64,12 +64,32 @@ public class UserRepositoryTests {
         assertEquals(bio, result.getBiography());
 
         //read test cases
-        result = (Instructor) userRepository.findUserByFirstName(firstName);
+        result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
         assertNotNull(result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());
 
+    }
+    @Test
+    void testUpdateUserPasswordByEmail() {
+        Customer one = new Customer();
+        one.setPassword("airplane");
+        one.setFirstName("George");
+        one.setLastName("Washington");
+        one.setEmail("fraud@gov");
+
+        userRepository.save(one);
+        //Here, result = 1 if successful
+        int status = userRepository.updateUserByEmailIgnoreCase("fraud@gov", "donkey");
+
+        //write
+        assertEquals(1, status);
+
+        //read
+        Customer res = (Customer) userRepository.findUserByFirstNameIgnoreCase("george");
+        assertEquals("George", res.getFirstName());
+        assertEquals("donkey", res.getPassword());
 
     }
 }
