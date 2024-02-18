@@ -4,9 +4,14 @@ package ca.mcgill.ecse321.SportsCenterApp.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 // line 47 "model.ump"
 // line 97 "model.ump"
+@Entity
 public class ClassType
 {
 
@@ -25,6 +30,8 @@ public class ClassType
   private String description;
   private boolean approved;
   private DifficultyLevel difficultyLevel;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   //------------------------
@@ -38,6 +45,17 @@ public class ClassType
     approved = aApproved;
     difficultyLevel = aDifficultyLevel;
     id = aId;
+  }
+
+  public ClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel) {
+    this.name = name;
+    this.description = description;
+    this.approved = approved;
+    this.difficultyLevel = difficultyLevel;
+  }
+
+  public ClassType() {
+
   }
 
   //------------------------

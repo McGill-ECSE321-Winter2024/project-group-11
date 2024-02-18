@@ -4,11 +4,14 @@ package ca.mcgill.ecse321.SportsCenterApp.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 
+import jakarta.persistence.*;
+
 import java.sql.Date;
 import java.sql.Time;
 
 // line 29 "model.ump"
 // line 87 "model.ump"
+@Entity
 public class Session
 {
 
@@ -23,10 +26,14 @@ public class Session
   private float price;
   private Integer remainingCapacity;
   private Integer roomNumber;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   //Session Associations
+  @ManyToOne
   private Instructor instructor;
+  @ManyToOne(optional = false)
   private ClassType classType;
 
   //------------------------
@@ -46,6 +53,21 @@ public class Session
     {
       throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  public Session(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, Instructor instructor, ClassType classType) {
+    this.date = date;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.price = price;
+    this.remainingCapacity = remainingCapacity;
+    this.roomNumber = roomNumber;
+    this.instructor = instructor;
+    this.classType = classType;
+  }
+
+  public Session() {
+
   }
 
   //------------------------

@@ -4,9 +4,11 @@ package ca.mcgill.ecse321.SportsCenterApp.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 
+import jakarta.persistence.Entity;
 
 // line 23 "model.ump"
 // line 82 "model.ump"
+@Entity
 public class Customer extends User
 {
 
@@ -25,6 +27,10 @@ public class Customer extends User
   {
     super(aFirstName, aLastName, aEmail, aPassword, aId);
     accoutBalance = aAccoutBalance;
+  }
+
+  public Customer() {
+
   }
 
   //------------------------

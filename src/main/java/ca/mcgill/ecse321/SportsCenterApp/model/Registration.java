@@ -4,11 +4,14 @@ package ca.mcgill.ecse321.SportsCenterApp.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 
+import jakarta.persistence.*;
+
 import java.sql.Date;
 import java.sql.Time;
 
 // line 41 "model.ump"
 // line 92 "model.ump"
+@Entity
 public class Registration
 {
 
@@ -21,8 +24,13 @@ public class Registration
   private Time time;
 
   //Registration Associations
+  @ManyToOne(optional = false)
   private Customer customer;
+  @ManyToOne(optional = false)
   private Session session;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
   //------------------------
   // CONSTRUCTOR
@@ -40,6 +48,10 @@ public class Registration
     {
       throw new RuntimeException("Unable to create Registration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  public Registration() {
+
   }
 
   //------------------------
@@ -118,5 +130,13 @@ public class Registration
             "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null");
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Integer getId() {
+    return id;
   }
 }
