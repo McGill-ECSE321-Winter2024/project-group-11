@@ -31,8 +31,13 @@ public class UserRepositoryTests {
         one.setLastName("kuminga");
         one.setEmail("kuminga2024@yahoo.com");
         Customer result = userRepository.save(one);
-        int id = result.getId();
+        //write test cases
+        assertEquals(one, result);
+        assertEquals("jonathan", result.getFirstName());
+        assertEquals("kuminga", result.getLastName());
 
+        //read test cases
+        int id = result.getId();
         Optional<User> res = userRepository.findById(id);
         one = (Customer) res.get();
 
@@ -52,14 +57,39 @@ public class UserRepositoryTests {
         brock.setLastName(lastName);
         brock.setBiography(bio);
 
-        userRepository.save(brock);
+        Instructor result = userRepository.save(brock);
+        //write test cases
+        assertEquals(brock, result);
+        assertEquals(firstName, result.getFirstName());
+        assertEquals(bio, result.getBiography());
 
-        Instructor result = (Instructor) userRepository.findUserByFirstName(firstName);
+        //read test cases
+        result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
         assertNotNull(result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());
 
+    }
+    @Test
+    void testUpdateUserPasswordByEmail() {
+        Customer one = new Customer();
+        one.setPassword("airplane");
+        one.setFirstName("George");
+        one.setLastName("Washington");
+        one.setEmail("fraud@gov");
+
+        userRepository.save(one);
+        //Here, result = 1 if successful
+        int status = userRepository.updateUserByEmailIgnoreCase("fraud@gov", "donkey");
+
+        //write
+        assertEquals(1, status);
+
+        //read
+        Customer res = (Customer) userRepository.findUserByFirstNameIgnoreCase("george");
+        assertEquals("George", res.getFirstName());
+        assertEquals("donkey", res.getPassword());
 
     }
 }
