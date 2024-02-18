@@ -17,6 +17,8 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
       <td>Yazid Asselah</td>
       <td>
         <ul>
+          <li>Preliminary domain model design</li>
+          <li>Rough draft of functional and non-functional requirements</li>
           <li>Write rough draft of use case diagrams</li>
         </ul>
       </td>
@@ -26,7 +28,8 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
       <td>Kenny Duy Nguyen</td>
       <td>
         <ul>
-          <li>Write rough draft of requirements</li>
+          <li>Preliminary domain model design</li>
+          <li>Rough draft of functional and non-functional requirements</li>
         </ul>
       </td>
       <td>... hours </td>
@@ -35,6 +38,8 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
       <td>Liam Di Chiro</td>
       <td>
         <ul>
+          <li>Preliminary domain model design</li>
+          <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop persistence layer</li>
         </ul>
       </td>
@@ -44,6 +49,8 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
       <td>Seungyeon Lee</td>
       <td>
         <ul>
+          <li>Preliminary domain model design</li>
+          <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop a test suite for the persistence layer</li>
         </ul>
       </td>
@@ -53,7 +60,11 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
       <td>Luke Freund</td>
       <td>
         <ul>
-          <li>Design domain model</li>
+          <li>Preliminary domain model design</li>
+          <li>Rough draft of functional and non-functional requirements</li>
+          <li>Final design for the domain model</li>
+          <li>Verification of the domain model with a T.A</li>
+          <li>Verification of the requirements with a T.A</li>        
         </ul>
       </td>
       <td>... hours</td>
