@@ -52,6 +52,8 @@ public class UserRepositoryTests {
         brock.setLastName(lastName);
         brock.setBiography(bio);
 
+        
+
         userRepository.save(brock);
 
         Instructor result = (Instructor) userRepository.findUserByFirstName(firstName);
