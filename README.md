@@ -22,6 +22,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Write rough draft of use case diagrams</li>
           <li>Write use case specification #1</li>
+          <li>Write tests for the persistence layer1</li>
         </ul>
       </td>
       <td>22 hours</td>
