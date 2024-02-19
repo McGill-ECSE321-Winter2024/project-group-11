@@ -58,8 +58,6 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
-
-
         //read test cases
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
         assertNotNull(result);
