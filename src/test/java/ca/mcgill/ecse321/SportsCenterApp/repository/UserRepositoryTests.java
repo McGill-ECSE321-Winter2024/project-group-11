@@ -58,9 +58,16 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
-        //read test cases
+        // write test case, testing if data correctly gets saved into database.
+        assertEquals(brock, result);
+        assertEquals(firstName, result.getFirstName());
+        assertEquals(bio, result.getBiography());
+
+        //read test cases, the method finds user by their first name, without case sensitivity.
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
+        //checking if an object is returned
         assertNotNull(result);
+        //verifying if the attributes have been read correctly.
         assertEquals(firstName, result.getFirstName());
         assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());
