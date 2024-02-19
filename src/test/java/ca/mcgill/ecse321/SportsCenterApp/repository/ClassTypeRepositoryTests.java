@@ -21,10 +21,7 @@ public class ClassTypeRepositoryTests {
     void clearDatabase() {
         classTypeRepository.deleteAll();
     }
-    private String name;
-    private String description;
-    private boolean approved;
-    private DifficultyLevel difficultyLevel;
+
     @Test
     void testFindClassTypeByDescription() {
         ClassType hockey = new ClassType();
@@ -52,4 +49,34 @@ public class ClassTypeRepositoryTests {
 
 
     
+}
+@Test
+void testFindCustomerByFirstName() {
+    Customer one = new Customer();
+    Customer two = new Customer();
+    Customer three = new Customer();
+    one.setFirstName("Deshaun");
+    one.setLastName("Watson");
+    two.setFirstName("Deshaun");
+    two.setLastName("Jackson");
+
+    three.setFirstName("Alex");
+    three.setPassword("password");
+    customerRepository.save(two);
+    customerRepository.save(three);
+    Customer res = customerRepository.save(one);
+    //write test case
+    assertEquals(one, res);
+    assertEquals("Deshaun", res.getFirstName());
+    assertEquals("Watson", res.getLastName());
+
+    //read test case
+    List<Customer> customers = customerRepository.findCustomersByFirstName("Deshaun");
+    assertEquals(2, customers.size());
+
+    customers = customerRepository.findCustomersByFirstName("Alex");
+    assertEquals(1, customers.size());
+    assertEquals("Alex", customers.get(0).getFirstName());
+    assertEquals("password", customers.get(0).getPassword());
+
 }
