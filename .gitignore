@@ -37,4 +37,7 @@ out/
 .vscode/
 
 ## personal application.properties settings ##
-src/main/resources/application.properties
+project-group-11\src\main\resources\application-test.properties
+project-group-11\src\main\resources\application.properties
+
+.gitignore
