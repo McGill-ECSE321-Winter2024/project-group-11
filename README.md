@@ -6,7 +6,8 @@ This project involves developing a web application for a local sport center to m
 Further documentation may be accessed via the [wiki](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki).
 
 ## Deliverable 1
-<table>
+
+See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki)<table>
   <tbody>
     <tr>
       <th>Team Member</th>
