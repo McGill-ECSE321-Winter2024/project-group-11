@@ -59,7 +59,6 @@ public class UserRepositoryTests {
 
         Instructor result = userRepository.save(brock);
 
-        userRepository.save(brock);
 
         //read test cases
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
