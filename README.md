@@ -33,6 +33,8 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Write use case specification #2</li>
+          <li>Final draft of all requirements</li>
+          <li>General documentation tasks in the wiki and README.md file</li>
         </ul>
       </td>
       <td>22 hours </td>
