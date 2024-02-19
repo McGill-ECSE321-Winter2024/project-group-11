@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
-    List<Customer> findCustomersByFirstName(String firstName);
+    List<Customer> findCustomersByFirstNameIgnoreCase(String firstName);
 }

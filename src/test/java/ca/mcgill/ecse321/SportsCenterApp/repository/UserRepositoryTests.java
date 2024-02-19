@@ -26,17 +26,18 @@ public class UserRepositoryTests {
     }
     @Test
     void testFindUserById() {
+        //creating customer to save into db.
         Customer one = new Customer();
         one.setFirstName("jonathan");
         one.setLastName("kuminga");
         one.setEmail("kuminga2024@yahoo.com");
         Customer result = userRepository.save(one);
-        //write test cases
+        // write test case, testing if data correctly gets saved into database.
         assertEquals(one, result);
         assertEquals("jonathan", result.getFirstName());
         assertEquals("kuminga", result.getLastName());
 
-        //read test cases
+        //read test case, this method returns a list of customers that have the same first name, without case sensitivity.
         int id = result.getId();
         Optional<User> res = userRepository.findById(id);
         one = (Customer) res.get();
@@ -58,14 +59,16 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
-        //write test cases
+        // write test case, testing if data correctly gets saved into database.
         assertEquals(brock, result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(bio, result.getBiography());
 
-        //read test cases
+        //read test cases, the method finds user by their first name, without case sensitivity.
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
+        //checking if an object is returned
         assertNotNull(result);
+        //verifying if the attributes have been read correctly.
         assertEquals(firstName, result.getFirstName());
         assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());
