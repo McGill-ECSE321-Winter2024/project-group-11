@@ -24,7 +24,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Write use case specification #1</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>22 hours</td>
     </tr>
     <tr>
       <td>Kenny Duy Nguyen</td>
@@ -35,7 +35,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Write use case specification #2</li>
         </ul>
       </td>
-      <td>... hours </td>
+      <td>22 hours </td>
     </tr>
     <tr>
       <td>Liam Di Chiro</td>
@@ -47,7 +47,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Write use case specification #3</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>21 hours</td>
     </tr>
     <tr>
       <td>Seungyeon Lee</td>
@@ -59,7 +59,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Write use case specification #4</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>23 hours</td>
     </tr>
     <tr>
       <td>Luke Freund</td>
@@ -75,7 +75,7 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>General documentation tasks in the wiki and the backlog</li>
         </ul>
       </td>
-      <td>21 hours</td>
+      <td>24 hours</td>
     </tr>
     <tr>
   </tbody>
