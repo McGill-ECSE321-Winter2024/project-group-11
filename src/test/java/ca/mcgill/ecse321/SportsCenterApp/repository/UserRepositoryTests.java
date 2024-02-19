@@ -31,16 +31,18 @@ public class UserRepositoryTests {
         one.setLastName("kuminga");
         one.setEmail("kuminga2024@yahoo.com");
         Customer result = userRepository.save(one);
-        //write test cases
+        //write test cases, testing if saved data matches its expected values.
+        //this checks if the saved object matches the original object
         assertEquals(one, result);
+        //these assertions check if the attributes match.
         assertEquals("jonathan", result.getFirstName());
         assertEquals("kuminga", result.getLastName());
 
-        //read test cases
+        //read test case, testing if the queried data matches its expected values.
         int id = result.getId();
         Optional<User> res = userRepository.findById(id);
         one = (Customer) res.get();
-
+        //thick checks if the query method returns an object.
         assertNotNull(one);
         assertEquals(id, one.getId());
         assertEquals("jonathan", one.getFirstName());
@@ -49,6 +51,7 @@ public class UserRepositoryTests {
     }
     @Test
     void testFindUserByFirstName() {
+        //creating Instrucot object.
         Instructor brock = new Instructor();
         String firstName = "Brock";
         String lastName = "Purdy";
@@ -58,12 +61,12 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
-        //write test cases
+        //write test cases, testing if saved data matches expected.
         assertEquals(brock, result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(bio, result.getBiography());
 
-        //read test cases
+        //read test case, testing if the queried data matches its expected values.
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
         assertNotNull(result);
         assertEquals(firstName, result.getFirstName());
@@ -73,6 +76,7 @@ public class UserRepositoryTests {
     }
     @Test
     void testUpdateUserPasswordByEmail() {
+        //creating a customer object to save in database.
         Customer one = new Customer();
         one.setPassword("airplane");
         one.setFirstName("George");
@@ -83,10 +87,10 @@ public class UserRepositoryTests {
         //Here, result = 1 if successful
         int status = userRepository.updateUserByEmailIgnoreCase("fraud@gov", "donkey");
 
-        //write
+        //write test case.
         assertEquals(1, status);
 
-        //read
+        //read test case, testing if the queried data matches its expected values.
         Customer res = (Customer) userRepository.findUserByFirstNameIgnoreCase("george");
         assertEquals("George", res.getFirstName());
         assertEquals("donkey", res.getPassword());
