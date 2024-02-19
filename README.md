@@ -69,7 +69,9 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Final design for the domain model</li>
           <li>Verification of the domain model with a T.A</li>
           <li>Verification of the requirements with a T.A</li>
+          <li>Generation of Umple code</li>
           <li>Write use case specification #5</li>
+          <li>General documentation tasks in the wiki and the backlog</li>
         </ul>
       </td>
       <td>21 hours</td>
