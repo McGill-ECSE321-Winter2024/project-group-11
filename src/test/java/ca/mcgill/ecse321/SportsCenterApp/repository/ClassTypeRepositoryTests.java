@@ -23,60 +23,37 @@ public class ClassTypeRepositoryTests {
     }
 
     @Test
-    void testFindClassTypeByDescription() {
+    void testFindClassTypeByName() {
         ClassType hockey = new ClassType();
-        String name = "Hockey Class";
-        String description = "Fun vibes";
-        boolean approved = true;
-
-        hockey.setName(name);
-        hockey.setDescription(description);
-        hockey.setApproved(approved);
+        ClassType soccer = new ClassType();
+        ClassType basketball = new ClassType();
+        hockey.setName("Hockey Class");
+        hockey.setDescription("fun hockey");
+        hockey.setDifficultyLevel(DifficultyLevel.Advanced);
+        soccer.setName("Soccer Class");
+        basketball.setName("Basketball Class");
 
         classTypeRepository.save(hockey);
+        classTypeRepository.save(soccer);
 
+        //Save
+        ClassType result = classTypeRepository.save(basketball);
 
-
-        ClassType result = classTypeRepository.findClassTypeByDescription(description);
+        
+        //write test case
         assertNotNull(result);
-        assertEquals(name, result.getName());
-        assertEquals(description, result.getDescription());
-        assertEquals(approved, result.getApproved());
+        assertEquals(basketball, result);
+        assertEquals("Hockey Class", hockey.getName());
+        assertEquals("Soccer Class", soccer.getName());
 
-    }
-
-
-
+        //read test case
+        ClassType readResult = classTypeRepository.findClassTypeByName("Hockey Class");
+        assertNotNull(readResult);
+        assertEquals("Hockey Class", readResult.getName());
+        assertEquals("fun hockey", readResult.getDescription());
+        assertEquals(DifficultyLevel.Advanced, readResult.getDifficultyLevel());
 
     
-}
-@Test
-void testFindCustomerByFirstName() {
-    Customer one = new Customer();
-    Customer two = new Customer();
-    Customer three = new Customer();
-    one.setFirstName("Deshaun");
-    one.setLastName("Watson");
-    two.setFirstName("Deshaun");
-    two.setLastName("Jackson");
-
-    three.setFirstName("Alex");
-    three.setPassword("password");
-    customerRepository.save(two);
-    customerRepository.save(three);
-    Customer res = customerRepository.save(one);
-    //write test case
-    assertEquals(one, res);
-    assertEquals("Deshaun", res.getFirstName());
-    assertEquals("Watson", res.getLastName());
-
-    //read test case
-    List<Customer> customers = customerRepository.findCustomersByFirstName("Deshaun");
-    assertEquals(2, customers.size());
-
-    customers = customerRepository.findCustomersByFirstName("Alex");
-    assertEquals(1, customers.size());
-    assertEquals("Alex", customers.get(0).getFirstName());
-    assertEquals("password", customers.get(0).getPassword());
+    }
 
 }

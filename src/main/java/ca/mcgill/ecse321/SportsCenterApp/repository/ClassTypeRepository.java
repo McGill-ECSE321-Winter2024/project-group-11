@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Table(name = "classtype_table")
 public interface ClassTypeRepository extends CrudRepository<ClassType, Integer> {
-    ClassType findClassTypeByDescription(String description);
+    ClassType findClassTypeByName(String name);
 }
 

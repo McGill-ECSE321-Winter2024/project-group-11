@@ -20,6 +20,7 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Write rough draft of use case diagrams</li>
+          <li>Write use case specification #1</li>
         </ul>
       </td>
       <td>... hours</td>
@@ -30,6 +31,7 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
         <ul>
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
+          <li>Write use case specification #2</li>
         </ul>
       </td>
       <td>... hours </td>
@@ -41,6 +43,7 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop persistence layer</li>
+          <li>Write use case specification #3</li>
         </ul>
       </td>
       <td>... hours</td>
@@ -52,6 +55,7 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop a test suite for the persistence layer</li>
+          <li>Write use case specification #4</li>
         </ul>
       </td>
       <td>... hours</td>
@@ -64,10 +68,11 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Final design for the domain model</li>
           <li>Verification of the domain model with a T.A</li>
-          <li>Verification of the requirements with a T.A</li>        
+          <li>Verification of the requirements with a T.A</li>
+          <li>Write use case specification #5</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>21 hours</td>
     </tr>
     <tr>
   </tbody>
