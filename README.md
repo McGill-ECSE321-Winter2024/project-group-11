@@ -47,6 +47,8 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop persistence layer</li>
+          <li>Create read case tests</li>
+          <li>Create write case tests</li>
           <li>Write use case specification #3</li>
         </ul>
       </td>
@@ -59,6 +61,8 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop a test suite for the persistence layer</li>
+          <li>Create read case tests</li>
+          <li>Create write case tests</li>
           <li>Write use case specification #4</li>
         </ul>
       </td>
