@@ -43,7 +43,16 @@ public class InstructorRepositoryTests {
         instructor2.setYearsOfExperience(yearOfExp);
 
         //save the instructors
-        instructorRepository.save(instructor2);
+        Instructor writeInstructor = instructorRepository.save(instructor2);
+
+        //Write test case
+        assertNotNull(writeInstructor);
+        assertEquals(email2, writeInstructor.getEmail());
+        assertEquals(firstName2, writeInstructor.getFirstName());
+        assertEquals(lastName2, writeInstructor.getLastName());
+        assertEquals(biography2, writeInstructor.getBiography());
+        assertEquals(yearOfExp, writeInstructor.getYearsOfExperience());
+
 
         
         //Read
@@ -78,8 +87,18 @@ public class InstructorRepositoryTests {
         instructor2.setYearsOfExperience(yearOfExp);
         String newEmail = "wendys@gmail.ca";
 
-        //Save
-        instructorRepository.save(instructor2);
+
+
+        //save the instructors
+        Instructor writeInstructor = instructorRepository.save(instructor2);
+
+        //Write test case
+        assertNotNull(writeInstructor);
+        assertEquals(email2, writeInstructor.getEmail());
+        assertEquals(firstName2, writeInstructor.getFirstName());
+        assertEquals(lastName2, writeInstructor.getLastName());
+        assertEquals(biography2, writeInstructor.getBiography());
+        assertEquals(yearOfExp, writeInstructor.getYearsOfExperience());
 
 
         int status = instructorRepository.updateInstructorEmailByEmail(email2,newEmail);
@@ -118,9 +137,70 @@ public class InstructorRepositoryTests {
         instructor2.setBiography(biography2);
         instructor2.setYearsOfExperience(yearOfExp);
 
+
+        //Create instructor 
+        String firstName3 = "Yazid";
+        String lastName3 = "test";
+        String email3 = "yazid@gmail.com";
+        String biography3 = "none";
+        Integer yearOfExp3 = 20;
+
+        Instructor instructor3 = new Instructor();
+        instructor3.setFirstName(firstName3);
+        instructor3.setLastName(lastName3);
+        instructor3.setEmail(email3);
+        instructor3.setBiography(biography3);
+        instructor3.setYearsOfExperience(yearOfExp3);    
+
+
+        String firstName4 = "Jhin";
+        String lastName4 = "lol";
+        String email4 = "Jhin@lol.com";
+        String biography4 = "4";
+        Integer yearOfExp4 = 4;
+
+        Instructor instructor4 = new Instructor();
+        instructor4.setFirstName(firstName4);
+        instructor4.setLastName(lastName4);
+        instructor4.setEmail(email4);
+        instructor4.setBiography(biography4);
+        instructor4.setYearsOfExperience(yearOfExp4);  
+
         //Save
 
-        instructorRepository.save(instructor2);
+        //save the instructors
+        Instructor writeInstructor = instructorRepository.save(instructor2);
+        Instructor writeInstructor3 = instructorRepository.save(instructor3);
+        Instructor writeInstructor4 = instructorRepository.save(instructor4);
+
+        //Write test case
+        assertNotNull(writeInstructor);
+        assertEquals(email2, writeInstructor.getEmail());
+        assertEquals(firstName2, writeInstructor.getFirstName());
+        assertEquals(lastName2, writeInstructor.getLastName());
+        assertEquals(biography2, writeInstructor.getBiography());
+        assertEquals(yearOfExp, writeInstructor.getYearsOfExperience());
+
+
+        assertNotNull(writeInstructor3);
+        assertEquals(email3, writeInstructor3.getEmail());
+        assertEquals(firstName3, writeInstructor3.getFirstName());
+        assertEquals(lastName3, writeInstructor3.getLastName());
+        assertEquals(biography3, writeInstructor3.getBiography());
+        assertEquals(yearOfExp3, writeInstructor3.getYearsOfExperience());
+
+        assertNotNull(writeInstructor4);
+        assertEquals(email4, writeInstructor4.getEmail());
+        assertEquals(firstName4, writeInstructor4.getFirstName());
+        assertEquals(lastName4, writeInstructor4.getLastName());
+        assertEquals(biography4, writeInstructor4.getBiography());
+        assertEquals(yearOfExp4, writeInstructor4.getYearsOfExperience());
+
+
+        //check number of rows
+
+        assertEquals(3, instructorRepository.count());
+
 
 
         //call method
@@ -130,6 +210,10 @@ public class InstructorRepositoryTests {
         Instructor testInstructor = instructorRepository.findInstructorByEmail(email2);
 
         assertNull(testInstructor);
+
+        //count rows after deletion
+
+        assertEquals(2, instructorRepository.count());
 
 
 
