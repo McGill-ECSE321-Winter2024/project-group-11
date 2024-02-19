@@ -57,7 +57,7 @@ public class UserRepositoryTests {
         brock.setLastName(lastName);
         brock.setBiography(bio);
 
-        
+        Instructor result = userRepository.save(brock);
 
         userRepository.save(brock);
 
