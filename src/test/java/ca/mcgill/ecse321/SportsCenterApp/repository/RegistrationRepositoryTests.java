@@ -15,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ActiveProfiles("test")
