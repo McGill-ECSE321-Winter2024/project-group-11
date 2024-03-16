@@ -3,15 +3,12 @@ package ca.mcgill.ecse321.SportsCenterApp.repository;
 import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
 import ca.mcgill.ecse321.SportsCenterApp.model.Session;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
