@@ -38,4 +38,7 @@ public class UserDto {
         this.password = password;
         this.id = id;
     }
+
+    public UserDto() {
+    }
 }
