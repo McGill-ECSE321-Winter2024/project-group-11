@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
 
 public class UserDto {
     private String firstName;
