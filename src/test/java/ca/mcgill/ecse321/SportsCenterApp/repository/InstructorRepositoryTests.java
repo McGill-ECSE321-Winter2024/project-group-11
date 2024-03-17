@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
 
 @SpringBootTest

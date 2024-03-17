@@ -45,9 +45,8 @@ public class CustomerService {
     }
 
     @Transactional
-    public String deleteCustomer(Integer id){
+    public void deleteCustomer(Integer id){
         customerRepository.deleteById(id);
-        return "Customer with id " + id + " has been deleted";
     }
 
 }

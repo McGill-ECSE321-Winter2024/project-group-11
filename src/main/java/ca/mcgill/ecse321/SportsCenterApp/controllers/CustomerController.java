@@ -1,11 +1,8 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,24 +24,44 @@ public class CustomerController {
                                         @RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
                                             try{
                                             Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aId, aAccoutBalance);
-                                            return CustomerDto.convertToDto(customer);
+                                            return convertToDto(customer);
                                         }catch (Exception e){
                                             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
                                         }
                                     }
 
     @GetMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
-    public List<CustomerDto> getCustomer(@RequestParam("aId") Integer aId){
+    public CustomerDto getCustomer(@RequestParam("aId") Integer aId){
         try{
             Customer customer = customerService.getCustomer(aId);
-            return CustomerDto.convertToDto(customer);
+            return convertToDto(customer);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
         }
     }
 
     @PutMapping(value = { "/customer/update-balance/{aId}" , "/customer/update-balance/{aId}/"})
-    public
+    public CustomerDto updateCustomer(@RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+        try{
+            Customer customer = customerService.updateCustomer(aId, aAccoutBalance);
+            return convertToDto(customer);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
+        }
+    }
+
+    @DeleteMapping(value = {"/customer/delete/{aId}" , "/customer/delete/{aId}/"})
+    public void deleteCustomer(@RequestParam("aId") Integer aId){
+        customerService.deleteCustomer(aId);
+    }
+
+    private CustomerDto convertToDto(Customer customer){
+        if (customer == null) {
+            throw new IllegalArgumentException("There is no such customer");
+        }
+        CustomerDto customerDto = new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getId(), customer.getAccoutBalance());
+        return customerDto;
+    }
 }
 
 
