@@ -32,11 +32,12 @@ public class CustomerService {
     }
 
     @Transactional
-    public void updateCustomer(Integer id, float accountBalance){
+    public Customer updateCustomer(Integer id, float accountBalance){
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()){
             Customer updatedCustomer = customer.get();
             updatedCustomer.setAccoutBalance(accountBalance);
+            return updatedCustomer;
         }
         else{
             throw new IllegalArgumentException("Customer not found for id: "+ id);
