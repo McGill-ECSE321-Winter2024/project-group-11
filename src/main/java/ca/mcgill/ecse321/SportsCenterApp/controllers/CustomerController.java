@@ -21,7 +21,7 @@ public class CustomerController {
 
     @PostMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
     public CustomerDto createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword, 
-                                        @RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+                                        @PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
                                             try{
                                             Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aId, aAccoutBalance);
                                             return convertToDto(customer);
@@ -31,7 +31,7 @@ public class CustomerController {
                                     }
 
     @GetMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
-    public CustomerDto getCustomer(@RequestParam("aId") Integer aId){
+    public CustomerDto getCustomer(@PathVariable("aId") Integer aId){
         try{
             Customer customer = customerService.getCustomer(aId);
             return convertToDto(customer);
@@ -41,7 +41,7 @@ public class CustomerController {
     }
 
     @PutMapping(value = { "/customer/update-balance/{aId}" , "/customer/update-balance/{aId}/"})
-    public CustomerDto updateCustomer(@RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+    public CustomerDto updateCustomer(@PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
         try{
             Customer customer = customerService.updateCustomer(aId, aAccoutBalance);
             return convertToDto(customer);

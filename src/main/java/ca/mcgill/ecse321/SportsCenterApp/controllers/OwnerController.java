@@ -20,7 +20,7 @@ public class OwnerController {
 
     @PostMapping(value = { "/owner/{aId}" , "/owner/{aId}/"})
     public OwnerDto createOwner(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword, 
-                                    @RequestParam("aId") Integer aId){
+                                    @PathVariable("aId") Integer aId){
                                         try{
                                             Owner owner = ownerService.createOwner(aFirstName, aLastName, aEmail, aPassword, aId);
                                             return convertToDto(owner);
@@ -32,7 +32,7 @@ public class OwnerController {
     
 
     @GetMapping(value = { "/owner/{aId}", "/owner/{aId}/"})
-    public OwnerDto getOwner(@RequestParam("aId") Integer aId){
+    public OwnerDto getOwner(@PathVariable("aId") Integer aId){
         try{
             Owner owner = ownerService.getOwner(aId);
             return convertToDto(owner);
@@ -42,7 +42,7 @@ public class OwnerController {
     }
 
     @DeleteMapping(value = {"/owner/delete/{aId}" , "/owner/delete/{aId}/"})
-    public void deleteOwner(@RequestParam("aId") Integer aId){
+    public void deleteOwner(@PathVariable("aId") Integer aId){
         try{
             ownerService.deleteOwner(aId);
         }catch (Exception e){
