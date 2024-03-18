@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistrationRepository extends CrudRepository<Registration, Integer> {
+    Registration findRegistrationByCustomerFirstName(String firstName);
 }

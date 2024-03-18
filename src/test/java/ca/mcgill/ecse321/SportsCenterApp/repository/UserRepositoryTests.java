@@ -26,6 +26,7 @@ public class UserRepositoryTests {
     }
     @Test
     void testFindUserById() {
+        //creating customer to save into db.
         Customer one = new Customer();
         one.setFirstName("jonathan");
         one.setLastName("kuminga");
@@ -33,12 +34,14 @@ public class UserRepositoryTests {
         Customer result = userRepository.save(one);
         //write test cases, testing if saved data matches its expected values.
         //this checks if the saved object matches the original object
+
         assertEquals(one, result);
         //these assertions check if the attributes match.
         assertEquals("jonathan", result.getFirstName());
         assertEquals("kuminga", result.getLastName());
 
         //read test case, testing if the queried data matches its expected values.
+
         int id = result.getId();
         Optional<User> res = userRepository.findById(id);
         one = (Customer) res.get();
@@ -61,14 +64,20 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
+
         //write test cases, testing if saved data matches expected.
+
         assertEquals(brock, result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(bio, result.getBiography());
 
+
         //read test case, testing if the queried data matches its expected values.
+
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
+        //checking if an object is returned
         assertNotNull(result);
+        //verifying if the attributes have been read correctly.
         assertEquals(firstName, result.getFirstName());
         assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());

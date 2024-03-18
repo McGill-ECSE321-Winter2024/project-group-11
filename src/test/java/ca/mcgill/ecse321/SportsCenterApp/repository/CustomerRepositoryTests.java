@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.repository;
 
 import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
-import ca.mcgill.ecse321.SportsCenterApp.model.Owner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

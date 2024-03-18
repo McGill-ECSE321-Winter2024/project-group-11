@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,7 +24,9 @@ public class OwnerRepositoryTests {
 
     @Test
     void testFindOwnerById() {
+
         //creating an owner to save into database.
+
         Owner gymOwner = new Owner();
         String firstName = "Antonio";
         String lastName = "Brown";
@@ -34,9 +35,13 @@ public class OwnerRepositoryTests {
         // write test case, testing if data correctly gets saved into database.
         Owner result = ownerRepository.save(gymOwner);
         assertNotNull(result);
-        //verifying that the attributes of the two objects match.
-        assertEquals(firstName, result.getFirstName());
+
         //verifying that the saved object matches the original gymOwner object.
+
+        //checks if the attributes match.
+        assertEquals(firstName, result.getFirstName());
+        //checks if the stored/written object is the same one as the original
+
         assertEquals(gymOwner, result);
 
         Integer id = gymOwner.getId();

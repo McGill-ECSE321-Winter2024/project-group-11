@@ -6,7 +6,8 @@ This project involves developing a web application for a local sport center to m
 Further documentation may be accessed via the [wiki](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki).
 
 ## Deliverable 1
-<table>
+
+See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki)<table>
   <tbody>
     <tr>
       <th>Team Member</th>
@@ -21,9 +22,10 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Write rough draft of use case diagrams</li>
           <li>Write use case specification #1</li>
+          <li>Write tests for the persistence layer1</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>22 hours</td>
     </tr>
     <tr>
       <td>Kenny Duy Nguyen</td>
@@ -32,9 +34,11 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Write use case specification #2</li>
+          <li>Final draft of all requirements</li>
+          <li>General documentation tasks in the wiki and README.md file</li>
         </ul>
       </td>
-      <td>... hours </td>
+      <td>22 hours </td>
     </tr>
     <tr>
       <td>Liam Di Chiro</td>
@@ -43,10 +47,12 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop persistence layer</li>
+          <li>Create read case tests</li>
+          <li>Create write case tests</li>
           <li>Write use case specification #3</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>21 hours</td>
     </tr>
     <tr>
       <td>Seungyeon Lee</td>
@@ -55,10 +61,12 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Preliminary domain model design</li>
           <li>Rough draft of functional and non-functional requirements</li>
           <li>Develop a test suite for the persistence layer</li>
+          <li>Create read case tests</li>
+          <li>Create write case tests</li>
           <li>Write use case specification #4</li>
         </ul>
       </td>
-      <td>... hours</td>
+      <td>23 hours</td>
     </tr>
     <tr>
       <td>Luke Freund</td>
@@ -69,10 +77,12 @@ Further documentation may be accessed via the [wiki](https://github.com/McGill-E
           <li>Final design for the domain model</li>
           <li>Verification of the domain model with a T.A</li>
           <li>Verification of the requirements with a T.A</li>
+          <li>Generation of Umple code</li>
           <li>Write use case specification #5</li>
+          <li>General documentation tasks in the wiki and the backlog</li>
         </ul>
       </td>
-      <td>21 hours</td>
+      <td>24 hours</td>
     </tr>
     <tr>
   </tbody>
