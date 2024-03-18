@@ -19,6 +19,7 @@ public class OwnerService {
     @Transactional
     public Owner getOwner(Integer id){
         Owner owner = ownerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No owner found with id: " + id));
+        ownerRepository.save(owner);
         return owner;
     }
 
