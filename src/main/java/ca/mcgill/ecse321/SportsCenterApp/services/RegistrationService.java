@@ -14,6 +14,10 @@ public class RegistrationService {
     
     @Autowired
     private RegistrationRepository registrationRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Transactional
     public Registration createRegistration(Date aDate, Time aTime, Customer aCustomer, Session aSession){
@@ -36,16 +40,52 @@ public class RegistrationService {
         }
     }
 
-
-    
-
-
+    //verify
+    @Transactional
+    public Iterable<Registration> getAllRegistrations() {
+        return registrationRepository.findAll();
+    }
     
     @Transactional
     public void deleteRegistration(Integer id){
         registrationRepository.deleteById(id);
     }
 
+    //update session
+    @Transactional 
+    public Registration updateRegistrationBySession(Integer registrationId, Integer sessionId){
+        Optional<Registration> registration = registrationRepository.findById(registrationId);
+        Optional<Session> session = sessionRepository.findById(sessionId);
+        
+        if (registration.isPresent() && session.isPresent()){
+            Registration updatedRegistration = registration.get();
+            Session newSession = session.get();
+            updatedRegistration.setSession(newSession);
+            return updatedRegistration;
+        }
+        else{
+            throw new IllegalArgumentException("Registration could not be updated with session id: " + sessionId); //rewrite message
+        }
+    }
+
+    //update customer
+    @Transactional 
+    public Registration updateRegistrationByCustomer(Integer registrationId, Integer customerId){
+        Optional<Registration> registration = registrationRepository.findById(registrationId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        
+        if (registration.isPresent() && customer.isPresent()){
+            Registration updatedRegistration = registration.get();
+            Customer newCustomer = customer.get();
+            updatedRegistration.setCustomer(newCustomer);
+            return updatedRegistration;
+        }
+        else{
+            throw new IllegalArgumentException("Registration could not be updated with customer id: " + customerId); //rewrite message
+        }
+    }
+
+    //commplete other updates if time permits
 
 
 }
