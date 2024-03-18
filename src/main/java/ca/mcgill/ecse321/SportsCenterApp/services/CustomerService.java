@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.mcgill.ecse321.SportsCenterApp.model.*;
 import ca.mcgill.ecse321.SportsCenterApp.repository.*;
 import jakarta.transaction.Transactional;
-import java.util.*;
+import org.springframework.stereotype.Service;
 
+import java.util.*;
+@Service
 public class CustomerService {
 
     @Autowired

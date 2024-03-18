@@ -4,7 +4,9 @@ package ca.mcgill.ecse321.SportsCenterApp.services;
     import ca.mcgill.ecse321.SportsCenterApp.model.*;
     import ca.mcgill.ecse321.SportsCenterApp.repository.*;
     import jakarta.transaction.Transactional;
+    import org.springframework.stereotype.Service;
 
+@Service
 public class OwnerService {
 
     @Autowired
