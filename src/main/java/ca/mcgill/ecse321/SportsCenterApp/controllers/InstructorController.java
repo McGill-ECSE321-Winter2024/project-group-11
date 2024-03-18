@@ -17,7 +17,7 @@ import java.util.*;
 
 
 @CrossOrigin(origins = "*")
-@RestController
+@RestController("api/instructor")
 public class InstructorController {
 
     @Autowired

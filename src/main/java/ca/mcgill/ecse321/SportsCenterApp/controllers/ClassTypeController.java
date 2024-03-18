@@ -17,7 +17,7 @@ import java.util.*;
 
 
 @CrossOrigin(origins = "*")
-@RestController
+@RestController("/api/class")
 public class ClassTypeController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class ClassTypeController {
         if (ClassType == null) {
             throw new IllegalArgumentException("There is no such ClassType");
         }
-        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel());
+        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
         return ClassTypeDto;
     }
     

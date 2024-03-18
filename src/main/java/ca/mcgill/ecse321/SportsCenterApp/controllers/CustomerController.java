@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,12 +15,16 @@ import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
 @RestController
 @RequestMapping("/user")
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
+
+    private final CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
-    public CustomerDto createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword, 
-                                        @RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+    public CustomerDto createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword,
+                                        @PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
                                             try{
                                             Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aId, aAccoutBalance);
                                             return convertToDto(customer);
@@ -41,7 +44,7 @@ public class CustomerController {
     }
 
     @PutMapping(value = { "/customer/update-balance/{aId}" , "/customer/update-balance/{aId}/"})
-    public CustomerDto updateCustomer(@RequestParam("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+    public CustomerDto updateCustomer(@PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
         try{
             Customer customer = customerService.updateCustomer(aId, aAccoutBalance);
             return convertToDto(customer);
@@ -51,7 +54,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(value = {"/customer/delete/{aId}" , "/customer/delete/{aId}/"})
-    public void deleteCustomer(@RequestParam("aId") Integer aId){
+    public void deleteCustomer(@PathVariable("aId") Integer aId){
         customerService.deleteCustomer(aId);
     }
 

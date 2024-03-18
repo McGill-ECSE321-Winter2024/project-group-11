@@ -28,11 +28,14 @@ public class SessionController {
     }
 
     @GetMapping("/")
-    public List<SessionDto> getSessions() {
+    public ResponseEntity<List<SessionDto>> getSessions() {
         try {
-            return sessionService.getAllSessions().stream().map(s -> convertToDto(s)).collect(Collectors.toList());
+            List<SessionDto> sessions = sessionService.getAllSessions().stream().map(s -> convertToDto(s)).collect(Collectors.toList());
+            System.out.println("HELO");
+            return new ResponseEntity<>(sessions, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -65,6 +68,7 @@ public class SessionController {
     @PostMapping("/")
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {
         try {
+            System.out.println("trying");
             Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                     sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId());
             return new ResponseEntity<>(session, HttpStatus.CREATED);
@@ -88,7 +92,7 @@ public class SessionController {
         if (ClassType == null) {
             throw new IllegalArgumentException("There is no such ClassType");
         }
-        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel());
+        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
         return ClassTypeDto;
     }
 
