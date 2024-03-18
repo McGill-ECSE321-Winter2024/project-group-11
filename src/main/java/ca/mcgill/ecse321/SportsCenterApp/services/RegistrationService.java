@@ -40,7 +40,7 @@ public class RegistrationService {
         }
     }
 
-    //verify
+    //VERIFY ITERABLE?CAUSES ISSUES
     @Transactional
     public Iterable<Registration> getAllRegistrations() {
         return registrationRepository.findAll();
