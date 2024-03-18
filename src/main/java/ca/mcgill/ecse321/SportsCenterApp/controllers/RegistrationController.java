@@ -48,7 +48,7 @@ public class RegistrationController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating registration", e);
         }
     }
-    **/ //ITERABLE CAUSES ISSUES
+    **/ //ITERABLE CAUSES ISSUES.
 
     @DeleteMapping(value = {"/delete/{aId}", "/delete/{aId}/"})
     public void deleteRegistration(@RequestParam("aId") Integer aId){
