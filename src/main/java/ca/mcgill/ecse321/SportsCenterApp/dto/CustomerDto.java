@@ -6,6 +6,7 @@ public class CustomerDto extends UserDto {
     private float aAccoutBalance;
 
 
+
     public CustomerDto() {
         super();
     }

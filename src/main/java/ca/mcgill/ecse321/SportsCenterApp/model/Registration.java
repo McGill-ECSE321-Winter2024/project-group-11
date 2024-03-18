@@ -84,7 +84,7 @@ public class Registration
     return time;
   }
   /* Code from template association_GetOne */
-  public Customer getCustomer()
+  public Customer getCustomer() 
   {
     return customer;
   }
