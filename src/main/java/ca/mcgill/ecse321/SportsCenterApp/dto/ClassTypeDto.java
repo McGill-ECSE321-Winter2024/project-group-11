@@ -8,18 +8,17 @@ public class ClassTypeDto {
     private String description;
     private boolean approved;
     private DifficultyLevel difficultyLevel;
-    private Integer id;
+
 
     public ClassTypeDto(){
 
     }
 
-    public ClassTypeDto(String name, String description, boolean approved, DifficultyLevel difficultyLevel, Integer id){
+    public ClassTypeDto(String name, String description, boolean approved, DifficultyLevel difficultyLevel){
         this.name = name;
         this.description = description;
         this.approved = approved;
         this.difficultyLevel = difficultyLevel;
-        this.id = id;
     }
     
 
@@ -28,10 +27,7 @@ public class ClassTypeDto {
         return name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
+    
     public void setName(String name) {
         this.name = name;
     }
