@@ -32,20 +32,16 @@ public class UserRepositoryTests {
         one.setLastName("kuminga");
         one.setEmail("kuminga2024@yahoo.com");
         Customer result = userRepository.save(one);
-        //write test cases, testing if saved data matches its expected values.
-        //this checks if the saved object matches the original object
-
+        // write test case, testing if data correctly gets saved into database.
         assertEquals(one, result);
-        //these assertions check if the attributes match.
         assertEquals("jonathan", result.getFirstName());
         assertEquals("kuminga", result.getLastName());
 
-        //read test case, testing if the queried data matches its expected values.
-
+        //read test case, this method returns a list of customers that have the same first name, without case sensitivity.
         int id = result.getId();
         Optional<User> res = userRepository.findById(id);
         one = (Customer) res.get();
-        //thick checks if the query method returns an object.
+
         assertNotNull(one);
         assertEquals(id, one.getId());
         assertEquals("jonathan", one.getFirstName());
@@ -54,7 +50,6 @@ public class UserRepositoryTests {
     }
     @Test
     void testFindUserByFirstName() {
-        //creating Instrucot object.
         Instructor brock = new Instructor();
         String firstName = "Brock";
         String lastName = "Purdy";
@@ -64,16 +59,12 @@ public class UserRepositoryTests {
         brock.setBiography(bio);
 
         Instructor result = userRepository.save(brock);
-
-        //write test cases, testing if saved data matches expected.
-
+        // write test case, testing if data correctly gets saved into database.
         assertEquals(brock, result);
         assertEquals(firstName, result.getFirstName());
         assertEquals(bio, result.getBiography());
 
-
-        //read test case, testing if the queried data matches its expected values.
-
+        //read test cases, the method finds user by their first name, without case sensitivity.
         result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
         //checking if an object is returned
         assertNotNull(result);
@@ -85,7 +76,6 @@ public class UserRepositoryTests {
     }
     @Test
     void testUpdateUserPasswordByEmail() {
-        //creating a customer object to save in database.
         Customer one = new Customer();
         one.setPassword("airplane");
         one.setFirstName("George");
@@ -96,10 +86,10 @@ public class UserRepositoryTests {
         //Here, result = 1 if successful
         int status = userRepository.updateUserByEmailIgnoreCase("fraud@gov", "donkey");
 
-        //write test case.
+        //write
         assertEquals(1, status);
 
-        //read test case, testing if the queried data matches its expected values.
+        //read
         Customer res = (Customer) userRepository.findUserByFirstNameIgnoreCase("george");
         assertEquals("George", res.getFirstName());
         assertEquals("donkey", res.getPassword());

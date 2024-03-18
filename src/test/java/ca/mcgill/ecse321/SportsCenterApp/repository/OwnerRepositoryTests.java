@@ -24,28 +24,22 @@ public class OwnerRepositoryTests {
 
     @Test
     void testFindOwnerById() {
-
-        //creating an owner to save into database.
-
+        //creating owner to store in database.
         Owner gymOwner = new Owner();
         String firstName = "Antonio";
         String lastName = "Brown";
         gymOwner.setFirstName(firstName);
         gymOwner.setLastName(lastName);
-        // write test case, testing if data correctly gets saved into database.
+        // write test case
         Owner result = ownerRepository.save(gymOwner);
         assertNotNull(result);
-
-        //verifying that the saved object matches the original gymOwner object.
-
         //checks if the attributes match.
         assertEquals(firstName, result.getFirstName());
         //checks if the stored/written object is the same one as the original
-
         assertEquals(gymOwner, result);
 
         Integer id = gymOwner.getId();
-        //read test case, testing if the queried data matches its expected values.
+        //read test case
         result = ownerRepository.findById(id).get();
 
         assertNotNull(result);
