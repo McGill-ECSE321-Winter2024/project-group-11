@@ -54,8 +54,7 @@ public class SessionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSession(@PathVariable("id") Integer id, @RequestBody SessionDto sessionDto) {
         try {
-            Session session =
-                    sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
+            int session = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                             sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId(), sessionDto.getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IllegalArgumentException e) {

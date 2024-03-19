@@ -21,5 +21,5 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
     @Modifying
     @Query("UPDATE Session s SET s.date = :date, s.startTime = :startTime, s.endTime = :endTime, s.price = :price, s.remainingCapacity = :remainingCapacity, " +
             "s.roomNumber = :roomNumber, s.classType = :classType, s.instructor = :instructor WHERE s.id = :id")
-    Session updateSessionById(Integer id, Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Instructor instructor, ClassType classType);
+    int updateSessionById(Integer id, Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, Instructor instructor, ClassType classType);
 }
