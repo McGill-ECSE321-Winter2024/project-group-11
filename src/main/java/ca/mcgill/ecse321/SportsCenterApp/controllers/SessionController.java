@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/session")
+@RequestMapping("/session")
 public class SessionController {
 
 
@@ -73,7 +73,7 @@ public class SessionController {
                     sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId());
             return new ResponseEntity<>(session, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

@@ -51,7 +51,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(value = {"/customer/delete/{aId}" , "/customer/delete/{aId}/"})
-    public void deleteCustomer(@RequestParam("aId") Integer aId){
+    public void deleteCustomer(@PathVariable("aId") Integer aId){
         customerService.deleteCustomer(aId);
     }
 
