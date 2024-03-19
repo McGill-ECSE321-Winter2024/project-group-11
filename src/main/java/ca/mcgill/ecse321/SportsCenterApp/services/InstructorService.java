@@ -1,17 +1,12 @@
 package ca.mcgill.ecse321.SportsCenterApp.services;
 
-import ca.mcgill.ecse321.SportsCenterApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import ca.mcgill.ecse321.SportsCenterApp.repository.InstructorRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.SessionRepository;
 
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
-import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
-import ca.mcgill.ecse321.SportsCenterApp.model.Session;
-import ca.mcgill.ecse321.SportsCenterApp.model.User;
 
 import java.util.*;
 

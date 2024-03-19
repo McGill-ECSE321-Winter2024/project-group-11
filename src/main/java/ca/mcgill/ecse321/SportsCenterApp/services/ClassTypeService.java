@@ -4,14 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import ca.mcgill.ecse321.SportsCenterApp.repository.ClassTypeRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.InstructorRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.SessionRepository;
 import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
-import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
-import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
-import ca.mcgill.ecse321.SportsCenterApp.model.Session;
-import ca.mcgill.ecse321.SportsCenterApp.model.User;
 import ca.mcgill.ecse321.SportsCenterApp.model.ClassType.DifficultyLevel;
+
 
 import java.util.*;
 
@@ -31,6 +26,11 @@ public class ClassTypeService {
         return classType;
     }
 
+    /**
+     * Returns a class type based on id
+     * @param id class Type id
+     * @return a classType.
+     */
     @Transactional
     public ClassType getClassType(Integer id) {
         Optional<ClassType> classType = classTypeRepository.findById(id);
@@ -42,32 +42,149 @@ public class ClassTypeService {
             throw new IllegalArgumentException("Class not found for id: " + id);
         }
     }
+
+
+    /**
+     * Returns a class type based on name
+     * @param className class Type name
+     * @return a classType.
+     */
+    @Transactional
+    public ClassType getClassType(String className) {
+        ClassType classType = classTypeRepository.findClassTypeByName(className);
+
+        if (classType != null){
+            return classType;
+        }
+        else {
+            throw new IllegalArgumentException("Class " + className + "not found ");
+        }
+    }
     
 
+    /**
+     * Returns all class types (approved or not)
+     * @return a list of classType.
+     */
     @Transactional
     public List<ClassType> getAllClassTypes(){
         return toList(classTypeRepository.findAll());
     }
 
-    //TODO create a method to update class type
-    //TODO create a method to retrieve class by name?
 
+    /**
+     * Returns all approved class types
+     * @return a list of classType.
+     */
+    @Transactional public List<ClassType> getAllApprovedClassTypes(){
+        List<ClassType> list = new ArrayList<>();
+
+        list = toList(classTypeRepository.findAll());
+
+
+        for (ClassType c : list) {
+            if (!c.getApproved()){
+                list.remove(c);
+            }
+        }
+
+        return list;
+
+    }
+
+
+    /**
+     * Updates a classType based on the parameter provided
+     * if null = we dont want to update the field
+     * @param id classType id.
+     * @param newName new name for the class Type.
+     * @param newDesc new description for the class Type.
+     * @param newLevel new difficulty level for the class Type.
+     * @return classType or error message if classType is not found.
+     */
     @Transactional
-    public ClassType updateClassTypeName(Integer id, String newName) {
+    public ClassType updateClassType(Integer id, String newName, String newDesc, DifficultyLevel newLevel) {
+    Optional<ClassType> classTypeOptional = classTypeRepository.findById(id);
+
+    if (classTypeOptional.isPresent()) {
+        ClassType classType = classTypeOptional.get();
+        
+        // Update properties if provided
+        if (newName != null) {
+            classType.setName(newName);
+        }
+        if (newDesc != null) {
+            classType.setDescription(newDesc);
+        }
+        if (newLevel != null) {
+            classType.setDifficultyLevel(newLevel);
+        }
+        
+        // Save the updated classType
+        classTypeRepository.save(classType);
+        
+        return classType;
+    } else {
+        throw new IllegalArgumentException("ClassType not found for id: " + id);
+    }
+}
+
+
+
+    /**
+     * Approves a class
+     * sets the boolean field to true
+     * @param id classType id.
+     * @return classType or error message if classType is not found.
+     */
+    @Transactional
+    public ClassType approveClassType(Integer id){
 
         Optional<ClassType> classType = classTypeRepository.findById(id);
+
         if (classType.isPresent()){
-            ClassType updatedClassType = classType.get();
-            updatedClassType.setName(newName);
-            return updatedClassType;
-        }
-        else{
+           ClassType classT = classType.get();
+
+           classT.setApproved(true);
+           return classT;
+        } else {
+
             throw new IllegalArgumentException("ClassType not found for id: "+ id);
         }
+
+    }
+
+
+    /**
+     * disaprove a class
+     * sets the boolean field to false
+     * @param id classType id.
+     * @return classType or error message if classType is not found.
+     */
+    @Transactional
+    public ClassType disapproveClassType(Integer id){
+
+        Optional<ClassType> classType = classTypeRepository.findById(id);
+
+        if (classType.isPresent()){
+           ClassType classT = classType.get();
+
+           classT.setApproved(false);
+           return classT;
+        } else {
+
+            throw new IllegalArgumentException("ClassType not found for id: "+ id);
+        }
+
     }
 
 
 
+    /**
+     * delete a class by id
+     * @param id classType id.
+     * @return nothing
+     */
     @Transactional
     public void deleteClassType(Integer id){
         classTypeRepository.deleteById(id);

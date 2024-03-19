@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
 
+@SuppressWarnings("unused")
 public class SessionDto {
     private Date date;
     private Time startTime;

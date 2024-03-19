@@ -7,8 +7,6 @@ import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
 import ca.mcgill.ecse321.SportsCenterApp.model.Session;
 import ca.mcgill.ecse321.SportsCenterApp.services.SessionService;
-import jakarta.annotation.Resource;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +52,7 @@ public class SessionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSession(@PathVariable("id") Integer id, @RequestBody SessionDto sessionDto) {
         try {
+            @SuppressWarnings("unused")
             int session = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                             sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId(), sessionDto.getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
