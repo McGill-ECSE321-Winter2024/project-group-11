@@ -61,7 +61,7 @@ public class SessionService {
     }
 
     @Transactional
-    public Session updateSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer instructorId, Integer classTypeId, Integer id) {
+    public int updateSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer instructorId, Integer classTypeId, Integer id) {
         Optional<Session> sessionObj = sessionRepository.findById(id);
         if (sessionObj.isEmpty()) {
             throw new IllegalArgumentException("Session with id: " + id + " does not exist.");
