@@ -52,6 +52,21 @@ public class ClassTypeService {
     //TODO create a method to update class type
     //TODO create a method to retrieve class by name?
 
+    @Transactional
+    public ClassType updateClassTypeName(Integer id, String newName) {
+
+        Optional<ClassType> classType = classTypeRepository.findById(id);
+        if (classType.isPresent()){
+            ClassType updatedClassType = classType.get();
+            updatedClassType.setName(newName);
+            return updatedClassType;
+        }
+        else{
+            throw new IllegalArgumentException("ClassType not found for id: "+ id);
+        }
+    }
+
+
 
     @Transactional
     public void deleteClassType(Integer id){
