@@ -23,8 +23,8 @@ public class ClassTypeService {
 
 
     @Transactional
-    public ClassType creatClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel, Integer id){
-        ClassType classType = new ClassType(name, description, approved, difficultyLevel, id);
+    public ClassType creatClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel){
+        ClassType classType = new ClassType(name, description, approved, difficultyLevel);
 
         classTypeRepository.save(classType);
 

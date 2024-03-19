@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.services;
 
+import ca.mcgill.ecse321.SportsCenterApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
@@ -20,12 +21,18 @@ public class InstructorService {
 
     @Autowired
     InstructorRepository instructorRepository;
+
     
 
     @Transactional
-    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, Integer aYearsOfExperience, String aBiography) {
+    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aYearsOfExperience, String aBiography) {
 
-        Instructor instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aId, aYearsOfExperience, aBiography);
+        Instructor instructor = instructorRepository.findInstructorByEmail(aEmail);
+        if (instructor != null) {
+            throw new IllegalArgumentException("Instructor with email exists!");
+        }
+       instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aYearsOfExperience, aBiography);
+
         instructorRepository.save(instructor);
         
         return instructor;

@@ -3,9 +3,9 @@ package ca.mcgill.ecse321.SportsCenterApp.controllers;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.SportsCenterApp.dto.ClassTypeDto;
 import ca.mcgill.ecse321.SportsCenterApp.dto.ClassTypeDto;
@@ -23,6 +23,16 @@ public class ClassTypeController {
     @Autowired
     private ClassTypeService service;
 
+    @PostMapping("/classtype")
+    public ResponseEntity<?> createClassType(@RequestBody ClassTypeDto classTypeDto) {
+        try {
+            ClassType classType = service.creatClassType(classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.isApproved(), classTypeDto.getDifficultyLevel());
+            return new ResponseEntity<>(convertToDto(classType), HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping(value = {"/classtypes" , "/classtypes/" })
     public List<ClassTypeDto> getAllClassTypes(){
         System.out.println("Hello world (classtypes)");

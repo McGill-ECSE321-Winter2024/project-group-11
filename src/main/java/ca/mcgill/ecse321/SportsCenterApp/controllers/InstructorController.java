@@ -4,9 +4,9 @@ package ca.mcgill.ecse321.SportsCenterApp.controllers;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.SportsCenterApp.dto.InstructorDto;
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
@@ -23,8 +23,17 @@ public class InstructorController {
     @Autowired
     private InstructorService service;
 
-
-    @GetMapping(value = {"/instructors" , "/instructors/" })
+    @PostMapping("/instructor")
+    public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto) {
+        try {
+            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping(value = {"/instructor" , "/instructor/" })
     public List<InstructorDto> getAllInstructors() {
         System.out.println("Hello world (instructors)");
 
