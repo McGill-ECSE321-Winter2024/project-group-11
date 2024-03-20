@@ -1,17 +1,12 @@
 package ca.mcgill.ecse321.SportsCenterApp.services;
 
-import ca.mcgill.ecse321.SportsCenterApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import ca.mcgill.ecse321.SportsCenterApp.repository.InstructorRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.SessionRepository;
 
-import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
 import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
-import ca.mcgill.ecse321.SportsCenterApp.model.Session;
-import ca.mcgill.ecse321.SportsCenterApp.model.User;
 
 import java.util.*;
 
@@ -31,7 +26,7 @@ public class InstructorService {
         if (instructor != null) {
             throw new IllegalArgumentException("Instructor with email exists!");
         }
-       instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aYearsOfExperience, aBiography);
+        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aYearsOfExperience, aBiography);
 
         instructorRepository.save(instructor);
         
@@ -57,7 +52,37 @@ public class InstructorService {
         return toList(instructorRepository.findAll());
     }
 
-    //TODO create a method to update instructor? Yea, based off its years of experience maybe
+
+    @Transactional
+    public Instructor updateInstructorBio(Integer id, String biography){
+
+        Optional<Instructor> instructor = instructorRepository.findById(id);
+        if (instructor.isPresent()){
+            Instructor updatedInstructor = instructor.get();
+            updatedInstructor.setBiography(biography);
+            return updatedInstructor;
+        }
+        else{
+            throw new IllegalArgumentException("Instructor not found for id: "+ id);
+        }
+    }
+
+    @Transactional
+    public Instructor updateInstructorYearsOfXp(Integer id, Integer years){
+
+        Optional<Instructor> instructor = instructorRepository.findById(id);
+        if (instructor.isPresent()){
+            Instructor updatedInstructor = instructor.get();
+            updatedInstructor.setYearsOfExperience(years);
+            return updatedInstructor;
+        }
+        else{
+            throw new IllegalArgumentException("Instructor not found for id: "+ id);
+        }
+    }
+
+    
+    
 
     @Transactional
     public void deleteInstructor(Integer id){

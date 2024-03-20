@@ -23,6 +23,12 @@ public class InstructorController {
     @Autowired
     private InstructorService service;
 
+
+    /**
+     * POST request to create a new Instructor
+     * @param InstructorDto (InstructorDto)
+     * @return a insturctor dto
+     */
     @PostMapping("/instructor")
     public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto) {
         try {
@@ -38,6 +44,11 @@ public class InstructorController {
         System.out.println("Hello world (instructors)");
 
         return service.getAllInstructors().stream().map(i -> convertToDto(i)).collect(Collectors.toList());
+    }
+
+    @GetMapping(value = {"/hello" , "/hello/" })
+    public String hello(){
+        return "Hello World";
     }
 
 
