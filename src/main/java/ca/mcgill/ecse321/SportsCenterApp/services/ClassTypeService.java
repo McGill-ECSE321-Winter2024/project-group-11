@@ -146,6 +146,8 @@ public class ClassTypeService {
            ClassType classT = classType.get();
 
            classT.setApproved(true);
+           classTypeRepository.save(classT);
+
            return classT;
         } else {
 
@@ -170,6 +172,7 @@ public class ClassTypeService {
            ClassType classT = classType.get();
 
            classT.setApproved(false);
+           classTypeRepository.save(classT);
            return classT;
         } else {
 

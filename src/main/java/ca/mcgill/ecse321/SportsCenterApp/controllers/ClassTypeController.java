@@ -39,7 +39,6 @@ public class ClassTypeController {
      */
     @GetMapping("/classtypes")
     public List<ClassTypeDto> getAllClassTypes(){
-        System.out.println("Hello world (classtypes)");
 
         return service.getAllClassTypes().stream().map(c -> convertToDto(c)).collect(Collectors.toList());
     }
