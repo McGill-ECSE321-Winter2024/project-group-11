@@ -39,16 +39,100 @@ public class InstructorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping(value = {"/instructor" , "/instructor/" })
-    public List<InstructorDto> getAllInstructors() {
-        System.out.println("Hello world (instructors)");
 
+
+    /**
+     * GET request to retrieve all instructors
+     * @return a list of instructors
+     */
+    @GetMapping("/instructors")
+    public List<InstructorDto> getAllInstructors() {
         return service.getAllInstructors().stream().map(i -> convertToDto(i)).collect(Collectors.toList());
     }
 
-    @GetMapping(value = {"/hello" , "/hello/" })
-    public String hello(){
-        return "Hello World";
+    /**
+     * GET request to retrieve a instructor by ID
+     * @param id (Integer) ID of the instructor
+     * @return class type dto
+     */
+    @GetMapping("/instructors/{id}")
+    public ResponseEntity<?> getInstructorById(@PathVariable Integer id) {
+        try {
+            Instructor instructor = service.getInstructor(id);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    /**
+     * GET request to retrieve a instructor by ID
+     * @param email (Integer) ID of the instructor
+     * @return Instructor type dto
+     */
+    @GetMapping("/instructors/email/{email}")
+    public ResponseEntity<?> getInstructorByEmail(@PathVariable String email) {
+        try {
+            Instructor instructor = service.getInstructorByEmail(email);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    /**
+     * PUT request to update a instructor password by ID
+     * @param id (Integer) ID of the instructor
+     * @param newPassword (String) new desired password
+     * @return Instructor dto
+     */
+    @PutMapping("/instructors/{id}/password")
+    public ResponseEntity<?> updateInstructorPassword (@PathVariable Integer id, @RequestParam String newPassword) {
+
+        try {
+            Instructor instructor = service.updateInstructorPassword(id, newPassword);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
+    /**
+     * PUT request to update a instructor password by email
+     * @param email (String) of the instructor
+     * @param newPassword (String) new desired password
+     * @return Instructor dto
+     */
+    @PutMapping("/instructors/{email}/password")
+    public ResponseEntity<?> updateInstructorPassword (@PathVariable String email, @RequestParam String newPassword) {
+
+        try {
+            Instructor instructor = service.updateInstructorPassword(email, newPassword);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    /**
+     * DELETE request to delete a instructor
+     * @param id of the of the instructor to delete
+     * @return Status no content (204)
+     */
+
+    @DeleteMapping("/instructos/{id}")
+    public ResponseEntity<?> deleteInstructor(@PathVariable Integer id) {
+        try {
+            service.deleteInstructor(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
 
