@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.SportsCenterApp.services.SessionService;
 import jakarta.annotation.Resource;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,30 +51,65 @@ public class SessionController {
         }
 
     }
-
+    //TODO maybe dont allow instructor to be updated. (instructor update handled by dropInstructor, addInstructor)
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSession(@PathVariable("id") Integer id, @RequestBody SessionDto sessionDto) {
         try {
             int session = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
-                            sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId(), sessionDto.getId());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                            sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId(), sessionDto.getId());
+            return new ResponseEntity<>(session, HttpStatus.NO_CONTENT);
         } catch (IllegalArgumentException e) {
-            String msg = e.getMessage();
-            System.out.println(msg);
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{id}/instructor/{instructorId}")
+    public ResponseEntity<?> addInstructorToSession(@PathVariable("id") Integer id, @PathVariable("instructorId") Integer instructorId) {
+        try {
+            Session success = sessionService.addInstructorToSession(id, instructorId);
+
+            return new ResponseEntity<>(convertToDto(success), HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @PutMapping("/{id}/instructor/")
+    public ResponseEntity<?> dropInstructorFromSession(@PathVariable("id") Integer id) {
+        try {
+            Integer status = sessionService.dropInstructorFromSession(id);
+            return new ResponseEntity<>(status, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //TODO findallsession by instructorID (for insturcot to see what sessions hes teaching)
+    @GetMapping("/instructor/{id}")
+    public ResponseEntity<?> getAllSessionsByInstructorId(@PathVariable("id") Integer id) {
+        try {
+            return new ResponseEntity<>(sessionService.getAllSessionsByInstructorId(id), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {
         try {
             System.out.println("trying");
             Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
-                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId(), sessionDto.getClassType().getId());
+                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId());
             return new ResponseEntity<>(session, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
     private SessionDto convertToDto(Session session) {

@@ -8,7 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
+
+import java.sql.Date;
+import java.sql.Time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -60,6 +64,33 @@ public class SessionRepositoryTests {
         //checking if the references match.
         assertEquals("Jonathan", res.getInstructor().getFirstName());
         assertEquals("yoga", res.getClassType().getName());
+
+    }
+    @Test
+    @Transactional
+    void testUpdateSession() {
+        Session one = new Session();
+        one.setPrice(10);
+        one.setRemainingCapacity(5);
+
+        Instructor jonathan = new Instructor();
+        jonathan.setFirstName("Jonathan");
+        jonathan.setLastName("Kuminga");
+        ClassType classType = new ClassType();
+        classType.setName("yoga");
+        one.setClassType(classType);
+        one.setInstructor(jonathan);
+
+        classTypeRepository.save(classType);
+        instructorRepository.save(jonathan);
+
+        Session res = sessionRepository.save(one);
+
+        //test updating
+        int count = sessionRepository.updateSessionById(res.getId(), new Date(20001), new Time(4),
+                new Time(2), 15, 50, 50, classType);
+
+        assertEquals(1, count);
 
     }
 
