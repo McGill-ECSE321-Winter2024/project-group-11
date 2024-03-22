@@ -66,6 +66,16 @@ public class Session
     this.classType = classType;
   }
 
+  public Session(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, ClassType classType) {
+    this.date = date;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.price = price;
+    this.remainingCapacity = remainingCapacity;
+    this.roomNumber = roomNumber;
+    this.classType = classType;
+  }
+
   public Session() {
 
   }
