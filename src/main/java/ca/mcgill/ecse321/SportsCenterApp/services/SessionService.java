@@ -24,6 +24,7 @@ public class SessionService {
     private final ClassTypeRepository classTypeRepository;
 
 
+
     public SessionService(SessionRepository sessionRepository, InstructorRepository instructorRepository, ClassTypeRepository classTypeRepository) {
         this.sessionRepository = sessionRepository;
         this.instructorRepository = instructorRepository;
@@ -53,15 +54,19 @@ public class SessionService {
 
         Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
 
-        if (classType.isEmpty()) {
+        if (classType.isEmpty() || !classType.get().isApproved()) {
             throw new IllegalArgumentException("Invalid/ Not approved class type.");
         }
-        System.out.println("THIS is classType" + classType.get().getName());
+
         Session session = new Session(date, startTime, endTime, price, remainingCap, roomNumber, classType.get());
 
         return sessionRepository.save(session);
     }
     private void inputValidation(Time startTime, Time endTime, float price, Integer roomNumber, Integer remainingCap) {
+        System.out.println("why is this not going through");
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(startTime.after(endTime));
         if (startTime.after(endTime)) {
             throw new IllegalArgumentException("Session start time must be before end time");
         }
@@ -90,7 +95,7 @@ public class SessionService {
 
         Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
 
-        if (classType.isEmpty()) {
+        if (classType.isEmpty() || ! classType.get().isApproved()) {
             throw new IllegalArgumentException("Invalid/ Not approved class type.");
         }
         return sessionRepository.updateSessionById(id, date, startTime, endTime, price, remainingCap, roomNumber, classType.get());
