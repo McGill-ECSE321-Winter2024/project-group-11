@@ -24,6 +24,7 @@ public class SessionService {
     private final ClassTypeRepository classTypeRepository;
 
 
+
     public SessionService(SessionRepository sessionRepository, InstructorRepository instructorRepository, ClassTypeRepository classTypeRepository) {
         this.sessionRepository = sessionRepository;
         this.instructorRepository = instructorRepository;
@@ -46,36 +47,95 @@ public class SessionService {
     }
 
     @Transactional
-    public Session createSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer instructorId, Integer classTypeId) {
+    public Session createSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer classTypeId) {
+        inputValidation(startTime, endTime, price, roomNumber, remainingCap);
         //if a room is occupied during the exact same time, return error.
-        verifySessionConflicts(date, startTime, endTime, roomNumber, instructorId, -1);
-        Instructor instructor = instructorRepository.findById(instructorId).get();
+        verifySessionConflicts(date, startTime, endTime, roomNumber, -1);
+
         Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
 
-        if (classType.isEmpty()) {
-            throw new IllegalArgumentException("Invalid class type");
+        if (classType.isEmpty() || !classType.get().isApproved()) {
+            throw new IllegalArgumentException("Invalid/ Not approved class type.");
         }
-        Session session = new Session(date, startTime, endTime, price, remainingCap, roomNumber, instructor, classType.get());
+
+        Session session = new Session(date, startTime, endTime, price, remainingCap, roomNumber, classType.get());
 
         return sessionRepository.save(session);
     }
+    private void inputValidation(Time startTime, Time endTime, float price, Integer roomNumber, Integer remainingCap) {
+        System.out.println("why is this not going through");
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(startTime.after(endTime));
+        if (startTime.after(endTime)) {
+            throw new IllegalArgumentException("Session start time must be before end time");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("Invalid price for session.");
+        }
+        if (roomNumber < 0) {
+            throw new IllegalArgumentException("Invalid room number, must be above 0.");
+        }
+        if (remainingCap < 1) {
+            throw new IllegalArgumentException("Capacity can't be less than 1.");
+        }
+    }
+
 
     @Transactional
-    public int updateSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer instructorId, Integer classTypeId, Integer id) {
+    public int updateSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer classTypeId, Integer id) {
+        inputValidation(startTime, endTime, price, remainingCap, roomNumber);
+
         Optional<Session> sessionObj = sessionRepository.findById(id);
         if (sessionObj.isEmpty()) {
             throw new IllegalArgumentException("Session with id: " + id + " does not exist.");
         }
         Session session = sessionObj.get();
-        verifySessionConflicts(date, startTime, endTime, roomNumber, instructorId, session.getId());
+        verifySessionConflicts(date, startTime, endTime, roomNumber, session.getId());
 
-        Optional<Instructor> instructor = instructorRepository.findById(instructorId);
         Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
 
-        if (classType.isEmpty()) {
-            throw new IllegalArgumentException("Invalid class type");
+        if (classType.isEmpty() || ! classType.get().isApproved()) {
+            throw new IllegalArgumentException("Invalid/ Not approved class type.");
         }
-        return sessionRepository.updateSessionById(id, date, startTime, endTime, price, remainingCap, roomNumber, instructor.get(), classType.get());
+        return sessionRepository.updateSessionById(id, date, startTime, endTime, price, remainingCap, roomNumber, classType.get());
+    }
+
+    @Transactional
+    public Integer dropInstructorFromSession(Integer sessionId) {
+        return sessionRepository.updateSessionByInstructorId(sessionId);
+    }
+
+    @Transactional
+    public Session addInstructorToSession(Integer sessionId, Integer instructorId) {
+        if (instructorId == null || sessionId == null) {
+            throw new IllegalArgumentException("Invalid arguments!");
+        }
+
+        Optional<Instructor> instructor = instructorRepository.findById(instructorId);
+        if (instructor.isEmpty()) {
+            throw new IllegalArgumentException("Instructor with id " + instructorId + " not found.");
+        }
+        Optional<Session> session = sessionRepository.findById(sessionId);
+        if (session.isEmpty()) {
+            throw new IllegalArgumentException("Session not found.");
+        }
+        Session updatedSession = session.get();
+        if (updatedSession.hasInstructor()) {
+            throw new IllegalArgumentException("Session already has an instructor");
+        }
+        updatedSession.setInstructor(instructor.get());
+        sessionRepository.save(updatedSession);
+        return updatedSession;
+    }
+
+    @Transactional
+    public List<Session> getAllSessionsByInstructorId(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Could not parse instructor id");
+        }
+        return sessionRepository.getSessionsByInstructor_Id(id);
+
     }
 
 
@@ -85,35 +145,22 @@ public class SessionService {
      * @param startTime start time of session.
      * @param endTime end time of session.
      * @param roomNumber room number.
-     * @param instructor Instructor.
      * @param id Id of session being updated, -1 if being created.
      * @return Error message, empty if no conflicts.
      */
-    private void verifySessionConflicts(Date date, Time startTime, Time endTime, Integer roomNumber, Integer instructorId, Integer id) {
-        Optional<Instructor> instructor = instructorRepository.findById(instructorId);
-        if (instructor.isEmpty()) {
-            throw new IllegalArgumentException("Could not find instructor");
+    private void verifySessionConflicts(Date date, Time startTime, Time endTime, Integer roomNumber, Integer id) {
 
-        }
+        //checking if room is available during this time period.
         List<Session> sessions = sessionRepository.getSessionsByDateIsAndRoomNumber(date, roomNumber);
         for (Session s: sessions) {
             if (id >= 0 && Objects.equals(s.getId(), id)) {
                 continue;
             }
+            System.out.println(s.getEndTime());
             if (s.getEndTime().after(startTime)) {
                 throw new IllegalArgumentException("Room is not available during this time.");
             }
         }
-        sessions = sessionRepository.getSessionsByDateIsAndInstructor(date, instructor.get());
-        for (Session s: sessions) {
-            if (id >= 0 && Objects.equals(s.getId(), id)) {
-                continue;
-            }
-            if (s.getEndTime().after(startTime)) {
-                throw new IllegalArgumentException("Instructor is not available during this time.");
-            }
-        }
-
     }
 
     private <T> List<T> toList(Iterable<T> iterable) {
