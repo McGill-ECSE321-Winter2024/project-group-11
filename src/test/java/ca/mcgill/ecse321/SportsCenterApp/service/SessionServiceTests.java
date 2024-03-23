@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.swing.text.html.Option;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 
 @ActiveProfiles("test")
@@ -218,9 +216,7 @@ public class SessionServiceTests {
             sessionService.updateSession(new Date(1000), new Time(150), new Time(400), 3, 3, 2, 0, 2);
         });
         assertEquals("Invalid/ Not approved class type.", exception.getMessage());
-
-
-
+        
     }
 
 

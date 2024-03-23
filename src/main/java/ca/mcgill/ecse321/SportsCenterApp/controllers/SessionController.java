@@ -29,8 +29,7 @@ public class SessionController {
     @GetMapping("/")
     public ResponseEntity<List<SessionDto>> getSessions() {
         try {
-            List<SessionDto> sessions = sessionService.getAllSessions().stream().map(s -> convertToDto(s)).collect(Collectors.toList());
-            System.out.println("HELO");
+            List<SessionDto> sessions = sessionService.getAllSessions().stream().map(this::convertToDto).collect(Collectors.toList());
             return new ResponseEntity<>(sessions, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -39,13 +38,13 @@ public class SessionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SessionDto> getSession(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> getSession(@PathVariable("id") Integer id) {
         try {
             SessionDto session = convertToDto(sessionService.getSession(id));
             return new ResponseEntity<>(session, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -54,9 +53,9 @@ public class SessionController {
     public ResponseEntity<?> updateSession(@PathVariable("id") Integer id, @RequestBody SessionDto sessionDto) {
         try {
             @SuppressWarnings("unused")
-            int session = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
+            int updateCount = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                             sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId(), sessionDto.getId());
-            return new ResponseEntity<>(session, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(updateCount, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
 
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -77,7 +76,7 @@ public class SessionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/{id}/instructor/")
+    @PutMapping("/{id}/instructor")
     public ResponseEntity<?> dropInstructorFromSession(@PathVariable("id") Integer id) {
         try {
             Integer status = sessionService.dropInstructorFromSession(id);
@@ -92,6 +91,8 @@ public class SessionController {
     @GetMapping("/instructor/{id}")
     public ResponseEntity<?> getAllSessionsByInstructorId(@PathVariable("id") Integer id) {
         try {
+            List<Session> session = sessionService.getAllSessionsByInstructorId(id);
+            List<SessionDto> sessions = session.stream().map(this::convertToDto).toList();
             return new ResponseEntity<>(sessionService.getAllSessionsByInstructorId(id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -102,7 +103,6 @@ public class SessionController {
     @PostMapping("/")
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {
         try {
-            System.out.println("trying");
             Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                     sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId());
             return new ResponseEntity<>(session, HttpStatus.CREATED);
@@ -124,7 +124,7 @@ public class SessionController {
 
     private ClassTypeDto convertToDto(ClassType ClassType){
         if (ClassType == null) {
-            throw new IllegalArgumentException("There is no such ClassType");
+            return null;
         }
         ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
         return ClassTypeDto;
@@ -132,7 +132,7 @@ public class SessionController {
 
     private InstructorDto convertToDto(Instructor instructor){
         if (instructor == null) {
-            throw new IllegalArgumentException("There is no such instructor");
+            return null;
         }
         InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getYearsOfExperience(), instructor.getBiography());
         return instructorDto;
