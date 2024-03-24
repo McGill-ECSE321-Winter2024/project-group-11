@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.SportsCenterApp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
@@ -34,17 +36,23 @@ public class InstructorService {
     public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aYearsOfExperience, String aBiography) {
 
         //Input validation
-        if (aEmail == null || aPassword == null) {
-            throw new IllegalArgumentException("Email or password cannot be empty");
+        if (!isValidEmailAddress(aEmail)) {
+            throw new IllegalArgumentException("Invalid Email adress");
         }
 
-        if (aFirstName == null || aLastName == null) {
-            throw new IllegalArgumentException("Name fields cannot be empty, please provide the full name");
+        if (!isValidPassword(aPassword)) {
+            throw new IllegalArgumentException("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length");
+        }
+
+        if (aFirstName == null || aLastName == null || aFirstName.isEmpty() || aLastName.isEmpty()) {
+            throw new IllegalArgumentException("Name fields cannot be empty");
         }
 
         if (aYearsOfExperience < 0) {
             throw new IllegalArgumentException("Instructor cannot have negative years of experience");
         }
+
+
         Instructor instructor = instructorRepository.findInstructorByEmail(aEmail);
         if (instructor != null) {
             throw new IllegalArgumentException("Instructor with email exists!");
@@ -65,6 +73,9 @@ public class InstructorService {
     @Transactional
     public Instructor getInstructor(Integer id){
 
+        if (id == null){
+            throw new IllegalArgumentException("Empty id");
+        }
         Optional<Instructor> instructor = instructorRepository.findById(id);
 
         if (instructor.isPresent()){
@@ -85,7 +96,7 @@ public class InstructorService {
     @Transactional
     public Instructor getInstructorByEmail(String email){
 
-        if(email == null) {
+        if(email == null || email.isEmpty()) {
 			throw new IllegalArgumentException("Email cannot be empty");
         }
 
@@ -109,6 +120,9 @@ public class InstructorService {
     @Transactional
     public Instructor updateInstructorPassword(Integer id, String newPassword){
         
+        if (!isValidPassword(newPassword)){
+            throw new IllegalArgumentException("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length");
+        }
         Instructor instructor = getInstructor(id);
 
         instructor.setPassword(newPassword);
@@ -128,9 +142,63 @@ public class InstructorService {
     @Transactional
     public Instructor updateInstructorPassword(String email, String newPassword){
         
+        if (!isValidPassword(newPassword)){
+            throw new IllegalArgumentException("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length");
+        }
         Instructor instructor = getInstructorByEmail(email);
 
         instructor.setPassword(newPassword);
+        instructorRepository.save(instructor);
+
+        return instructor;
+
+    }
+
+
+
+    /**
+	 * Method to change an instructor email by email
+	 * @param email of instructor
+     * @param newEmail new desired password
+	 * @return the instructor
+	 * @throws Exception if password doesnt respect the conditions or of if no instructor exists with given id
+	 */
+    @Transactional
+    public Instructor updateInstructorEmail(String email, String newEmail){
+
+        if(newEmail.isEmpty() || newEmail == null) {
+            throw new IllegalArgumentException("Empty email");
+        }
+        
+        if (!isValidEmailAddress(newEmail)){
+            throw new IllegalArgumentException("Invalid new email");
+        }
+        Instructor instructor = getInstructorByEmail(email);
+
+        instructor.setEmail(newEmail);
+        instructorRepository.save(instructor);
+
+        return instructor;
+
+    }
+
+
+    /**
+	 * Method to change an instructor email by email
+	 * @param id of instructor
+     * @param newEmail new desired password
+	 * @return the instructor
+	 * @throws Exception if password doesnt respect the conditions or of if no instructor exists with given id
+	 */
+    @Transactional
+    public Instructor updateInstructorEmail(Integer id, String newEmail){
+        
+        if (!isValidEmailAddress(newEmail)){
+            throw new IllegalArgumentException("Invalid new email");
+        }
+        Instructor instructor = getInstructor(id);
+
+        instructor.setEmail(newEmail);
         instructorRepository.save(instructor);
 
         return instructor;
@@ -184,9 +252,31 @@ public class InstructorService {
 	 * @throws Exception if instructor not found
 	 */
     @Transactional
-    public void deleteInstructor(Integer id){
-        instructorRepository.deleteById(id);
+    public void deleteInstructor(Integer id) {
+        try {
+            instructorRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Instructor not found for id: "+ id);
+        }
+            
     }
+
+
+     /**
+	 * Method to delete an instructor
+	 * @param email of instructor
+	 * @throws Exception if instructor not found
+	 */
+    @Transactional
+    public void deleteInstructor(String email) {
+        try {
+            instructorRepository.deleteByEmail(email);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Instructor not found for email: " + email);
+        }
+            
+    }
+
 
 
     private <T> List<T> toList(Iterable<T> iterable) {
@@ -203,7 +293,7 @@ public class InstructorService {
 	 * @param email
      * @return true if the email is valid, false otherwise
 	 */
-    public boolean isValidEmailAddress(String email) {
+    public static boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
@@ -220,8 +310,8 @@ public class InstructorService {
      * no whitespace
      * at least 8 character in length
 	 */
-    public boolean isValidPassword(String password) {
-        String passwordpattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+    public static boolean isValidPassword(String password) {
+        String passwordpattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";;
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(passwordpattern);
         java.util.regex.Matcher m = p.matcher(password);
         return m.matches();
