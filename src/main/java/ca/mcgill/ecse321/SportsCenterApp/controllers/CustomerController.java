@@ -22,9 +22,9 @@ public class CustomerController {
 
     @PostMapping(value = { "/customer/", "/customer"})
     public ResponseEntity<?> createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail, @RequestParam("aPassword") String aPassword,
-                                         @RequestParam("aAccoutBalance") float aAccoutBalance){
+                                         @RequestParam("aAccountBalance") float aAccountBalance, @RequestParam("aToken") String aToken){
                                         try{
-                                            Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aAccoutBalance);
+                                            Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aToken, aAccountBalance);
                                             return new ResponseEntity<>(convertToDto(customer), HttpStatus.CREATED);
                                         }catch (Exception e){
                                             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
@@ -61,7 +61,7 @@ public class CustomerController {
         if (customer == null) {
             throw new IllegalArgumentException("There is no such customer");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getId(), customer.getAccoutBalance());
+        CustomerDto customerDto = new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getToken(), customer.getAccoutBalance());
         return customerDto;
     }
 }

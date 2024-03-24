@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
     List<Customer> findCustomersByFirstNameIgnoreCase(String firstName);
+
+    Customer findCustomerByEmail(String email);
+
+    Customer findCustomerByToken(String token);
 }

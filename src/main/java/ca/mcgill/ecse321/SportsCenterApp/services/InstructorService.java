@@ -27,13 +27,14 @@ public class InstructorService {
      * @param aLastName of instructor
 	 * @param aEmail of instructor
 	 * @param aPassword of instructor
+     * @param aToken of instructor
 	 * @param aYearsOfExperience of instructor
-     * @param aBiograph of instructor
+     * @param aBiography of instructor
 	 * @return an instructor corresponding to the instructor object just created
 	 * @throws Exception if email/password is null or a instructor already exists with given email
 	 */
     @Transactional
-    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aYearsOfExperience, String aBiography) {
+    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, String aToken, Integer aYearsOfExperience, String aBiography) {
 
         //Input validation
         if (!isValidEmailAddress(aEmail)) {
@@ -57,7 +58,7 @@ public class InstructorService {
         if (instructor != null) {
             throw new IllegalArgumentException("Instructor with email exists!");
         }
-        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aYearsOfExperience, aBiography);
+        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aToken, aYearsOfExperience, aBiography);
 
         instructorRepository.save(instructor);
         
@@ -302,7 +303,7 @@ public class InstructorService {
 
     /**
 	 * Method to validate a password
-	 * @param passwrd of instructor
+	 * @param password of instructor
      * @return true if the password is valid 
      * At least 1 digit
      * At least one lowercase

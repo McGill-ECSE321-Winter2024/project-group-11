@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Table(name = "user_table")
 public interface UserRepository extends CrudRepository<User, Integer> {
-    User findUserByFirstNameIgnoreCase(String firstName);
+    User findUserByEmail(String email);
 
     @Modifying
     @Query("UPDATE User u SET u.password = :password WHERE lower(u.email) = lower(:email) ")

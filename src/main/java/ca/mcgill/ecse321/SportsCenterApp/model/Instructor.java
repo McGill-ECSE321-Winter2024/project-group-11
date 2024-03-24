@@ -24,15 +24,9 @@ public class Instructor extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Instructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, Integer aYearsOfExperience, String aBiography)
-  {
-    super(aFirstName, aLastName, aEmail, aPassword, aId);
-    yearsOfExperience = aYearsOfExperience;
-    biography = aBiography;
-  }
 
-  public Instructor(String firstName, String lastName, String email, String password, Integer yearsOfExperience, String biography) {
-    super(firstName, lastName, email, password);
+  public Instructor(String firstName, String lastName, String email, String password, String token, Integer yearsOfExperience, String biography) {
+    super(firstName, lastName, email, password, token);
     this.yearsOfExperience = yearsOfExperience;
     this.biography = biography;
   }
