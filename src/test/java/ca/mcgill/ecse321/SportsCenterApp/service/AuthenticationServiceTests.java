@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.naming.AuthenticationException;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,12 +32,13 @@ public class AuthenticationServiceTests {
     final String userEmail = "bobbyshurmda@gmail.com";
     final String userPassword = "aightbruh";
     final String badUserEmail = "kuminga@yahoo.ca";
+    final String badUserPassword = "notgood";
     @Mock
     CustomerRepository customerRepository;
     @Mock
     OwnerRepository ownerRepository;
     @Mock
-    InstructorRepository instructorRepositoryRepository;
+    InstructorRepository instructorRepository;
     @Mock
     TokenProvider tokenProvider;
     @InjectMocks
@@ -66,7 +69,7 @@ public class AuthenticationServiceTests {
             }
         });
 
-        lenient().when(instructorRepositoryRepository.findInstructorByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(instructorRepository.findInstructorByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(userEmail)) {
                 Instructor ins = new Instructor();
                 ins.setEmail(userEmail);
@@ -99,6 +102,58 @@ public class AuthenticationServiceTests {
                     loginDto.setEmail(badUserEmail);
                     loginDto.setPassword(userPassword);
                     loginDto.setUserType(UserType.Owner);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testValidInstructorLogin() {
+        try {
+            LoginDto loginDto = new LoginDto();
+            loginDto.setEmail(userEmail);
+            loginDto.setPassword(userPassword);
+            loginDto.setUserType(UserType.Instructor);
+            authenticationService.logIn(loginDto);
+        } catch (Exception e) {
+            fail("Should not throw exception");
+        }
+    }
+
+    @Test
+    public void testInvalidInstructorLogin() {
+        assertThrows(AuthenticationException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(userEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Instructor);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testValidCustomerLogin() {
+        try {
+            LoginDto loginDto = new LoginDto();
+            loginDto.setEmail(userEmail);
+            loginDto.setPassword(userPassword);
+            loginDto.setUserType(UserType.Customer);
+            authenticationService.logIn(loginDto);
+        } catch (Exception e) {
+            fail("Should not throw exception");
+        }
+    }
+
+    @Test
+    public void testInvalidCustomerLogin() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Customer);
                     authenticationService.logIn(loginDto);
                 }
         );
