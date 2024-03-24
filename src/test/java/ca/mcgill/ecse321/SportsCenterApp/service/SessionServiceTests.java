@@ -216,7 +216,7 @@ public class SessionServiceTests {
             sessionService.updateSession(new Date(1000), new Time(150), new Time(400), 3, 3, 2, 0, 2);
         });
         assertEquals("Invalid/ Not approved class type.", exception.getMessage());
-        
+
     }
 
 

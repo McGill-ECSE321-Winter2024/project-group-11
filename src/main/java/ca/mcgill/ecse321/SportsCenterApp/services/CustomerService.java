@@ -15,11 +15,9 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Transactional
-    public Customer createCustomer(String firstName, String lastName, String email, String password, Integer id, float accountBalance) {
-
-        Customer customer = new Customer(firstName, lastName, email, password, id, accountBalance);
+    public Customer createCustomer(String firstName, String lastName, String email, String password, float accountBalance) {
+        Customer customer = new Customer(firstName, lastName, email, password, accountBalance);
         return customerRepository.save(customer);
-
     }
 
     @Transactional

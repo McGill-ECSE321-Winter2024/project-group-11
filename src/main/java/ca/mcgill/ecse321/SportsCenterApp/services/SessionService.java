@@ -48,8 +48,8 @@ public class SessionService {
 
     @Transactional
     public Session createSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer classTypeId) {
+        //preliminary input validations
         inputValidation(startTime, endTime, price, roomNumber, remainingCap);
-        //if a room is occupied during the exact same time, return error.
         verifySessionConflicts(date, startTime, endTime, roomNumber, -1);
 
         Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
@@ -63,10 +63,7 @@ public class SessionService {
         return sessionRepository.save(session);
     }
     private void inputValidation(Time startTime, Time endTime, float price, Integer roomNumber, Integer remainingCap) {
-        System.out.println("why is this not going through");
-        System.out.println(startTime);
-        System.out.println(endTime);
-        System.out.println(startTime.after(endTime));
+
         if (startTime.after(endTime)) {
             throw new IllegalArgumentException("Session start time must be before end time");
         }
@@ -136,6 +133,11 @@ public class SessionService {
         }
         return sessionRepository.getSessionsByInstructor_Id(id);
 
+    }
+
+    @Transactional
+    public void deleteSession(Integer id) {
+        sessionRepository.deleteById(id);
     }
 
 
