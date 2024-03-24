@@ -17,7 +17,6 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
     List<Session> getSessionsByDateIsAndRoomNumber(Date date, Integer roomNumber);
 
     List<Session> getSessionsByDateIsAndInstructor(Date date, Instructor instructor);
-    List<Session> getSessionsByInstructor_Token(Integer instructorToken);
 
     @Modifying
     @Query("UPDATE Session s SET s.instructor = NULL WHERE s.id = :sessionId")

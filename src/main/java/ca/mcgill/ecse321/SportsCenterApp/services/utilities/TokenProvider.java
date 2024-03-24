@@ -18,9 +18,6 @@ public class TokenProvider {
     @Value("${secretKey}")
     private String secretKey;
 
-    @Autowired
-    private OwnerRepository ownerRepository; //ignore warning, it is being used
-
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
