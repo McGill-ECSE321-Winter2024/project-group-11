@@ -34,7 +34,7 @@ public class InstructorService {
 	 * @throws Exception if email/password is null or a instructor already exists with given email
 	 */
     @Transactional
-    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, String aToken, Integer aYearsOfExperience, String aBiography) {
+    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, String aToken, Integer aYearsOfExperience, String aBiography) {
 
         //Input validation
         if (!isValidEmailAddress(aEmail)) {
@@ -58,7 +58,7 @@ public class InstructorService {
         if (instructor != null) {
             throw new IllegalArgumentException("Instructor with email exists!");
         }
-        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aToken, aYearsOfExperience, aBiography);
+        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aId, aToken, aYearsOfExperience, aBiography);
 
         instructorRepository.save(instructor);
         

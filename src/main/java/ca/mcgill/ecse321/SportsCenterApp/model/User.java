@@ -35,11 +35,12 @@ public abstract class User
   //------------------------
 
 
-  public User(String firstName, String lastName, String email, String password, String token) {
+  public User(String firstName, String lastName, String email, String password, Integer id, String token) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.id = id;
     this.token = token;
   }
 

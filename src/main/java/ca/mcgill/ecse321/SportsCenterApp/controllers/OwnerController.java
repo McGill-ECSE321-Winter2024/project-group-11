@@ -19,10 +19,10 @@ public class OwnerController {
     private OwnerService ownerService;
 
     @PostMapping(value = { "/owner/{aId}" , "/owner/{aId}/"})
-    public OwnerDto createOwner(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword, 
-                                    @RequestParam("aToken") String aToken){
+    public OwnerDto createOwner(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword,
+                                    @RequestParam("aId") Integer aId, @RequestParam("aToken") String aToken){
                                         try{
-                                            Owner owner = ownerService.createOwner(aFirstName, aLastName, aEmail, aPassword, aToken);
+                                            Owner owner = ownerService.createOwner(aFirstName, aLastName, aEmail, aPassword, aId, aToken);
                                             return convertToDto(owner);
                                         }catch (Exception e){
                                             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating owner", e);
@@ -54,7 +54,7 @@ public class OwnerController {
         if (owner == null){
             throw new IllegalArgumentException("There is no such owner");
         }
-        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getToken());
+        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());
         return ownerDto;
 
     }

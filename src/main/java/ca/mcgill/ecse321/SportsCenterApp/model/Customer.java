@@ -17,16 +17,16 @@ public class Customer extends User
   //------------------------
 
   //Customer Attributes
-  private float accoutBalance;
+  private float accountBalance;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
 
-  public Customer(String firstName, String lastName, String email, String password, String token, float accoutBalance) {
-    super(firstName, lastName, email, password, token);
-    this.accoutBalance = accoutBalance;
+  public Customer(String firstName, String lastName, String email, String password, Integer id, String token, float accountBalance) {
+    super(firstName, lastName, email, password, id, token);
+    this.accountBalance = accountBalance;
   }
 
   public Customer() {
@@ -37,17 +37,17 @@ public class Customer extends User
   // INTERFACE
   //------------------------
 
-  public boolean setAccoutBalance(float aAccoutBalance)
+  public boolean setAccountBalance(float aAccountBalance)
   {
     boolean wasSet = false;
-    accoutBalance = aAccoutBalance;
+    accountBalance = aAccountBalance;
     wasSet = true;
     return wasSet;
   }
 
-  public float getAccoutBalance()
+  public float getAccountBalance()
   {
-    return accoutBalance;
+    return accountBalance;
   }
 
   public void delete()
@@ -59,6 +59,6 @@ public class Customer extends User
   public String toString()
   {
     return super.toString() + "["+
-            "accoutBalance" + ":" + getAccoutBalance()+ "]";
+            "accountBalance" + ":" + getAccountBalance()+ "]";
   }
 }

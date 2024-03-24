@@ -124,7 +124,7 @@ public class SessionControllerTests {
         ClassType yoga = new ClassType("yoga", "description", true, ClassType.DifficultyLevel.Advanced);
         ClassType savedYoga = classTypeRepository.save(yoga);
         Session savedSession = sessionRepository.save(new Session(new Date(1000), new Time(50), new Time(10000), 4, 4, 4, savedYoga));
-        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 3, "goat man");
+        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 123, "ok", 3, "goat man");
         Instructor saved = instructorRepository.save(dave);
 
         String url = "/session/" + savedSession.getId() + "/instructor/" + saved.getId();
@@ -155,7 +155,7 @@ public class SessionControllerTests {
         ClassType yoga = new ClassType("yoga", "description", true, ClassType.DifficultyLevel.Advanced);
         ClassType savedYoga = classTypeRepository.save(yoga);
         Session savedSession = sessionRepository.save(new Session(new Date(1000), new Time(50), new Time(10000), 4, 4, 4, savedYoga));
-        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 3, "goat man");
+        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 123, "ok", 3, "goat man");
         Instructor saved = instructorRepository.save(dave);
 
         String url = "/session/" + savedSession.getId() + "/instructor";
@@ -210,8 +210,8 @@ public class SessionControllerTests {
     void testGetAllSessionsByInstructorId() {
         ClassType yoga = new ClassType("yoga", "description", true, ClassType.DifficultyLevel.Advanced);
         ClassType savedYoga = classTypeRepository.save(yoga);
-        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 3, "goat man");
-        Instructor b = new Instructor("bob","looney", "at@gmail.com", "pw", 3, "desc");
+        Instructor dave = new Instructor("jonathan", "kuminga", "g@gmail.com", "password", 123, "ok", 3, "goat man");
+        Instructor b = new Instructor("bob","looney", "at@gmail.com", "pw", 123, "ok", 3, "desc");
         Instructor savedDave = instructorRepository.save(dave);
         Instructor savedB = instructorRepository.save(b);
         sessionRepository.save(new Session(new Date(50), new Time(20), new Time(30000), 6, 20, 5, savedDave, savedYoga));

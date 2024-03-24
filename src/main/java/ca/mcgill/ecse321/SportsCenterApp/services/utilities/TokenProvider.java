@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.SportsCenterApp.services.utilities;
 
+import ca.mcgill.ecse321.SportsCenterApp.repository.OwnerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Base64;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;

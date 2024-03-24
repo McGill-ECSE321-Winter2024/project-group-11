@@ -32,7 +32,7 @@ public class InstructorController {
     @PostMapping("/instructor")
     public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto) {
         try {
-            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getToken(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());
+            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getId(), instructorDto.getToken(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e);
@@ -141,7 +141,7 @@ public class InstructorController {
         if (instructor == null) {
             throw new IllegalArgumentException("There is no such instructor");
         }
-        InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());
+        InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());
         return instructorDto;
     }
 

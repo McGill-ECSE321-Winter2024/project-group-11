@@ -17,7 +17,6 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
     List<Session> getSessionsByDateIsAndRoomNumber(Date date, Integer roomNumber);
 
     List<Session> getSessionsByDateIsAndInstructor(Date date, Instructor instructor);
-    List<Session> getSessionsByInstructor_Id(Integer instructorId);
 
     @Modifying
     @Query("UPDATE Session s SET s.instructor = NULL WHERE s.id = :sessionId")
@@ -27,4 +26,6 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
     @Query("UPDATE Session s SET s.date = :date, s.startTime = :startTime, s.endTime = :endTime, s.price = :price, s.remainingCapacity = :remainingCapacity, " +
             "s.roomNumber = :roomNumber, s.classType = :classType WHERE s.id = :id")
     int updateSessionById(Integer id, Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, ClassType classType);
+
+    List<Session> getSessionsByInstructorId(Integer id);
 }

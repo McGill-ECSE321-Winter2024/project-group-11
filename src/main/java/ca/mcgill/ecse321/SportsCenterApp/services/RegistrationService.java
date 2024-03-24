@@ -41,7 +41,7 @@ public class RegistrationService {
             throw new IllegalArgumentException("This session is already full!");
         }
         float sessionPrice = aSession.getPrice();
-        if (aCustomer.getAccoutBalance() < sessionPrice) {
+        if (aCustomer.getAccountBalance() < sessionPrice) {
             throw new IllegalArgumentException("Insufficient funds to register for this session.");
         }
 
@@ -53,7 +53,7 @@ public class RegistrationService {
             throw new IllegalArgumentException("Could not get session information.");
         }
         //updates customers balance after registering for session.
-        customerService.updateCustomer(aCustomer.getId(), aCustomer.getAccoutBalance() - sessionPrice);
+        customerService.updateCustomer(aCustomer.getId(), aCustomer.getAccountBalance() - sessionPrice);
         return registrationRepository.save(registration);
 
     }
@@ -88,7 +88,7 @@ public class RegistrationService {
         // 1. refund customer money if successful
         // 2.  +1 remainingCap to session
         // 4a. if current date is past session date, dont allow.
-        customerService.updateCustomer(customer.getId(), customer.getAccoutBalance() + session.getPrice());
+        customerService.updateCustomer(customer.getId(), customer.getAccountBalance() + session.getPrice());
         int book = sessionRepository.updateSessionById(session.getId(), session.getDate(), session.getStartTime(), session.getEndTime(), session.getPrice(),
                 session.getRemainingCapacity() + 1, session.getRoomNumber(), session.getClassType());
         if (book == 0) {

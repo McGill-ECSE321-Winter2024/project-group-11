@@ -72,7 +72,7 @@ public class SessionServiceTests {
 
         lenient().when(instructorRepository.findById(anyInt())).thenAnswer(invocation -> {
             if (invocation.getArgument(0).equals(1)) {
-                return Optional.of(new Instructor("jonathan", "kuminga", "s@gmail", "abcd", 3, "BIO"));
+                return Optional.of(new Instructor("jonathan", "kuminga", "s@gmail", "abcd", 123, "ok", 3, "BIO"));
             }
             return Optional.empty();
         });

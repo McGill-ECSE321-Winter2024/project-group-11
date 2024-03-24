@@ -15,8 +15,8 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Transactional
-    public Customer createCustomer(String firstName, String lastName, String email, String password, String token, float accountBalance) {
-        Customer customer = new Customer(firstName, lastName, email, password, token, accountBalance);
+    public Customer createCustomer(String firstName, String lastName, String email, String password, Integer id, String token, float accountBalance) {
+        Customer customer = new Customer(firstName, lastName, email, password, id, token, accountBalance);
         return customerRepository.save(customer);
     }
 
@@ -36,7 +36,7 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()){
             Customer updatedCustomer = customer.get();
-            updatedCustomer.setAccoutBalance(accountBalance);
+            updatedCustomer.setAccountBalance(accountBalance);
             return updatedCustomer;
         }
         else{
