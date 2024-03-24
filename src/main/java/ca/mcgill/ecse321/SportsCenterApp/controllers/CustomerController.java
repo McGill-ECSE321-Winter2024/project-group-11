@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,14 +20,15 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
-    public CustomerDto createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail,@RequestParam("aPassword") String aPassword, 
-                                        @PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
-                                            try{
-                                            Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aId, aAccoutBalance);
-                                            return convertToDto(customer);
+    @PostMapping(value = { "/customer/", "/customer"})
+    public ResponseEntity<?> createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail, @RequestParam("aPassword") String aPassword,
+                                         @RequestParam("aAccoutBalance") float aAccoutBalance){
+                                        try{
+                                            Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aAccoutBalance);
+                                            return new ResponseEntity<>(convertToDto(customer), HttpStatus.CREATED);
                                         }catch (Exception e){
                                             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
+
                                         }
                                     }
 

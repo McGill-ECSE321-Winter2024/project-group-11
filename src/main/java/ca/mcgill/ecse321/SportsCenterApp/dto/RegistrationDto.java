@@ -6,76 +6,69 @@ import java.sql.Time;
 
 
 public class RegistrationDto {
-    private Date aDate;
-    private Time aTime;
-    private Customer aCustomer;
-    private Session aSession;
-    private Integer aId;
+    private Date date;
+    private Time time;
+    private CustomerDto customer;
+    private SessionDto session;
+    private Integer id;
 
 
     public RegistrationDto(){
         super();
     }
 
-    public RegistrationDto(Date aDate, Time aTime, Customer aCustomer, Session aSession){
-        this.aDate = aDate;
-        this.aTime = aTime;
-        this.aCustomer = aCustomer;
-        this.aSession = aSession;
-
+    public RegistrationDto(Date date, Time time, CustomerDto customer, SessionDto session) {
+        this.date = date;
+        this.time = time;
+        this.customer = customer;
+        this.session = session;
     }
 
-    public Date getDate()
-    {
-      return aDate;
-    }
-  
-    public Time getTime()
-    {
-      return aTime;
-    }
-    public void setDate(Date aDate)
-    {
-        this.aDate = aDate;
-    }
-  
-    public void setTime(Time aTime)
-    {
-        this.aTime = aTime;
+    public RegistrationDto(Date date, Time time, CustomerDto customer, SessionDto session, Integer id) {
+        this.date = date;
+        this.time = time;
+        this.customer = customer;
+        this.session = session;
+        this.id = id;
     }
 
-    //should setters return void?
-
-    public Customer getCustomer(){
-        return aCustomer;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Session getSession(){
-        return aSession;
+    public void setTime(Time time) {
+        this.time = time;
     }
 
-    public Integer getId(){
-        return aId;
+    public void setCustomer(CustomerDto customer) {
+        this.customer = customer;
     }
 
-    public void SetCustomer(Customer aCustomer){
-        this.aCustomer = aCustomer;
+    public void setSession(SessionDto session) {
+        this.session = session;
     }
 
-    public void setSession(Session aSession){
-        this.aSession = aSession;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setId(Integer aId){
-        this.aId = aId;
+    public Date getDate() {
+        return date;
     }
 
+    public Time getTime() {
+        return time;
+    }
 
+    public CustomerDto getCustomer() {
+        return customer;
+    }
 
+    public SessionDto getSession() {
+        return session;
+    }
 
-
-
-
-
-
+    public Integer getId() {
+        return id;
+    }
 }
