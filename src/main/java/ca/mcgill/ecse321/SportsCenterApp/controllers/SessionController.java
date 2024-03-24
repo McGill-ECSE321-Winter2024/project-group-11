@@ -1,14 +1,10 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
-import ca.mcgill.ecse321.SportsCenterApp.dto.ClassTypeDto;
-import ca.mcgill.ecse321.SportsCenterApp.dto.InstructorDto;
 import ca.mcgill.ecse321.SportsCenterApp.dto.SessionDto;
-import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
-import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
 import ca.mcgill.ecse321.SportsCenterApp.model.Session;
 import ca.mcgill.ecse321.SportsCenterApp.services.SessionService;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +25,7 @@ public class SessionController {
     @GetMapping("/")
     public ResponseEntity<List<SessionDto>> getSessions() {
         try {
-            List<SessionDto> sessions = sessionService.getAllSessions().stream().map(this::convertToDto).collect(Collectors.toList());
+            List<SessionDto> sessions = sessionService.getAllSessions().stream().map(DtoConverter::convertToDto).collect(Collectors.toList());
             return new ResponseEntity<>(sessions, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -40,7 +36,7 @@ public class SessionController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getSession(@PathVariable("id") Integer id) {
         try {
-            SessionDto session = convertToDto(sessionService.getSession(id));
+            SessionDto session = DtoConverter.convertToDto(sessionService.getSession(id));
             return new ResponseEntity<>(session, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
@@ -67,7 +63,7 @@ public class SessionController {
         try {
             Session success = sessionService.addInstructorToSession(id, instructorId);
 
-            return new ResponseEntity<>(convertToDto(success), HttpStatus.OK);
+            return new ResponseEntity<>(DtoConverter.convertToDto(success), HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof IllegalArgumentException) {
                 System.out.println(e.getMessage());
@@ -92,7 +88,7 @@ public class SessionController {
     public ResponseEntity<?> getAllSessionsByInstructorId(@PathVariable("id") Integer id) {
         try {
             List<Session> session = sessionService.getAllSessionsByInstructorId(id);
-            List<SessionDto> sessions = session.stream().map(this::convertToDto).toList();
+            List<SessionDto> sessions = session.stream().map(DtoConverter::convertToDto).toList();
             return new ResponseEntity<>(sessionService.getAllSessionsByInstructorId(id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -111,32 +107,15 @@ public class SessionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    private SessionDto convertToDto(Session session) {
-        if (session == null) {
-            throw new IllegalArgumentException("There is no session.");
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSession(@PathVariable("id") Integer id) {
+        try {
+            sessionService.deleteSession(id);
+            return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error deleting", HttpStatus.BAD_REQUEST);
         }
-        ClassTypeDto classTypeDto = convertToDto(session.getClassType());
-        InstructorDto instructorDto = convertToDto(session.getInstructor());
-
-
-        return new SessionDto(session.getDate(), session.getStartTime(), session.getEndTime(), session.getPrice(), session.getRemainingCapacity(), session.getRoomNumber(), instructorDto, classTypeDto, session.getId());
     }
-
-    private ClassTypeDto convertToDto(ClassType ClassType){
-        if (ClassType == null) {
-            return null;
-        }
-        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
-        return ClassTypeDto;
-    }
-
-    private InstructorDto convertToDto(Instructor instructor){
-        if (instructor == null) {
-            return null;
-        }
-        InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getYearsOfExperience(), instructor.getBiography());
-        return instructorDto;
-    }
-
 
 }
