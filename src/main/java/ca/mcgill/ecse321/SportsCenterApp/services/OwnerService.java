@@ -13,8 +13,8 @@ public class OwnerService {
     private OwnerRepository ownerRepository;
 
     @Transactional
-    public Owner createOwner(String aFirstName, String aLastName, String aEmail, String aPassword, String aToken){
-        Owner owner = new Owner(aFirstName, aLastName, aEmail, aPassword, aToken);
+    public Owner createOwner(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, String aToken){
+        Owner owner = new Owner(aFirstName, aLastName, aEmail, aPassword, aId, aToken);
         ownerRepository.save(owner);
         return owner;
     }

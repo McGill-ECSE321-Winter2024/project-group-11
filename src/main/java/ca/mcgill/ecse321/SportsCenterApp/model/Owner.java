@@ -20,9 +20,9 @@ public class Owner extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Owner(String aFirstName, String aLastName, String aEmail, String aPassword, String aToken)
+  public Owner(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, String aToken)
   {
-    super(aFirstName, aLastName, aEmail, aPassword, aToken);
+    super(aFirstName, aLastName, aEmail, aPassword, aId, aToken);
   }
 
   public Owner() {

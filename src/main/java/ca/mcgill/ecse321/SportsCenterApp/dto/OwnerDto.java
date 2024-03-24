@@ -5,13 +5,15 @@ public class OwnerDto {
     private String lastName;
     private String email;
     private String password;
+    private Integer id;
     private String token;
 
-    public OwnerDto(String firstName, String lastName, String email, String password, String token) {
+    public OwnerDto(String firstName, String lastName, String email, String password, Integer id, String token) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.id = id;
         this.token = token;
     }
 
@@ -53,5 +55,13 @@ public class OwnerDto {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

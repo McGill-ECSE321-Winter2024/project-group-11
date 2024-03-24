@@ -7,16 +7,17 @@ public class CustomerDto {
     private String lastName;
     private String email;
     private String password;
-
+    private Integer id;
     private float accountBalance;
 
     private String token;
 
-    public CustomerDto(String firstName, String lastName, String email, String password, String token, float accountBalance) {
+    public CustomerDto(String firstName, String lastName, String email, String password, Integer id, String token, float accountBalance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.id = id;
         this.token = token;
         this.accountBalance = accountBalance;
     }
@@ -62,4 +63,12 @@ public class CustomerDto {
     }
     public String getToken() {return token;}
     public void setToken(String token) {this.token = token;}
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }

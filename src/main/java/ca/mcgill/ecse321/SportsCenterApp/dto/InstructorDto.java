@@ -5,15 +5,17 @@ public class InstructorDto {
     private String lastName;
     private String email;
     private String password;
+    private Integer id;
     private String token;
     private Integer aYearsOfExperience;
     private String aBiography;
 
-    public InstructorDto(String firstName, String lastName, String email, String password, String token, Integer YearsOfExperience, String Biography) {
+    public InstructorDto(String firstName, String lastName, String email, String password, Integer id, String token, Integer YearsOfExperience, String Biography) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.id = id;
         this.token = token;
         this.aYearsOfExperience = YearsOfExperience;
         this.aBiography = Biography;
@@ -73,5 +75,13 @@ public class InstructorDto {
 
     public void setBiography(String aBiography) {
         this.aBiography = aBiography;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

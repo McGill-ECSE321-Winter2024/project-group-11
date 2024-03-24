@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.SportsCenterApp.services.utilities;
 
+import ca.mcgill.ecse321.SportsCenterApp.repository.OwnerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Base64;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,9 @@ public class TokenProvider {
 
     @Value("${secretKey}")
     private String secretKey;
+
+    @Autowired
+    private OwnerRepository ownerRepository; //ignore warning, it is being used
 
     @PostConstruct
     protected void init() {

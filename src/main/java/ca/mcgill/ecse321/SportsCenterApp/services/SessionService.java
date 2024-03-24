@@ -131,7 +131,7 @@ public class SessionService {
         if (id == null) {
             throw new IllegalArgumentException("Could not parse instructor id");
         }
-        return sessionRepository.getSessionsByInstructor_Id(id);
+        return sessionRepository.getSessionsByInstructorId(id);
 
     }
 
