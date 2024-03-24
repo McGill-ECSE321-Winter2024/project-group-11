@@ -19,6 +19,23 @@ public class ClassTypeService {
 
     @Transactional
     public ClassType creatClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel){
+
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty!");
+        }
+
+
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("description cannot be empty!");
+        }
+
+        if (difficultyLevel == null) {
+            throw new IllegalArgumentException("Difficulty Level cannot be null!");
+        }
+
+
+
+
         ClassType classType = new ClassType(name, description, approved, difficultyLevel);
 
         classTypeRepository.save(classType);
@@ -72,25 +89,23 @@ public class ClassTypeService {
     }
 
 
-    /**
+        /**
      * Returns all approved class types
-     * @return a list of classType.
+     * @return a list of approved class types.
      */
-    @Transactional public List<ClassType> getAllApprovedClassTypes(){
-        List<ClassType> list = new ArrayList<>();
-
-        list = toList(classTypeRepository.findAll());
-
-
-        for (ClassType c : list) {
-            if (!c.getApproved()){
-                list.remove(c);
+    @Transactional 
+    public List<ClassType> getAllApprovedClassTypes() {
+        List<ClassType> allClassTypes = toList(classTypeRepository.findAll());
+        Iterator<ClassType> iterator = allClassTypes.iterator();
+        while (iterator.hasNext()) {
+            ClassType c = iterator.next();
+            if (!c.getApproved()) {
+                iterator.remove(); // Remove the element from the list using iterator
             }
         }
-
-        return list;
-
+        return allClassTypes;
     }
+
 
 
     /**
@@ -111,9 +126,16 @@ public class ClassTypeService {
         
         // Update properties if provided
         if (newName != null) {
+            if(newName.isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty!");
+            }
             classType.setName(newName);
         }
         if (newDesc != null) {
+            if (newDesc.isEmpty()) {
+                throw new IllegalArgumentException("description cannot be empty!");
+            }
+
             classType.setDescription(newDesc);
         }
         if (newLevel != null) {
