@@ -24,6 +24,8 @@ public abstract class User
   private String lastName;
   private String email;
   private String password;
+  private String token;
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
@@ -32,20 +34,13 @@ public abstract class User
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId)
-  {
-    firstName = aFirstName;
-    lastName = aLastName;
-    email = aEmail;
-    password = aPassword;
-    id = aId;
-  }
 
-  public User(String firstName, String lastName, String email, String password) {
+  public User(String firstName, String lastName, String email, String password, String token) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.token = token;
   }
 
   public User() {
@@ -134,4 +129,11 @@ public abstract class User
             "password" + ":" + getPassword()+ "," +
             "id" + ":" + getId()+ "]";
   }
+  public String getToken() {
+    return token;
+  }
+  public void setToken(String token) {
+    this.token = token;
+  }
 }
+

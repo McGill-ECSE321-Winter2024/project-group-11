@@ -23,14 +23,9 @@ public class Customer extends User
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(String aFirstName, String aLastName, String aEmail, String aPassword, Integer aId, float aAccoutBalance)
-  {
-    super(aFirstName, aLastName, aEmail, aPassword, aId);
-    accoutBalance = aAccoutBalance;
-  }
 
-  public Customer(String firstName, String lastName, String email, String password, float accoutBalance) {
-    super(firstName, lastName, email, password);
+  public Customer(String firstName, String lastName, String email, String password, String token, float accoutBalance) {
+    super(firstName, lastName, email, password, token);
     this.accoutBalance = accoutBalance;
   }
 

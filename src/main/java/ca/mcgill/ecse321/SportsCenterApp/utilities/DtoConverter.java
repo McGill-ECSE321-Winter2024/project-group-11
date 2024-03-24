@@ -30,7 +30,7 @@ public class DtoConverter {
         if (instructor == null) {
             return null;
         }
-        return new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getYearsOfExperience(), instructor.getBiography());
+        return new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());
 
     }
 
@@ -47,7 +47,7 @@ public class DtoConverter {
         if (customer == null) {
             return null;
         }
-        return new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getId(), customer.getAccoutBalance());
+        return new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getToken(), customer.getAccoutBalance());
     }
     public static List<RegistrationDto> convertRegistrationsToDtos(Iterable<Registration> registrations) {
         List<RegistrationDto> registrationDtos = new ArrayList<>();

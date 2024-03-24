@@ -26,5 +26,6 @@ public interface InstructorRepository extends CrudRepository<Instructor, Integer
     @Modifying
     @Query("DELETE FROM Instructor i WHERE i.email = :email")
     void deleteByEmail(String email);
-    
+
+    Instructor findInstructorByToken(String token);
 }
