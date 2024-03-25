@@ -134,4 +134,52 @@ public class OwnerServiceTests {
         }
     }
 
+
+
+    @Test
+    public void testGetAllOwners(){
+        List<Owner> owners = null;
+        try{
+            owners = ownerService.getAllOwners();
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+        assertEquals(2, owners.size());
+    }
+
+    /**
+     @Test
+     public void testUpdateCustomerEmail(){
+     Customer customer = customerService.getCustomer(CUSTOMER1_ID);
+     assertNotNull(customer);
+     assertEquals(CUSTOMER1_FIRST_NAME, customer.getFirstName());
+     assertEquals(CUSTOMER1_LAST_NAME, customer.getLastName());
+     assertEquals(CUSTOMER1_EMAIL, customer.getEmail());
+     assertEquals(CUSTOMER1_PASSWORD, customer.getPassword());
+     assertEquals(CUSTOMER1_TOKEN, customer.getToken());
+     assertEquals(CUSTOMER1_ACCOUNT_BALANCE, customer.getAccountBalance());
+
+     String newEmail = "newEmail1@gmail.com";
+     customer.setEmail(newEmail);
+     assertEquals(newEmail, customer.getEmail());
+
+     }
+     */
+
+    @Test
+    public void testUpdateOwnerPassword(){
+        Owner owner = ownerService.getOwner(OWNER1_ID);
+        assertNotNull(owner);
+        assertEquals(OWNER1_FIRST_NAME, owner.getFirstName());
+        assertEquals(OWNER1_LAST_NAME, owner.getLastName());
+        assertEquals(OWNER1_EMAIL, owner.getEmail());
+        assertEquals(OWNER1_PASSWORD, owner.getPassword());
+        assertEquals(OWNER1_TOKEN, owner.getToken());
+
+        String newPassword = "newPassword123!";
+        owner.setPassword(newPassword);
+        assertEquals(newPassword, owner.getPassword());
+
+    }
 }
