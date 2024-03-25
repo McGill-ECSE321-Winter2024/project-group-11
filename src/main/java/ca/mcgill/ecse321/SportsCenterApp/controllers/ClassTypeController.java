@@ -29,7 +29,7 @@ public class ClassTypeController {
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -100,7 +100,7 @@ public class ClassTypeController {
             ClassType classType = service.updateClassType(id, classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.getDifficultyLevel());
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
