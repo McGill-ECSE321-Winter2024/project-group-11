@@ -17,6 +17,9 @@ import ca.mcgill.ecse321.SportsCenterApp.dto.CustomerDto;
 
 import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("")
@@ -48,9 +51,13 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/customers")
+    public List<CustomerDto> getAllCustomers() {
+        return customerService.getAllCustomers().stream().map(i -> convertToDto(i)).collect(Collectors.toList());
+    }
 
-    @PutMapping(value = { "/customer/update-balance/{aId}" , "/customer/update-balance/{aId}/"})
-    public ResponseEntity<?> updateCustomer(@PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
+    @PutMapping(value = { "/customer/{aId}/update-balance" , "/customer/{aId}/update-balance/"})
+    public ResponseEntity<?> updateCustomer(@PathVariable("aId") Integer aId, @RequestParam("updated-balance") float aAccoutBalance){
         try{
             Customer customer = customerService.updateCustomer(aId, aAccoutBalance);
 
@@ -61,9 +68,15 @@ public class CustomerController {
     }
 
     @DeleteMapping(value = {"/customer/{aId}" , "/customer/{aId}/"})
-    public void deleteCustomer(@PathVariable("aId") Integer aId){
-        customerService.deleteCustomer(aId);
+    public ResponseEntity<?> deleteCustomer(@PathVariable Integer aId){
+        try {
+            customerService.deleteCustomer(aId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
+
 
     private CustomerDto convertToDto(Customer customer){
         if (customer == null) {
