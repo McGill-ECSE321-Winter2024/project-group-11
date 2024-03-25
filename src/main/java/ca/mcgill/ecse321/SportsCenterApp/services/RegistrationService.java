@@ -131,7 +131,6 @@ public class RegistrationService {
         }
     }
 
-    //commplete other updates if time permits
-
+    //complete other updates if time permits
 
 }

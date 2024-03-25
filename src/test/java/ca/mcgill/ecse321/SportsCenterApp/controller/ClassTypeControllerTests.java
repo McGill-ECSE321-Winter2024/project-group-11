@@ -55,8 +55,6 @@ public class ClassTypeControllerTests {
 
     private List<String> testCreateClassType(){
 
-
-
         List<String> parameters = new ArrayList<>();
         ClassTypeDto classTypeDto = new ClassTypeDto("yoga", "description", true, ClassType.DifficultyLevel.Advanced, null);
 
