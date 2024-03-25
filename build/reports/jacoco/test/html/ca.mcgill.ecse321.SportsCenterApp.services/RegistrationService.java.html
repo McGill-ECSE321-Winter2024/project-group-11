@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegistrationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.services</a> &gt; <span class="el_source">RegistrationService.java</span></div><h1>RegistrationService.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.mcgill.ecse321.SportsCenterApp.model.*;
+import ca.mcgill.ecse321.SportsCenterApp.repository.*;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.*;
+
+@Service
+<span class="fc" id="L15">public class RegistrationService {</span>
+    
+    @Autowired
+    private RegistrationRepository registrationRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
+
+
+    //TODO add a check to see if customer is already registered to the session.
+    @Transactional
+    public Registration createRegistration(Date aDate, Time aTime, Integer customerId, Integer sessionId){
+<span class="nc" id="L30">        Optional&lt;Session&gt; session = sessionRepository.findById(sessionId);</span>
+<span class="nc" id="L31">        Optional&lt;Customer&gt; customer = customerRepository.findById(customerId);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (session.isEmpty()) {</span>
+<span class="nc" id="L33">            throw new IllegalArgumentException(&quot;Could not find session&quot;);</span>
+        }
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (customer.isEmpty()) {</span>
+<span class="nc" id="L36">            throw new IllegalArgumentException(&quot;Could not find customer&quot;);</span>
+        }
+<span class="nc" id="L38">        Session aSession = session.get();</span>
+<span class="nc" id="L39">        Customer aCustomer = customer.get();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (aSession.getRemainingCapacity() &lt; 1) {</span>
+<span class="nc" id="L41">            throw new IllegalArgumentException(&quot;This session is already full!&quot;);</span>
+        }
+<span class="nc" id="L43">        float sessionPrice = aSession.getPrice();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (aCustomer.getAccountBalance() &lt; sessionPrice) {</span>
+<span class="nc" id="L45">            throw new IllegalArgumentException(&quot;Insufficient funds to register for this session.&quot;);</span>
+        }
+
+<span class="nc" id="L48">        Registration registration = new Registration(aDate, aTime, aCustomer, aSession);</span>
+
+        //This decrements capacity of session by 1. (update)
+<span class="nc" id="L51">        int book = sessionRepository.updateSessionById(aSession.getId(), aSession.getDate(), aSession.getStartTime(), aSession.getEndTime(), aSession.getPrice(), aSession.getRemainingCapacity() - 1, aSession.getRoomNumber(), aSession.getClassType());</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (book == 0) {</span>
+<span class="nc" id="L53">            throw new IllegalArgumentException(&quot;Could not get session information.&quot;);</span>
+        }
+        //updates customers balance after registering for session.
+<span class="nc" id="L56">        customerService.updateCustomer(aCustomer.getId(), aCustomer.getAccountBalance() - sessionPrice);</span>
+<span class="nc" id="L57">        return registrationRepository.save(registration);</span>
+
+    }
+
+    @Transactional
+    public Registration getRegistration(Integer id){
+<span class="nc" id="L63">        Optional&lt;Registration&gt; registration = registrationRepository.findById(id);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (registration.isPresent()){</span>
+<span class="nc" id="L65">            return registration.get();</span>
+        }
+        else {
+<span class="nc" id="L68">            throw new IllegalArgumentException(&quot;Registration not found for id: &quot; + id);</span>
+        }
+    }
+
+    //verify
+    @Transactional
+    public Iterable&lt;Registration&gt; getAllRegistrations() {
+<span class="nc" id="L75">        return registrationRepository.findAll();</span>
+    }
+    
+    @Transactional
+    public void deleteRegistration(Integer id) {
+<span class="nc" id="L80">        Optional&lt;Registration&gt; registration = registrationRepository.findById(id);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (registration.isEmpty()) {</span>
+<span class="nc" id="L82">            throw new IllegalArgumentException(&quot;Could not find registration with id: &quot; + id);</span>
+        }
+<span class="nc" id="L84">        Registration reg = registration.get();</span>
+<span class="nc" id="L85">        Session session = reg.getSession();</span>
+<span class="nc" id="L86">        Customer customer = reg.getCustomer();</span>
+
+        // 1. refund customer money if successful
+        // 2.  +1 remainingCap to session
+        // 4a. if current date is past session date, dont allow.
+<span class="nc" id="L91">        customerService.updateCustomer(customer.getId(), customer.getAccountBalance() + session.getPrice());</span>
+<span class="nc" id="L92">        int book = sessionRepository.updateSessionById(session.getId(), session.getDate(), session.getStartTime(), session.getEndTime(), session.getPrice(),</span>
+<span class="nc" id="L93">                session.getRemainingCapacity() + 1, session.getRoomNumber(), session.getClassType());</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (book == 0) {</span>
+<span class="nc" id="L95">            throw new IllegalArgumentException(&quot;Could not update session&quot;);</span>
+        }
+<span class="nc" id="L97">        registrationRepository.deleteById(id);</span>
+<span class="nc" id="L98">    }</span>
+
+    //update session
+    @Transactional 
+    public Registration updateRegistrationBySession(Integer registrationId, Integer sessionId){
+<span class="nc" id="L103">        Optional&lt;Registration&gt; registration = registrationRepository.findById(registrationId);</span>
+<span class="nc" id="L104">        Optional&lt;Session&gt; session = sessionRepository.findById(sessionId);</span>
+        
+<span class="nc bnc" id="L106" title="All 4 branches missed.">        if (registration.isPresent() &amp;&amp; session.isPresent()){</span>
+<span class="nc" id="L107">            Registration updatedRegistration = registration.get();</span>
+<span class="nc" id="L108">            Session newSession = session.get();</span>
+<span class="nc" id="L109">            updatedRegistration.setSession(newSession);</span>
+<span class="nc" id="L110">            return registrationRepository.save(updatedRegistration);</span>
+        }
+        else{
+<span class="nc" id="L113">            throw new IllegalArgumentException(&quot;Registration could not be updated with session id: &quot; + sessionId); //rewrite message</span>
+        }
+    }
+
+    //TODO migbt not be required for the application
+    @Transactional 
+    public Registration updateRegistrationByCustomer(Integer registrationId, Integer customerId){
+<span class="nc" id="L120">        Optional&lt;Registration&gt; registration = registrationRepository.findById(registrationId);</span>
+<span class="nc" id="L121">        Optional&lt;Customer&gt; customer = customerRepository.findById(customerId);</span>
+        
+<span class="nc bnc" id="L123" title="All 4 branches missed.">        if (registration.isPresent() &amp;&amp; customer.isPresent()) {</span>
+<span class="nc" id="L124">            Registration updatedRegistration = registration.get();</span>
+<span class="nc" id="L125">            Customer newCustomer = customer.get();</span>
+<span class="nc" id="L126">            updatedRegistration.setCustomer(newCustomer);</span>
+<span class="nc" id="L127">            return registrationRepository.save(updatedRegistration);</span>
+        }
+        else {
+<span class="nc" id="L130">            throw new IllegalArgumentException(&quot;Registration could not be updated with customer id: &quot; + customerId); //rewrite message</span>
+        }
+    }
+
+    //complete other updates if time permits
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

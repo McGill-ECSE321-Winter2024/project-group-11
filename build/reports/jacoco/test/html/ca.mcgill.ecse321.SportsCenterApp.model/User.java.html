@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.model</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.model;
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
+
+
+import jakarta.persistence.*;
+
+// line 2 &quot;model.ump&quot;
+// line 67 &quot;model.ump&quot;
+
+@Entity
+@Table(name = &quot;UserTable&quot;)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //User Attributes
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+  private String token;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+
+<span class="fc" id="L38">  public User(String firstName, String lastName, String email, String password, String token) {</span>
+<span class="fc" id="L39">    this.firstName = firstName;</span>
+<span class="fc" id="L40">    this.lastName = lastName;</span>
+<span class="fc" id="L41">    this.email = email;</span>
+<span class="fc" id="L42">    this.password = password;</span>
+<span class="fc" id="L43">    this.token = token;</span>
+<span class="fc" id="L44">  }</span>
+
+<span class="nc" id="L46">  public User(String firstName, String lastName, String email, String password, Integer id, String token) {</span>
+<span class="nc" id="L47">    this.firstName = firstName;</span>
+<span class="nc" id="L48">    this.lastName = lastName;</span>
+<span class="nc" id="L49">    this.email = email;</span>
+<span class="nc" id="L50">    this.password = password;</span>
+<span class="nc" id="L51">    this.id = id;</span>
+<span class="nc" id="L52">    this.token = token;</span>
+<span class="nc" id="L53">  }</span>
+
+<span class="fc" id="L55">  public User() {</span>
+
+<span class="fc" id="L57">  }</span>
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setFirstName(String aFirstName)
+  {
+<span class="nc" id="L65">    boolean wasSet = false;</span>
+<span class="nc" id="L66">    firstName = aFirstName;</span>
+<span class="nc" id="L67">    wasSet = true;</span>
+<span class="nc" id="L68">    return wasSet;</span>
+  }
+
+  public boolean setLastName(String aLastName)
+  {
+<span class="nc" id="L73">    boolean wasSet = false;</span>
+<span class="nc" id="L74">    lastName = aLastName;</span>
+<span class="nc" id="L75">    wasSet = true;</span>
+<span class="nc" id="L76">    return wasSet;</span>
+  }
+
+  public boolean setEmail(String aEmail)
+  {
+<span class="nc" id="L81">    boolean wasSet = false;</span>
+<span class="nc" id="L82">    email = aEmail;</span>
+<span class="nc" id="L83">    wasSet = true;</span>
+<span class="nc" id="L84">    return wasSet;</span>
+  }
+
+  public boolean setPassword(String aPassword)
+  {
+<span class="nc" id="L89">    boolean wasSet = false;</span>
+<span class="nc" id="L90">    password = aPassword;</span>
+<span class="nc" id="L91">    wasSet = true;</span>
+<span class="nc" id="L92">    return wasSet;</span>
+  }
+
+  public boolean setId(Integer aId)
+  {
+<span class="nc" id="L97">    boolean wasSet = false;</span>
+<span class="nc" id="L98">    id = aId;</span>
+<span class="nc" id="L99">    wasSet = true;</span>
+<span class="nc" id="L100">    return wasSet;</span>
+  }
+
+  public String getFirstName()
+  {
+<span class="fc" id="L105">    return firstName;</span>
+  }
+
+  public String getLastName()
+  {
+<span class="fc" id="L110">    return lastName;</span>
+  }
+
+  public String getEmail()
+  {
+<span class="fc" id="L115">    return email;</span>
+  }
+
+  public String getPassword()
+  {
+<span class="fc" id="L120">    return password;</span>
+  }
+
+  public Integer getId()
+  {
+<span class="fc" id="L125">    return id;</span>
+  }
+
+  public void delete()
+<span class="nc" id="L129">  {}</span>
+
+
+  public String toString()
+  {
+<span class="nc" id="L134">    return super.toString() + &quot;[&quot;+</span>
+<span class="nc" id="L135">            &quot;firstName&quot; + &quot;:&quot; + getFirstName()+ &quot;,&quot; +</span>
+<span class="nc" id="L136">            &quot;lastName&quot; + &quot;:&quot; + getLastName()+ &quot;,&quot; +</span>
+<span class="nc" id="L137">            &quot;email&quot; + &quot;:&quot; + getEmail()+ &quot;,&quot; +</span>
+<span class="nc" id="L138">            &quot;password&quot; + &quot;:&quot; + getPassword()+ &quot;,&quot; +</span>
+<span class="nc" id="L139">            &quot;id&quot; + &quot;:&quot; + getId()+ &quot;]&quot;;</span>
+  }
+  public String getToken() {
+<span class="fc" id="L142">    return token;</span>
+  }
+  public void setToken(String token) {
+<span class="nc" id="L145">    this.token = token;</span>
+<span class="nc" id="L146">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

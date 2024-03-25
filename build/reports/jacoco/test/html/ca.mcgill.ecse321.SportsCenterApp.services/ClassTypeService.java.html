@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassTypeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.services</a> &gt; <span class="el_source">ClassTypeService.java</span></div><h1>ClassTypeService.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import ca.mcgill.ecse321.SportsCenterApp.repository.ClassTypeRepository;
+import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
+import ca.mcgill.ecse321.SportsCenterApp.model.ClassType.DifficultyLevel;
+
+
+import java.util.*;
+
+@Service
+<span class="fc" id="L14">public class ClassTypeService {</span>
+
+    @Autowired
+    ClassTypeRepository classTypeRepository;
+
+
+    @Transactional
+    public ClassType creatClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel){
+
+<span class="nc bnc" id="L23" title="All 4 branches missed.">        if (name == null || name.isEmpty()) {</span>
+<span class="nc" id="L24">            throw new IllegalArgumentException(&quot;Name cannot be empty!&quot;);</span>
+        }
+
+
+<span class="nc bnc" id="L28" title="All 4 branches missed.">        if (description == null || description.isEmpty()) {</span>
+<span class="nc" id="L29">            throw new IllegalArgumentException(&quot;description cannot be empty!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (difficultyLevel == null) {</span>
+<span class="nc" id="L33">            throw new IllegalArgumentException(&quot;Difficulty Level cannot be null!&quot;);</span>
+        }
+
+
+
+
+<span class="nc" id="L39">        ClassType classType = new ClassType(name, description, approved, difficultyLevel);</span>
+
+<span class="nc" id="L41">        classTypeRepository.save(classType);</span>
+
+<span class="nc" id="L43">        return classType;</span>
+    }
+
+    /**
+     * Returns a class type based on id
+     * @param id class Type id
+     * @return a classType.
+     */
+    @Transactional
+    public ClassType getClassType(Integer id) {
+<span class="nc" id="L53">        Optional&lt;ClassType&gt; classType = classTypeRepository.findById(id);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (classType.isPresent()){</span>
+<span class="nc" id="L56">            return classType.get();</span>
+        }
+        else {
+<span class="nc" id="L59">            throw new IllegalArgumentException(&quot;Class not found for id: &quot; + id);</span>
+        }
+    }
+
+
+    /**
+     * Returns a class type based on name
+     * @param className class Type name
+     * @return a classType.
+     */
+    @Transactional
+    public ClassType getClassType(String className) {
+<span class="nc" id="L71">        ClassType classType = classTypeRepository.findClassTypeByName(className);</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (classType != null){</span>
+<span class="nc" id="L74">            return classType;</span>
+        }
+        else {
+<span class="nc" id="L77">            throw new IllegalArgumentException(&quot;Class &quot; + className + &quot; not found&quot;);</span>
+        }
+    }
+    
+
+    /**
+     * Returns all class types (approved or not)
+     * @return a list of classType.
+     */
+    @Transactional
+    public List&lt;ClassType&gt; getAllClassTypes(){
+<span class="nc" id="L88">        return toList(classTypeRepository.findAll());</span>
+    }
+
+
+        /**
+     * Returns all approved class types
+     * @return a list of approved class types.
+     */
+    @Transactional 
+    public List&lt;ClassType&gt; getAllApprovedClassTypes() {
+<span class="nc" id="L98">        List&lt;ClassType&gt; allClassTypes = toList(classTypeRepository.findAll());</span>
+<span class="nc" id="L99">        Iterator&lt;ClassType&gt; iterator = allClassTypes.iterator();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
+<span class="nc" id="L101">            ClassType c = iterator.next();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (!c.getApproved()) {</span>
+<span class="nc" id="L103">                iterator.remove(); // Remove the element from the list using iterator</span>
+            }
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">        return allClassTypes;</span>
+    }
+
+
+
+    /**
+     * Updates a classType based on the parameter provided
+     * if null = we dont want to update the field
+     * @param id classType id.
+     * @param newName new name for the class Type.
+     * @param newDesc new description for the class Type.
+     * @param newLevel new difficulty level for the class Type.
+     * @return classType or error message if classType is not found.
+     */
+    @Transactional
+    public ClassType updateClassType(Integer id, String newName, String newDesc, DifficultyLevel newLevel) {
+<span class="nc" id="L122">    Optional&lt;ClassType&gt; classTypeOptional = classTypeRepository.findById(id);</span>
+
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    if (classTypeOptional.isPresent()) {</span>
+<span class="nc" id="L125">        ClassType classType = classTypeOptional.get();</span>
+        
+        // Update properties if provided
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (newName != null) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if(newName.isEmpty()) {</span>
+<span class="nc" id="L130">                throw new IllegalArgumentException(&quot;Name cannot be empty!&quot;);</span>
+            }
+<span class="nc" id="L132">            classType.setName(newName);</span>
+        }
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (newDesc != null) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (newDesc.isEmpty()) {</span>
+<span class="nc" id="L136">                throw new IllegalArgumentException(&quot;description cannot be empty!&quot;);</span>
+            }
+<span class="nc" id="L138">            classType.setDescription(newDesc);</span>
+        }
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (newLevel != null) {</span>
+<span class="nc" id="L141">            classType.setDifficultyLevel(newLevel);</span>
+        }
+        
+        // Save the updated classType
+<span class="nc" id="L145">        classTypeRepository.save(classType);</span>
+        
+<span class="nc" id="L147">        return classType;</span>
+    } else {
+<span class="nc" id="L149">        throw new IllegalArgumentException(&quot;ClassType not found for id: &quot; + id);</span>
+    }
+}
+
+
+
+    /**
+     * Approves a class
+     * sets the boolean field to true
+     * @param id classType id.
+     * @return classType or error message if classType is not found.
+     */
+    @Transactional
+    public ClassType approveClassType(Integer id){
+
+<span class="nc" id="L164">        Optional&lt;ClassType&gt; classType = classTypeRepository.findById(id);</span>
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (classType.isPresent()){</span>
+<span class="nc" id="L167">           ClassType classT = classType.get();</span>
+
+<span class="nc" id="L169">           classT.setApproved(true);</span>
+<span class="nc" id="L170">           classTypeRepository.save(classT);</span>
+
+<span class="nc" id="L172">           return classT;</span>
+        } else {
+
+<span class="nc" id="L175">            throw new IllegalArgumentException(&quot;ClassType not found for id: &quot;+ id);</span>
+        }
+
+    }
+
+
+    /**
+     * disaprove a class
+     * sets the boolean field to false
+     * @param id classType id.
+     * @return classType or error message if classType is not found.
+     */
+    @Transactional
+    public ClassType disapproveClassType(Integer id){
+
+<span class="nc" id="L190">        Optional&lt;ClassType&gt; classType = classTypeRepository.findById(id);</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (classType.isPresent()){</span>
+<span class="nc" id="L193">           ClassType classT = classType.get();</span>
+
+<span class="nc" id="L195">           classT.setApproved(false);</span>
+<span class="nc" id="L196">           classTypeRepository.save(classT);</span>
+<span class="nc" id="L197">           return classT;</span>
+        } else {
+
+<span class="nc" id="L200">            throw new IllegalArgumentException(&quot;ClassType not found for id: &quot;+ id);</span>
+        }
+
+    }
+
+
+
+    /**
+     * delete a class by id
+     * @param id classType id.
+     * @return nothing
+     */
+    @Transactional
+    public void deleteClassType(Integer id){
+<span class="nc" id="L214">        classTypeRepository.deleteById(id);</span>
+<span class="nc" id="L215">    }</span>
+
+    private &lt;T&gt; List&lt;T&gt; toList(Iterable&lt;T&gt; iterable) {
+<span class="nc" id="L218">        List&lt;T&gt; resultList = new ArrayList&lt;T&gt;();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        for (T t : iterable){</span>
+<span class="nc" id="L220">            resultList.add(t);</span>
+<span class="nc" id="L221">        }</span>
+<span class="nc" id="L222">        return resultList;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

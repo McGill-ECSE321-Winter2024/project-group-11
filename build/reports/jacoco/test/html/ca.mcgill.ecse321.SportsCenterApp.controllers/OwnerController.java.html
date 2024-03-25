@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.controllers</a> &gt; <span class="el_source">OwnerController.java</span></div><h1>OwnerController.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.controllers;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.CustomerDto;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import ca.mcgill.ecse321.SportsCenterApp.model.Owner;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.OwnerDto;
+
+import ca.mcgill.ecse321.SportsCenterApp.services.OwnerService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;&quot;)
+<span class="fc" id="L23">public class OwnerController {</span>
+
+    @Autowired
+    private OwnerService ownerService;
+
+    @PostMapping(value = { &quot;/owner&quot; , &quot;/owner/&quot;})
+    public ResponseEntity&lt;?&gt; createOwner(@RequestBody OwnerDto ownerDto){
+                                        try{
+<span class="fc" id="L31">                                            Owner owner = ownerService.createOwner(ownerDto.getFirstName(), ownerDto.getLastName(), ownerDto.getEmail(), ownerDto.getPassword(), ownerDto.getToken());</span>
+<span class="fc" id="L32">                                            return new ResponseEntity&lt;&gt;(convertToDto(owner), HttpStatus.CREATED);</span>
+<span class="nc" id="L33">                                        }catch (Exception e){</span>
+<span class="nc" id="L34">                                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Error creating owner&quot;, e);</span>
+                                        }
+                                    }
+
+
+
+    @GetMapping(value = { &quot;/owner/{aId}&quot;, &quot;/owner/{aId}/&quot;})
+    public ResponseEntity&lt;?&gt; getOwner(@PathVariable(&quot;aId&quot;) Integer aId){
+        try{
+<span class="fc" id="L43">            OwnerDto ownerDto = DtoConverter.convertToDto(ownerService.getOwner(aId));</span>
+<span class="fc" id="L44">            return new ResponseEntity&lt;&gt;(ownerDto, HttpStatus.OK);</span>
+<span class="nc" id="L45">        }catch (Exception e){</span>
+<span class="nc" id="L46">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+
+    @GetMapping(&quot;/owners&quot;)
+    public List&lt;OwnerDto&gt; getAllOwners() {
+<span class="fc" id="L53">        return ownerService.getAllOwners().stream().map(i -&gt; convertToDto(i)).collect(Collectors.toList());</span>
+    }
+
+    @PutMapping(&quot;/owner/{id}/password&quot;)
+    public ResponseEntity&lt;?&gt; updateOwnerPassword (@PathVariable Integer id, @RequestParam String newPassword){
+        try{
+<span class="nc" id="L59">            Owner owner = ownerService.updateOwnerPassword(id, newPassword);</span>
+<span class="nc" id="L60">            return new ResponseEntity&lt;&gt;(convertToDto(owner), HttpStatus.OK);</span>
+<span class="nc" id="L61">        }catch (Exception e){</span>
+<span class="nc" id="L62">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    @DeleteMapping(value = {&quot;/owner/{aId}&quot; , &quot;/owner/{aId}/&quot;})
+    public ResponseEntity&lt;?&gt; deleteOwner(@PathVariable(&quot;aId&quot;) Integer aId){
+        try{
+<span class="nc" id="L70">            ownerService.deleteOwner(aId);</span>
+<span class="nc" id="L71">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+<span class="nc" id="L72">        }catch (IllegalArgumentException e){</span>
+<span class="nc" id="L73">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    private OwnerDto convertToDto(Owner owner){
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (owner == null){</span>
+<span class="nc" id="L79">            throw new IllegalArgumentException(&quot;There is no such owner&quot;);</span>
+        }
+<span class="fc" id="L81">        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());</span>
+<span class="fc" id="L82">        return ownerDto;</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

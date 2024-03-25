@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InstructorController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.controllers</a> &gt; <span class="el_source">InstructorController.java</span></div><h1>InstructorController.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.controllers;
+
+
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.InstructorDto;
+import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
+import ca.mcgill.ecse321.SportsCenterApp.services.InstructorService;
+
+import java.util.*;
+
+
+
+@CrossOrigin(origins = &quot;*&quot;)
+@RestController
+<span class="fc" id="L21">public class InstructorController {</span>
+
+    @Autowired
+    private InstructorService service;
+
+
+    /**
+     * POST request to create a new Instructor
+     * @param InstructorDto (InstructorDto)
+     * @return a insturctor dto
+     */
+    @PostMapping(&quot;/instructor&quot;)
+    public ResponseEntity&lt;?&gt; createInstructor(@RequestBody InstructorDto instructorDto) {
+        try {
+<span class="nc" id="L35">            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getToken(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());</span>
+<span class="nc" id="L36">            return new ResponseEntity&lt;&gt;(convertToDto(instructor), HttpStatus.CREATED);</span>
+<span class="nc" id="L37">        } catch (Exception e) {</span>
+<span class="nc" id="L38">            System.out.println(e);</span>
+<span class="nc" id="L39">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+
+    /**
+     * GET request to retrieve all instructors
+     * @return a list of instructors
+     */
+    @GetMapping(&quot;/instructors&quot;)
+    public List&lt;InstructorDto&gt; getAllInstructors() {
+<span class="nc" id="L50">        return service.getAllInstructors().stream().map(i -&gt; convertToDto(i)).collect(Collectors.toList());</span>
+    }
+
+    /**
+     * GET request to retrieve a instructor by ID
+     * @param id (Integer) ID of the instructor
+     * @return class type dto
+     */
+    @GetMapping(&quot;/instructors/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getInstructorById(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L61">            Instructor instructor = service.getInstructor(id);</span>
+<span class="nc" id="L62">            return new ResponseEntity&lt;&gt;(convertToDto(instructor), HttpStatus.OK);</span>
+<span class="nc" id="L63">        } catch (Exception e) {</span>
+<span class="nc" id="L64">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    /**
+     * GET request to retrieve a instructor by email
+     * @param email (String) email of the instructor
+     * @return Instructor type dto
+     */
+    @GetMapping(&quot;/instructors/email/{email}&quot;)
+    public ResponseEntity&lt;?&gt; getInstructorByEmail(@PathVariable String email) {
+        try {
+<span class="nc" id="L77">            Instructor instructor = service.getInstructorByEmail(email);</span>
+<span class="nc" id="L78">            return new ResponseEntity&lt;&gt;(convertToDto(instructor), HttpStatus.OK);</span>
+<span class="nc" id="L79">        } catch (Exception e) {</span>
+<span class="nc" id="L80">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    /**
+     * PUT request to update a instructor password by ID
+     * @param id (Integer) ID of the instructor
+     * @param newPassword (String) new desired password
+     * @return Instructor dto
+     */
+    @PutMapping(&quot;/instructors/{id}/password&quot;)
+    public ResponseEntity&lt;?&gt; updateInstructorPassword (@PathVariable Integer id, @RequestParam String newPassword) {
+
+        try {
+<span class="nc" id="L95">            Instructor instructor = service.updateInstructorPassword(id, newPassword);</span>
+<span class="nc" id="L96">            return new ResponseEntity&lt;&gt;(convertToDto(instructor), HttpStatus.OK);</span>
+<span class="nc" id="L97">        } catch (Exception e) {</span>
+<span class="nc" id="L98">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+
+    }
+
+
+    /**
+     * PUT request to update a instructor password by email
+     * @param email (String) of the instructor
+     * @param newPassword (String) new desired password
+     * @return Instructor dto
+     */
+    @PutMapping(&quot;/instructors/email/{email}/password&quot;)
+    public ResponseEntity&lt;?&gt; updateInstructorPassword (@PathVariable String email, @RequestParam String newPassword) {
+
+        try {
+<span class="nc" id="L114">            Instructor instructor = service.updateInstructorPassword(email, newPassword);</span>
+<span class="nc" id="L115">            return new ResponseEntity&lt;&gt;(convertToDto(instructor), HttpStatus.OK);</span>
+<span class="nc" id="L116">        } catch (Exception e) {</span>
+<span class="nc" id="L117">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+
+    }
+
+    /**
+     * DELETE request to delete a instructor
+     * @param id of the of the instructor to delete
+     * @return Status no content (204)
+     */
+
+    @DeleteMapping(&quot;/instructors/{id}&quot;)
+    public ResponseEntity&lt;?&gt; deleteInstructor(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L131">            service.deleteInstructor(id);</span>
+<span class="nc" id="L132">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+<span class="nc" id="L133">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L134">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+
+    private InstructorDto convertToDto(Instructor instructor){
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (instructor == null) {</span>
+<span class="nc" id="L142">            throw new IllegalArgumentException(&quot;There is no such instructor&quot;);</span>
+        }
+<span class="nc" id="L144">        InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());</span>
+<span class="nc" id="L145">        return instructorDto;</span>
+    }
+
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

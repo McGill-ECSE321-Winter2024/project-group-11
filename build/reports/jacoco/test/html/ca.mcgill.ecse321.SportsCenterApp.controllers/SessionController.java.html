@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.controllers</a> &gt; <span class="el_source">SessionController.java</span></div><h1>SessionController.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.controllers;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.SessionDto;
+import ca.mcgill.ecse321.SportsCenterApp.model.Session;
+import ca.mcgill.ecse321.SportsCenterApp.services.SessionService;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;/session&quot;)
+public class SessionController {
+
+
+    private final SessionService sessionService;
+
+<span class="fc" id="L21">    public SessionController(SessionService sessionService) {</span>
+<span class="fc" id="L22">        this.sessionService = sessionService;</span>
+<span class="fc" id="L23">    }</span>
+
+    @GetMapping(&quot;/&quot;)
+    public ResponseEntity&lt;List&lt;SessionDto&gt;&gt; getSessions() {
+        try {
+<span class="nc" id="L28">            List&lt;SessionDto&gt; sessions = sessionService.getAllSessions().stream().map(DtoConverter::convertToDto).collect(Collectors.toList());</span>
+<span class="nc" id="L29">            return new ResponseEntity&lt;&gt;(sessions, HttpStatus.OK);</span>
+<span class="nc" id="L30">        } catch (Exception e) {</span>
+<span class="nc" id="L31">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L32">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getSession(@PathVariable(&quot;id&quot;) Integer id) {
+        try {
+<span class="nc" id="L39">            SessionDto session = DtoConverter.convertToDto(sessionService.getSession(id));</span>
+<span class="nc" id="L40">            return new ResponseEntity&lt;&gt;(session, HttpStatus.OK);</span>
+<span class="nc" id="L41">        } catch (Exception e) {</span>
+<span class="nc" id="L42">            System.out.println(e);</span>
+<span class="nc" id="L43">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+
+    }
+    //TODO maybe dont allow instructor to be updated. (instructor update handled by dropInstructor, addInstructor)
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;?&gt; updateSession(@PathVariable(&quot;id&quot;) Integer id, @RequestBody SessionDto sessionDto) {
+        try {
+            @SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L52">            int updateCount = sessionService.updateSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),</span>
+<span class="nc" id="L53">                            sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId(), sessionDto.getId());</span>
+<span class="nc" id="L54">            return new ResponseEntity&lt;&gt;(updateCount, HttpStatus.OK);</span>
+<span class="nc" id="L55">        } catch (IllegalArgumentException e) {</span>
+
+<span class="nc" id="L57">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @PutMapping(&quot;/{id}/instructor/{instructorId}&quot;)
+    public ResponseEntity&lt;?&gt; addInstructorToSession(@PathVariable(&quot;id&quot;) Integer id, @PathVariable(&quot;instructorId&quot;) Integer instructorId) {
+        try {
+<span class="nc" id="L64">            Session success = sessionService.addInstructorToSession(id, instructorId);</span>
+
+<span class="nc" id="L66">            return new ResponseEntity&lt;&gt;(DtoConverter.convertToDto(success), HttpStatus.OK);</span>
+<span class="nc" id="L67">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (e instanceof IllegalArgumentException) {</span>
+<span class="nc" id="L69">                System.out.println(e.getMessage());</span>
+<span class="nc" id="L70">                return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+            }
+<span class="nc" id="L72">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+    @PutMapping(&quot;/{id}/instructor&quot;)
+    public ResponseEntity&lt;?&gt; dropInstructorFromSession(@PathVariable(&quot;id&quot;) Integer id) {
+        try {
+<span class="nc" id="L78">            Integer status = sessionService.dropInstructorFromSession(id);</span>
+<span class="nc" id="L79">            return new ResponseEntity&lt;&gt;(status, HttpStatus.OK);</span>
+<span class="nc" id="L80">        } catch (Exception e) {</span>
+<span class="nc" id="L81">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L82">            return new ResponseEntity&lt;&gt;(0, HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    //TODO findallsession by instructorID (for insturcot to see what sessions hes teaching)
+    @GetMapping(&quot;/instructor/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getAllSessionsByInstructorId(@PathVariable(&quot;id&quot;) Integer id) {
+        try {
+<span class="nc" id="L90">            List&lt;Session&gt; session = sessionService.getAllSessionsByInstructorId(id);</span>
+<span class="nc" id="L91">            List&lt;SessionDto&gt; sessions = session.stream().map(DtoConverter::convertToDto).toList();</span>
+<span class="nc" id="L92">            return new ResponseEntity&lt;&gt;(sessionService.getAllSessionsByInstructorId(id), HttpStatus.OK);</span>
+<span class="nc" id="L93">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L94">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+
+    @PostMapping(&quot;/&quot;)
+    public ResponseEntity&lt;?&gt; createSession(@RequestBody SessionDto sessionDto) {
+        try {
+<span class="nc" id="L102">            Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),</span>
+<span class="nc" id="L103">                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId());</span>
+<span class="nc" id="L104">            return new ResponseEntity&lt;&gt;(session, HttpStatus.CREATED);</span>
+<span class="nc" id="L105">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L106">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L107">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;String&gt; deleteSession(@PathVariable(&quot;id&quot;) Integer id) {
+        try {
+<span class="nc" id="L114">            sessionService.deleteSession(id);</span>
+<span class="nc" id="L115">            return new ResponseEntity&lt;&gt;(&quot;Successfully deleted&quot;, HttpStatus.OK);</span>
+<span class="nc" id="L116">        } catch (Exception e) {</span>
+<span class="nc" id="L117">            return new ResponseEntity&lt;&gt;(&quot;Error deleting&quot;, HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

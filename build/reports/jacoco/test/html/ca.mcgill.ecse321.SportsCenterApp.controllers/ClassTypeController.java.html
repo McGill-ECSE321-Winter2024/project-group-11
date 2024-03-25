@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassTypeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.controllers</a> &gt; <span class="el_source">ClassTypeController.java</span></div><h1>ClassTypeController.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.controllers;
+
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.ClassTypeDto;
+import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
+import ca.mcgill.ecse321.SportsCenterApp.services.ClassTypeService;
+
+import java.util.*;
+
+
+
+@CrossOrigin(origins = &quot;*&quot;)
+@RestController
+<span class="fc" id="L20">public class ClassTypeController {</span>
+
+    @Autowired
+    private ClassTypeService service;
+
+    @PostMapping(&quot;/classtype&quot;)
+    public ResponseEntity&lt;?&gt; createClassType(@RequestBody ClassTypeDto classTypeDto) {
+        try {
+<span class="nc" id="L28">            ClassType classType = service.creatClassType(classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.isApproved(), classTypeDto.getDifficultyLevel());</span>
+<span class="nc" id="L29">            return new ResponseEntity&lt;&gt;(convertToDto(classType), HttpStatus.CREATED);</span>
+<span class="nc" id="L30">        } catch (Exception e) {</span>
+<span class="nc" id="L31">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L32">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    /**
+     * GET request to retrieve all ClassTypes
+     * @return class type dto
+     */
+    @GetMapping(&quot;/classtypes&quot;)
+    public List&lt;ClassTypeDto&gt; getAllClassTypes(){
+
+<span class="nc" id="L43">        return service.getAllClassTypes().stream().map(c -&gt; convertToDto(c)).collect(Collectors.toList());</span>
+    }
+
+
+    /**
+     * GET request to retrieve all approved ClassTypes
+     * @return class type dto
+     */
+    @GetMapping(&quot;/classtypes/approved&quot;)
+    public List&lt;ClassTypeDto&gt; getAllApprovedClassTypes(){
+
+<span class="nc" id="L54">        return service.getAllApprovedClassTypes().stream().map(c -&gt; convertToDto(c)).collect(Collectors.toList());</span>
+    }
+
+
+
+     /**
+     * GET request to retrieve a ClassType by Name
+     * @param name (String) Name of the ClassType
+     * @return class type dto
+     */
+    @GetMapping(&quot;/classtypes/name/{name}&quot;)
+    public ResponseEntity&lt;?&gt; getClassTypeByName(@PathVariable String name){
+        try {
+<span class="nc" id="L67">            ClassType classType = service.getClassType(name);</span>
+<span class="nc" id="L68">            return new ResponseEntity&lt;&gt;(convertToDto(classType), HttpStatus.OK);</span>
+<span class="nc" id="L69">        } catch (Exception e) {</span>
+<span class="nc" id="L70">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    /**
+     * GET request to retrieve a ClassType by ID
+     * @param id (Integer) ID of the ClassType
+     * @return class type dto
+     */
+    @GetMapping(&quot;/classtypes/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getClassTypeById(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L83">            ClassType classType = service.getClassType(id);</span>
+<span class="nc" id="L84">            return new ResponseEntity&lt;&gt;(convertToDto(classType), HttpStatus.OK);</span>
+<span class="nc" id="L85">        } catch (Exception e) {</span>
+<span class="nc" id="L86">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+     /**
+     * PUT request to update a ClassType
+     * @param id (Integer) ID of the ClassType to update
+     * @param classTypeDto (ClassTypeDto) Updated ClassType data
+     * @return updated class type dto
+     */
+    @PutMapping(&quot;/classtypes/{id}&quot;)
+    public ResponseEntity&lt;?&gt; updateClassType(@PathVariable Integer id, @RequestBody ClassTypeDto classTypeDto) {
+        try {
+<span class="nc" id="L100">            ClassType classType = service.updateClassType(id, classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.getDifficultyLevel());</span>
+<span class="nc" id="L101">            return new ResponseEntity&lt;&gt;(convertToDto(classType), HttpStatus.OK);</span>
+<span class="nc" id="L102">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L103">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+
+     /**
+     * PUT request to approve a ClassType
+     * @param id (Integer) ID of the ClassType to approve
+     * @return approved class type dto
+     */
+    @PutMapping(&quot;/classtypes/{id}/approve&quot;)
+    public ResponseEntity&lt;?&gt; approveClassType(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L116">            ClassType approvedClassType = service.approveClassType(id);</span>
+<span class="nc" id="L117">            return new ResponseEntity&lt;&gt;(convertToDto(approvedClassType), HttpStatus.OK);</span>
+<span class="nc" id="L118">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L119">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    /**
+     * PUT request to disapprove a ClassType
+     * @param id (Integer) ID of the ClassType to disapprove
+     * @return disapproved class type dto
+     */
+    @PutMapping(&quot;/classtypes/{id}/disapprove&quot;)
+    public ResponseEntity&lt;?&gt; disapproveClassType(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L131">            ClassType disapprovedClassType = service.disapproveClassType(id);</span>
+<span class="nc" id="L132">            return new ResponseEntity&lt;&gt;(convertToDto(disapprovedClassType), HttpStatus.OK);</span>
+<span class="nc" id="L133">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L134">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    /**
+     * DELETE request to delete a classType
+     * @param id of the of the classType to delete
+     * @return Status no content (204)
+     */
+    @DeleteMapping(&quot;/classtype/{id}&quot;)
+    public ResponseEntity&lt;?&gt; deleteClassType(@PathVariable Integer id) {
+        try {
+<span class="nc" id="L147">            service.deleteClassType(id);</span>
+<span class="nc" id="L148">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+<span class="nc" id="L149">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L150">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+
+
+
+    private ClassTypeDto convertToDto(ClassType ClassType){
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (ClassType == null) {</span>
+<span class="nc" id="L160">            throw new IllegalArgumentException(&quot;There is no such ClassType&quot;);</span>
+        }
+<span class="nc" id="L162">        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());</span>
+<span class="nc" id="L163">        return ClassTypeDto;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.services</a> &gt; <span class="el_source">SessionService.java</span></div><h1>SessionService.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.services;
+
+import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
+import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
+import ca.mcgill.ecse321.SportsCenterApp.model.Session;
+import ca.mcgill.ecse321.SportsCenterApp.repository.ClassTypeRepository;
+import ca.mcgill.ecse321.SportsCenterApp.repository.InstructorRepository;
+import ca.mcgill.ecse321.SportsCenterApp.repository.SessionRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+@Service
+public class SessionService {
+
+    private final SessionRepository sessionRepository;
+    private final InstructorRepository instructorRepository;
+    private final ClassTypeRepository classTypeRepository;
+
+
+
+<span class="fc" id="L28">    public SessionService(SessionRepository sessionRepository, InstructorRepository instructorRepository, ClassTypeRepository classTypeRepository) {</span>
+<span class="fc" id="L29">        this.sessionRepository = sessionRepository;</span>
+<span class="fc" id="L30">        this.instructorRepository = instructorRepository;</span>
+<span class="fc" id="L31">        this.classTypeRepository = classTypeRepository;</span>
+<span class="fc" id="L32">    }</span>
+
+    @Transactional
+    public List&lt;Session&gt; getAllSessions() {
+<span class="nc" id="L36">        return toList(sessionRepository.findAll());</span>
+    }
+
+    @Transactional
+    public Session getSession(int id) {
+<span class="nc" id="L41">        Optional&lt;Session&gt; session = sessionRepository.findById(id);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (session.isEmpty()) {</span>
+<span class="nc" id="L43">            throw new IllegalArgumentException(&quot;Could not find session with id &quot; + id);</span>
+        }
+
+<span class="nc" id="L46">        return session.get();</span>
+    }
+
+    @Transactional
+    public Session createSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer classTypeId) {
+        //preliminary input validations
+<span class="nc" id="L52">        inputValidation(startTime, endTime, price, roomNumber, remainingCap);</span>
+<span class="nc" id="L53">        verifySessionConflicts(date, startTime, endTime, roomNumber, -1);</span>
+
+<span class="nc" id="L55">        Optional&lt;ClassType&gt; classType = classTypeRepository.findById(classTypeId);</span>
+
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (classType.isEmpty() || !classType.get().isApproved()) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;Invalid/ Not approved class type.&quot;);</span>
+        }
+
+<span class="nc" id="L61">        Session session = new Session(date, startTime, endTime, price, remainingCap, roomNumber, classType.get());</span>
+
+<span class="nc" id="L63">        return sessionRepository.save(session);</span>
+    }
+    private void inputValidation(Time startTime, Time endTime, float price, Integer roomNumber, Integer remainingCap) {
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (startTime.after(endTime)) {</span>
+<span class="nc" id="L68">            throw new IllegalArgumentException(&quot;Session start time must be before end time&quot;);</span>
+        }
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (price &lt; 0) {</span>
+<span class="nc" id="L71">            throw new IllegalArgumentException(&quot;Invalid price for session.&quot;);</span>
+        }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (roomNumber &lt; 0) {</span>
+<span class="nc" id="L74">            throw new IllegalArgumentException(&quot;Invalid room number, must be above 0.&quot;);</span>
+        }
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (remainingCap &lt; 1) {</span>
+<span class="nc" id="L77">            throw new IllegalArgumentException(&quot;Capacity can't be less than 1.&quot;);</span>
+        }
+<span class="nc" id="L79">    }</span>
+
+
+    @Transactional
+    public int updateSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer classTypeId, Integer id) {
+<span class="nc" id="L84">        inputValidation(startTime, endTime, price, remainingCap, roomNumber);</span>
+
+<span class="nc" id="L86">        Optional&lt;Session&gt; sessionObj = sessionRepository.findById(id);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (sessionObj.isEmpty()) {</span>
+<span class="nc" id="L88">            throw new IllegalArgumentException(&quot;Session with id: &quot; + id + &quot; does not exist.&quot;);</span>
+        }
+<span class="nc" id="L90">        Session session = sessionObj.get();</span>
+<span class="nc" id="L91">        verifySessionConflicts(date, startTime, endTime, roomNumber, session.getId());</span>
+
+<span class="nc" id="L93">        Optional&lt;ClassType&gt; classType = classTypeRepository.findById(classTypeId);</span>
+
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (classType.isEmpty() || ! classType.get().isApproved()) {</span>
+<span class="nc" id="L96">            throw new IllegalArgumentException(&quot;Invalid/ Not approved class type.&quot;);</span>
+        }
+<span class="nc" id="L98">        return sessionRepository.updateSessionById(id, date, startTime, endTime, price, remainingCap, roomNumber, classType.get());</span>
+    }
+
+    @Transactional
+    public Integer dropInstructorFromSession(Integer sessionId) {
+<span class="nc" id="L103">        return sessionRepository.updateSessionByInstructorId(sessionId);</span>
+    }
+
+    @Transactional
+    public Session addInstructorToSession(Integer sessionId, Integer instructorId) {
+<span class="nc bnc" id="L108" title="All 4 branches missed.">        if (instructorId == null || sessionId == null) {</span>
+<span class="nc" id="L109">            throw new IllegalArgumentException(&quot;Invalid arguments!&quot;);</span>
+        }
+
+<span class="nc" id="L112">        Optional&lt;Instructor&gt; instructor = instructorRepository.findById(instructorId);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (instructor.isEmpty()) {</span>
+<span class="nc" id="L114">            throw new IllegalArgumentException(&quot;Instructor with id &quot; + instructorId + &quot; not found.&quot;);</span>
+        }
+<span class="nc" id="L116">        Optional&lt;Session&gt; session = sessionRepository.findById(sessionId);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (session.isEmpty()) {</span>
+<span class="nc" id="L118">            throw new IllegalArgumentException(&quot;Session not found.&quot;);</span>
+        }
+<span class="nc" id="L120">        Session updatedSession = session.get();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (updatedSession.hasInstructor()) {</span>
+<span class="nc" id="L122">            throw new IllegalArgumentException(&quot;Session already has an instructor&quot;);</span>
+        }
+<span class="nc" id="L124">        updatedSession.setInstructor(instructor.get());</span>
+<span class="nc" id="L125">        sessionRepository.save(updatedSession);</span>
+<span class="nc" id="L126">        return updatedSession;</span>
+    }
+
+    @Transactional
+    public List&lt;Session&gt; getAllSessionsByInstructorId(Integer id) {
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L132">            throw new IllegalArgumentException(&quot;Could not parse instructor id&quot;);</span>
+        }
+<span class="nc" id="L134">        return sessionRepository.getSessionsByInstructorId(id);</span>
+
+    }
+
+    @Transactional
+    public void deleteSession(Integer id) {
+<span class="nc" id="L140">        sessionRepository.deleteById(id);</span>
+<span class="nc" id="L141">    }</span>
+
+
+    /**
+     * Checks if there are any scheduling conflicts when creating/updating a session.
+     * @param date Date of session.
+     * @param startTime start time of session.
+     * @param endTime end time of session.
+     * @param roomNumber room number.
+     * @param id Id of session being updated, -1 if being created.
+     * @return Error message, empty if no conflicts.
+     */
+    private void verifySessionConflicts(Date date, Time startTime, Time endTime, Integer roomNumber, Integer id) {
+
+        //checking if room is available during this time period.
+<span class="nc" id="L156">        List&lt;Session&gt; sessions = sessionRepository.getSessionsByDateIsAndRoomNumber(date, roomNumber);</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        for (Session s: sessions) {</span>
+<span class="nc bnc" id="L158" title="All 4 branches missed.">            if (id &gt;= 0 &amp;&amp; Objects.equals(s.getId(), id)) {</span>
+<span class="nc" id="L159">                continue;</span>
+            }
+<span class="nc" id="L161">            System.out.println(s.getEndTime());</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">            if (s.getEndTime().after(startTime)) {</span>
+<span class="nc" id="L163">                throw new IllegalArgumentException(&quot;Room is not available during this time.&quot;);</span>
+            }
+<span class="nc" id="L165">        }</span>
+<span class="nc" id="L166">    }</span>
+
+    private &lt;T&gt; List&lt;T&gt; toList(Iterable&lt;T&gt; iterable) {
+<span class="nc" id="L169">        List&lt;T&gt; resultList = new ArrayList&lt;T&gt;();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        for (T t: iterable) {</span>
+<span class="nc" id="L171">            resultList.add(t);</span>
+<span class="nc" id="L172">        }</span>
+<span class="nc" id="L173">        return resultList;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

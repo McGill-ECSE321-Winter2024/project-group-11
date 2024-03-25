@@ -139,51 +139,6 @@ public class RegistrationServiceTests {
         }
         assertEquals(2, registrations.size());
     }
-    /**
-     @Test
-     void testCreateSession() {
-     Date date = new Date(1000);
-     Time startTime = new Time(50);
-     Time endTime = new Time(30);
-
-
-     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, startTime, endTime, 0, 0, 0, 0);
-     });
-     assertEquals("Session start time must be before end time", exception.getMessage());
-
-
-     exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, startTime, new Time(80), -1, 0, -1, 0);
-     });
-     assertEquals("Invalid price for session.", exception.getMessage());
-
-     exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, startTime, new Time(80), 3, 0, -1, 0);
-     });
-     assertEquals("Invalid room number, must be above 0.", exception.getMessage());
-
-     exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, startTime, new Time(80), 3, 0, 2, 0);
-     });
-     assertEquals("Capacity can't be less than 1.", exception.getMessage());
-
-     exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, new Time(150), new Time(400), 3, 3, 1, 0);
-     });
-     assertEquals("Room is not available during this time.", exception.getMessage());
-
-     exception = assertThrows(IllegalArgumentException.class, () -> {
-     sessionService.createSession(date, new Time(150), new Time(400), 3, 3, 2, 0);
-     });
-     assertEquals("Invalid/ Not approved class type.", exception.getMessage());
-
-     Session res = sessionService.createSession(date, new Time(150), new Time(400), 3, 3, 2, 1);
-     assertEquals(3, res.getPrice());
-     assertEquals("yoga", res.getClassType().getName());
-
-     }
-     */
 
     @Test
     void testCreateRegistration(){
@@ -237,3 +192,4 @@ public class RegistrationServiceTests {
     }
 
 }
+

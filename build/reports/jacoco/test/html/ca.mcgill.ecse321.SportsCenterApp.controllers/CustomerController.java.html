@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.controllers</a> &gt; <span class="el_source">CustomerController.java</span></div><h1>CustomerController.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.controllers;
+
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.InstructorDto;
+import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
+import org.apache.coyote.Response;
+import  org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.CustomerDto;
+
+import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@RestController
+@RequestMapping(&quot;&quot;)
+<span class="fc" id="L26">public class CustomerController {</span>
+    @Autowired
+    private CustomerService customerService;
+
+
+    @PostMapping(value = { &quot;/customer/&quot;, &quot;/customer&quot;})
+    public ResponseEntity&lt;?&gt; createCustomer(@RequestBody CustomerDto customerDto){
+                                        try{
+<span class="nc" id="L34">                                            Customer customer = customerService.createCustomer(customerDto.getFirstName(), customerDto.getLastName(), customerDto.getEmail(), customerDto.getPassword(), customerDto.getToken(), customerDto.getAccountBalance());</span>
+<span class="nc" id="L35">                                            return new ResponseEntity&lt;&gt;(convertToDto(customer), HttpStatus.CREATED);</span>
+<span class="nc" id="L36">                                        }catch (Exception e){</span>
+<span class="nc" id="L37">                                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Error creating customer&quot;, e);</span>
+
+                                        }
+                                    }
+
+
+    @GetMapping(value = { &quot;/customer/{aId}&quot;, &quot;/customer/{aId}/&quot;})
+    public ResponseEntity&lt;?&gt; getCustomer(@PathVariable(&quot;aId&quot;) Integer aId){
+        try{
+<span class="nc" id="L46">            CustomerDto customerDto = DtoConverter.convertToDto(customerService.getCustomer(aId));</span>
+<span class="nc" id="L47">            return new ResponseEntity&lt;&gt;(customerDto, HttpStatus.OK);</span>
+<span class="nc" id="L48">        }catch (Exception e){</span>
+<span class="nc" id="L49">            System.out.println(e);</span>
+<span class="nc" id="L50">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/customers&quot;)
+    public List&lt;CustomerDto&gt; getAllCustomers() {
+<span class="nc" id="L56">        return customerService.getAllCustomers().stream().map(i -&gt; convertToDto(i)).collect(Collectors.toList());</span>
+    }
+
+    @PutMapping(value = { &quot;/customer/{aId}/update-balance&quot; , &quot;/customer/{aId}/update-balance/&quot;})
+    public ResponseEntity&lt;?&gt; updateCustomer(@PathVariable(&quot;aId&quot;) Integer aId, @RequestParam(&quot;updated-balance&quot;) float aAccoutBalance){
+        try{
+<span class="nc" id="L62">            Customer customer = customerService.updateCustomer(aId, aAccoutBalance);</span>
+
+<span class="nc" id="L64">            return new ResponseEntity&lt;&gt;(convertToDto(customer), HttpStatus.OK);</span>
+<span class="nc" id="L65">        }catch (Exception e){</span>
+<span class="nc" id="L66">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @DeleteMapping(value = {&quot;/customer/{aId}&quot; , &quot;/customer/{aId}/&quot;})
+    public ResponseEntity&lt;?&gt; deleteCustomer(@PathVariable Integer aId){
+        try {
+<span class="nc" id="L73">            customerService.deleteCustomer(aId);</span>
+<span class="nc" id="L74">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+<span class="nc" id="L75">        }catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L76">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+
+    private CustomerDto convertToDto(Customer customer){
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (customer == null) {</span>
+<span class="nc" id="L83">            throw new IllegalArgumentException(&quot;There is no such customer&quot;);</span>
+        }
+<span class="nc" id="L85">        CustomerDto customerDto = new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getId(), customer.getToken(), customer.getAccountBalance());</span>
+<span class="nc" id="L86">        return customerDto;</span>
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

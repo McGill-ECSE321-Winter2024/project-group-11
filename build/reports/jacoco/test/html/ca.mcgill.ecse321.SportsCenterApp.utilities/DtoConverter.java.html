@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DtoConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.utilities</a> &gt; <span class="el_source">DtoConverter.java</span></div><h1>DtoConverter.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.utilities;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.*;
+import ca.mcgill.ecse321.SportsCenterApp.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L9">public class DtoConverter {</span>
+    public static SessionDto convertToDto(Session session) {
+<span class="nc bnc" id="L11" title="All 2 branches missed.">        if (session == null) {</span>
+<span class="nc" id="L12">            return null;</span>
+        }
+<span class="nc" id="L14">        ClassTypeDto classTypeDto = convertToDto(session.getClassType());</span>
+<span class="nc" id="L15">        InstructorDto instructorDto = convertToDto(session.getInstructor());</span>
+
+
+<span class="nc" id="L18">        return new SessionDto(session.getDate(), session.getStartTime(), session.getEndTime(), session.getPrice(), session.getRemainingCapacity(), session.getRoomNumber(), instructorDto, classTypeDto, session.getId());</span>
+    }
+
+    public static ClassTypeDto convertToDto(ClassType ClassType){
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (ClassType == null) {</span>
+<span class="nc" id="L23">            return null;</span>
+        }
+<span class="nc" id="L25">        return new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());</span>
+
+    }
+
+    public static InstructorDto convertToDto(Instructor instructor){
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (instructor == null) {</span>
+<span class="nc" id="L31">            return null;</span>
+        }
+<span class="nc" id="L33">        return new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());</span>
+
+    }
+
+    public static RegistrationDto convertToDto(Registration registration) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (registration == null) {</span>
+<span class="nc" id="L39">            return null;</span>
+        }
+<span class="nc" id="L41">        SessionDto sessionDto = convertToDto(registration.getSession());</span>
+<span class="nc" id="L42">        CustomerDto customerDto = convertToDto(registration.getCustomer());</span>
+<span class="nc" id="L43">        return new RegistrationDto(registration.getDate(), registration.getTime(), customerDto, sessionDto, registration.getId());</span>
+    }
+
+    public static CustomerDto convertToDto(Customer customer){
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (customer == null) {</span>
+<span class="nc" id="L48">            return null;</span>
+        }
+<span class="nc" id="L50">        return new CustomerDto(customer.getFirstName(), customer.getLastName(),customer.getEmail(), customer.getPassword(), customer.getId(), customer.getToken(), customer.getAccountBalance());</span>
+    }
+    public static List&lt;RegistrationDto&gt; convertRegistrationsToDtos(Iterable&lt;Registration&gt; registrations) {
+<span class="nc" id="L53">        List&lt;RegistrationDto&gt; registrationDtos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (Registration registration : registrations) {</span>
+<span class="nc" id="L55">            registrationDtos.add(convertToDto(registration));</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc" id="L57">        return registrationDtos;</span>
+    }
+        public static OwnerDto convertToDto(Owner owner){
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (owner == null){</span>
+<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;There is no such owner&quot;);</span>
+        }
+<span class="fc" id="L63">        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());</span>
+<span class="fc" id="L64">        return ownerDto;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

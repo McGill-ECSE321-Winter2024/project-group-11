@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Registration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.model</a> &gt; <span class="el_source">Registration.java</span></div><h1>Registration.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.model;
+
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
+
+
+import jakarta.persistence.*;
+
+import java.sql.Date;
+import java.sql.Time;
+
+// line 41 &quot;model.ump&quot;
+// line 92 &quot;model.ump&quot;
+@Entity
+public class Registration
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Registration Attributes
+  private Date date;
+  private Time time;
+
+  //Registration Associations
+  @ManyToOne(optional = false)
+  private Customer customer;
+  @ManyToOne(optional = false)
+  private Session session;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Registration(Date aDate, Time aTime, Customer aCustomer, Session aSession)
+<span class="nc" id="L40">  {</span>
+<span class="nc" id="L41">    date = aDate;</span>
+<span class="nc" id="L42">    time = aTime;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    if (!setCustomer(aCustomer))</span>
+    {
+<span class="nc" id="L45">      throw new RuntimeException(&quot;Unable to create Registration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html&quot;);</span>
+    }
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    if (!setSession(aSession))</span>
+    {
+<span class="nc" id="L49">      throw new RuntimeException(&quot;Unable to create Registration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html&quot;);</span>
+    }
+<span class="nc" id="L51">  }</span>
+
+<span class="fc" id="L53">  public Registration() {</span>
+
+<span class="fc" id="L55">  }</span>
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setDate(Date aDate)
+  {
+<span class="nc" id="L63">    boolean wasSet = false;</span>
+<span class="nc" id="L64">    date = aDate;</span>
+<span class="nc" id="L65">    wasSet = true;</span>
+<span class="nc" id="L66">    return wasSet;</span>
+  }
+
+  public boolean setTime(Time aTime)
+  {
+<span class="nc" id="L71">    boolean wasSet = false;</span>
+<span class="nc" id="L72">    time = aTime;</span>
+<span class="nc" id="L73">    wasSet = true;</span>
+<span class="nc" id="L74">    return wasSet;</span>
+  }
+
+  public Date getDate()
+  {
+<span class="nc" id="L79">    return date;</span>
+  }
+
+  public Time getTime()
+  {
+<span class="nc" id="L84">    return time;</span>
+  }
+  /* Code from template association_GetOne */
+  public Customer getCustomer() 
+  {
+<span class="nc" id="L89">    return customer;</span>
+  }
+  /* Code from template association_GetOne */
+  public Session getSession()
+  {
+<span class="nc" id="L94">    return session;</span>
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setCustomer(Customer aNewCustomer)
+  {
+<span class="nc" id="L99">    boolean wasSet = false;</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">    if (aNewCustomer != null)</span>
+    {
+<span class="nc" id="L102">      customer = aNewCustomer;</span>
+<span class="nc" id="L103">      wasSet = true;</span>
+    }
+<span class="nc" id="L105">    return wasSet;</span>
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setSession(Session aNewSession)
+  {
+<span class="nc" id="L110">    boolean wasSet = false;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    if (aNewSession != null)</span>
+    {
+<span class="nc" id="L113">      session = aNewSession;</span>
+<span class="nc" id="L114">      wasSet = true;</span>
+    }
+<span class="nc" id="L116">    return wasSet;</span>
+  }
+
+  public void delete()
+  {
+<span class="nc" id="L121">    customer = null;</span>
+<span class="nc" id="L122">    session = null;</span>
+<span class="nc" id="L123">  }</span>
+
+
+  @SuppressWarnings(&quot;unlikely-arg-type&quot;)
+  public String toString()
+  {
+<span class="nc" id="L129">    return super.toString() + &quot;[&quot;+ &quot;]&quot; + System.getProperties().getProperty(&quot;line.separator&quot;) +</span>
+<span class="nc bnc" id="L130" title="All 4 branches missed.">            &quot;  &quot; + &quot;date&quot; + &quot;=&quot; + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll(&quot;  &quot;,&quot;    &quot;) : &quot;this&quot; : &quot;null&quot;) + System.getProperties().getProperty(&quot;line.separator&quot;) +</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">            &quot;  &quot; + &quot;time&quot; + &quot;=&quot; + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll(&quot;  &quot;,&quot;    &quot;) : &quot;this&quot; : &quot;null&quot;) + System.getProperties().getProperty(&quot;line.separator&quot;) +</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            &quot;  &quot; + &quot;customer = &quot;+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):&quot;null&quot;) + System.getProperties().getProperty(&quot;line.separator&quot;) +</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            &quot;  &quot; + &quot;session = &quot;+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):&quot;null&quot;);</span>
+  }
+
+  public void setId(Integer id) {
+<span class="nc" id="L137">    this.id = id;</span>
+<span class="nc" id="L138">  }</span>
+
+  public Integer getId() {
+<span class="nc" id="L141">    return id;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

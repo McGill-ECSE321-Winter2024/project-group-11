@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthenticationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SportsCenterApp</a> &gt; <a href="index.source.html" class="el_package">ca.mcgill.ecse321.SportsCenterApp.services</a> &gt; <span class="el_source">AuthenticationService.java</span></div><h1>AuthenticationService.java</h1><pre class="source lang-java linenums">package ca.mcgill.ecse321.SportsCenterApp.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.mcgill.ecse321.SportsCenterApp.dto.*;
+import ca.mcgill.ecse321.SportsCenterApp.model.*;
+import ca.mcgill.ecse321.SportsCenterApp.repository.*;
+import ca.mcgill.ecse321.SportsCenterApp.services.utilities.*;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import javax.naming.AuthenticationException;
+
+
+@Service
+<span class="fc" id="L15">public class AuthenticationService {</span>
+
+    @Autowired
+    OwnerRepository ownerRepository;
+
+    @Autowired
+    InstructorRepository instructorRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    TokenProvider tokenProvider;
+
+    /**
+     * Validates an email + password pair for a user type
+     *
+     * @param credentials DTO containing login credentials and user type
+     * @return true is login was successful otherwise false
+     */
+    @Transactional
+    public String logIn(LoginDto credentials) throws Exception {
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        switch (credentials.getUserType()) {</span>
+            case Owner:
+<span class="nc" id="L39">                return authenticateOwner(credentials.getEmail(), credentials.getPassword());</span>
+            case Instructor:
+<span class="nc" id="L41">                return authenticateInstructor(credentials.getEmail(), credentials.getPassword());</span>
+            case Customer:
+<span class="nc" id="L43">                return authenticateCustomer(credentials.getEmail(), credentials.getPassword());</span>
+            default:
+<span class="nc" id="L45">                throw new Exception(&quot;Invalid user type.&quot;);</span>
+        }
+    }
+
+    /**
+     * Method to logout the user.
+     * @param credentials (LoginDto)
+     * @throws Exception if wrong user type
+     */
+    public void logout(LoginDto credentials) throws Exception {
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        switch (credentials.getUserType()) {</span>
+            case Instructor:
+<span class="nc" id="L57">                logoutInstructor(credentials.getEmail());</span>
+<span class="nc" id="L58">                break;</span>
+            case Owner:
+<span class="nc" id="L60">                logoutOwner(credentials.getEmail());</span>
+<span class="nc" id="L61">                break;</span>
+            case Customer:
+<span class="nc" id="L63">                logoutCustomer(credentials.getEmail());</span>
+<span class="nc" id="L64">                break;</span>
+            default:
+<span class="nc" id="L66">                throw new Exception(&quot;Invalid user type.&quot;);</span>
+        }
+<span class="nc" id="L68">    }</span>
+
+
+
+    /**
+     * Verifies that the correct instructor is logged in with the correct email and password
+     * @param email of the instructor
+     * @param password of the instructor
+     * @return token of the instructor (String)
+     * @throws AuthenticationException if invalid password
+     */
+    private String authenticateInstructor(String email, String password) throws AuthenticationException {
+<span class="nc" id="L80">        Instructor ins = instructorRepository.findInstructorByEmail(email);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (ins.getPassword().equals(password)) {</span>
+<span class="nc" id="L82">            ins.setToken(tokenProvider.createToken(ins.getEmail()));</span>
+<span class="nc" id="L83">            return ins.getToken();</span>
+        } else {
+<span class="nc" id="L85">            throw new AuthenticationException(&quot;Invalid password.&quot;);</span>
+        }
+    }
+
+    /**
+     * Verifies that the correct owner is logged in with the correct email and password
+     * @param email of the owner
+     * @param password of the owner
+     * @return token of the owner (String)
+     * @throws AuthenticationException if invalid password
+     */
+    private String authenticateOwner(String email, String password) throws AuthenticationException {
+<span class="nc" id="L97">        Owner owner = ownerRepository.findOwnerByEmail(email);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (owner.getPassword().equals(password)) {</span>
+<span class="nc" id="L99">            owner.setToken(tokenProvider.createToken(owner.getEmail()));</span>
+<span class="nc" id="L100">            return owner.getToken();</span>
+        } else {
+<span class="nc" id="L102">            throw new AuthenticationException(&quot;Invalid password.&quot;);</span>
+        }
+    }
+
+    /**
+     * Verifies that the correct customer is logged in with the correct email and password
+     * @param email of the customer
+     * @param password of the customer
+     * @return token of the customer (String)
+     * @throws AuthenticationException if invalid password
+     */
+    private String authenticateCustomer(String email, String password) throws AuthenticationException {
+<span class="nc" id="L114">        Customer customer = customerRepository.findCustomerByEmail(email);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (customer.getPassword().equals(password)) {</span>
+<span class="nc" id="L116">            customer.setToken(tokenProvider.createToken(customer.getEmail()));</span>
+<span class="nc" id="L117">            return customer.getToken();</span>
+        } else {
+<span class="nc" id="L119">            throw new AuthenticationException(&quot;Invalid password.&quot;);</span>
+        }
+    }
+
+    /**
+     * Method to logout the instructor
+     * @param email of the instructor
+     */
+    private void logoutInstructor(String email) {
+<span class="nc" id="L128">        Instructor ins = instructorRepository.findInstructorByEmail(email);</span>
+<span class="nc" id="L129">        ins.setToken(null);</span>
+<span class="nc" id="L130">        instructorRepository.save(ins);</span>
+<span class="nc" id="L131">    }</span>
+
+    /**
+     * Method to logout the customer
+     * @param email of the customer
+     */
+    private void logoutCustomer(String email) {
+<span class="nc" id="L138">        Customer customer = customerRepository.findCustomerByEmail(email);</span>
+<span class="nc" id="L139">        customer.setToken(null);</span>
+<span class="nc" id="L140">        customerRepository.save(customer);</span>
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * Method to logout the owner
+     * @param email of the owner
+     */
+    private void logoutOwner(String email) {
+<span class="nc" id="L148">        Owner owner = ownerRepository.findOwnerByEmail(email);</span>
+<span class="nc" id="L149">        owner.setToken(null);</span>
+<span class="nc" id="L150">        ownerRepository.save(owner);</span>
+<span class="nc" id="L151">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
