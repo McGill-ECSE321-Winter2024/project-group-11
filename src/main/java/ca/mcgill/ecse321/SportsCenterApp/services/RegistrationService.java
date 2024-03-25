@@ -20,15 +20,42 @@ public class RegistrationService {
     private SessionRepository sessionRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
+
+    //TODO add a check to see if customer is already registered to the session.
     @Transactional
-    public Registration createRegistration(Date aDate, Time aTime, Customer aCustomer, Session aSession){
+    public Registration createRegistration(Date aDate, Time aTime, Integer customerId, Integer sessionId){
+        Optional<Session> session = sessionRepository.findById(sessionId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (session.isEmpty()) {
+            throw new IllegalArgumentException("Could not find session");
+        }
+        if (customer.isEmpty()) {
+            throw new IllegalArgumentException("Could not find customer");
+        }
+        Session aSession = session.get();
+        Customer aCustomer = customer.get();
+        if (aSession.getRemainingCapacity() < 1) {
+            throw new IllegalArgumentException("This session is already full!");
+        }
+        float sessionPrice = aSession.getPrice();
+        if (aCustomer.getAccountBalance() < sessionPrice) {
+            throw new IllegalArgumentException("Insufficient funds to register for this session.");
+        }
 
         Registration registration = new Registration(aDate, aTime, aCustomer, aSession);
 
-        registrationRepository.save(registration);
+        //This decrements capacity of session by 1. (update)
+        int book = sessionRepository.updateSessionById(aSession.getId(), aSession.getDate(), aSession.getStartTime(), aSession.getEndTime(), aSession.getPrice(), aSession.getRemainingCapacity() - 1, aSession.getRoomNumber(), aSession.getClassType());
+        if (book == 0) {
+            throw new IllegalArgumentException("Could not get session information.");
+        }
+        //updates customers balance after registering for session.
+        customerService.updateCustomer(aCustomer.getId(), aCustomer.getAccountBalance() - sessionPrice);
+        return registrationRepository.save(registration);
 
-        return registration;
     }
 
     @Transactional
@@ -49,7 +76,24 @@ public class RegistrationService {
     }
     
     @Transactional
-    public void deleteRegistration(Integer id){
+    public void deleteRegistration(Integer id) {
+        Optional<Registration> registration = registrationRepository.findById(id);
+        if (registration.isEmpty()) {
+            throw new IllegalArgumentException("Could not find registration with id: " + id);
+        }
+        Registration reg = registration.get();
+        Session session = reg.getSession();
+        Customer customer = reg.getCustomer();
+
+        // 1. refund customer money if successful
+        // 2.  +1 remainingCap to session
+        // 4a. if current date is past session date, dont allow.
+        customerService.updateCustomer(customer.getId(), customer.getAccountBalance() + session.getPrice());
+        int book = sessionRepository.updateSessionById(session.getId(), session.getDate(), session.getStartTime(), session.getEndTime(), session.getPrice(),
+                session.getRemainingCapacity() + 1, session.getRoomNumber(), session.getClassType());
+        if (book == 0) {
+            throw new IllegalArgumentException("Could not update session");
+        }
         registrationRepository.deleteById(id);
     }
 
@@ -63,26 +107,26 @@ public class RegistrationService {
             Registration updatedRegistration = registration.get();
             Session newSession = session.get();
             updatedRegistration.setSession(newSession);
-            return updatedRegistration;
+            return registrationRepository.save(updatedRegistration);
         }
         else{
             throw new IllegalArgumentException("Registration could not be updated with session id: " + sessionId); //rewrite message
         }
     }
 
-    //update customer
+    //TODO migbt not be required for the application
     @Transactional 
     public Registration updateRegistrationByCustomer(Integer registrationId, Integer customerId){
         Optional<Registration> registration = registrationRepository.findById(registrationId);
         Optional<Customer> customer = customerRepository.findById(customerId);
         
-        if (registration.isPresent() && customer.isPresent()){
+        if (registration.isPresent() && customer.isPresent()) {
             Registration updatedRegistration = registration.get();
             Customer newCustomer = customer.get();
             updatedRegistration.setCustomer(newCustomer);
-            return updatedRegistration;
+            return registrationRepository.save(updatedRegistration);
         }
-        else{
+        else {
             throw new IllegalArgumentException("Registration could not be updated with customer id: " + customerId); //rewrite message
         }
     }

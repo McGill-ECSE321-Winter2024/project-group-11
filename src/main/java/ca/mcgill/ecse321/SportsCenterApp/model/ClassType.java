@@ -136,6 +136,7 @@ public class ClassType
   {}
 
 
+  @SuppressWarnings("unlikely-arg-type")
   public String toString()
   {
     return super.toString() + "["+

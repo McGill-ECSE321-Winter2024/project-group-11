@@ -49,11 +49,13 @@ public class UserRepositoryTests {
 
     }
     @Test
-    void testFindUserByFirstName() {
+    void testFindUserByEmail() {
         Instructor brock = new Instructor();
+        String email = "purdy123@gmail.com";
         String firstName = "Brock";
         String lastName = "Purdy";
         String bio = "MVP";
+        brock.setEmail(email);
         brock.setFirstName(firstName);
         brock.setLastName(lastName);
         brock.setBiography(bio);
@@ -61,11 +63,13 @@ public class UserRepositoryTests {
         Instructor result = userRepository.save(brock);
         // write test case, testing if data correctly gets saved into database.
         assertEquals(brock, result);
+        assertEquals(email, result.getEmail());
         assertEquals(firstName, result.getFirstName());
+        assertEquals(lastName, result.getLastName());
         assertEquals(bio, result.getBiography());
 
-        //read test cases, the method finds user by their first name, without case sensitivity.
-        result = (Instructor) userRepository.findUserByFirstNameIgnoreCase(firstName);
+        //read test cases, the method finds user by their email.
+        result = (Instructor) userRepository.findUserByEmail(email);
         //checking if an object is returned
         assertNotNull(result);
         //verifying if the attributes have been read correctly.
@@ -90,7 +94,7 @@ public class UserRepositoryTests {
         assertEquals(1, status);
 
         //read
-        Customer res = (Customer) userRepository.findUserByFirstNameIgnoreCase("george");
+        Customer res = (Customer) userRepository.findUserByEmail("fraud@gov");
         assertEquals("George", res.getFirstName());
         assertEquals("donkey", res.getPassword());
 

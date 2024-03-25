@@ -35,7 +35,9 @@ public class RegistrationRepositoryTests {
         registrationRepository.deleteAll();
         sessionRepository.deleteAll();
         customerRepository.deleteAll();
+        classTypeRepository.deleteAll();
     }
+    @SuppressWarnings("deprecation")
     @Test
     void TestFindRegistrationByCustomerFirstName(){
         Registration registration1 = new Registration ();

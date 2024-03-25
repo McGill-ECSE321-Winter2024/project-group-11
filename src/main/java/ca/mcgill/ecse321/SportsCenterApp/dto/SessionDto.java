@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
 
+@SuppressWarnings("unused")
 public class SessionDto {
     private Date date;
     private Time startTime;
@@ -25,9 +26,23 @@ public class SessionDto {
         this.price = price;
         this.remainingCapacity = remainingCapacity;
         this.roomNumber = roomNumber;
-        this.id = id;
-        this.instructor = instructorDto;
         this.classType = classTypeDto;
+        this.instructor = instructorDto;
+        this.id = id;
+    }
+
+    public SessionDto(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, ClassTypeDto classType, InstructorDto instructor) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.price = price;
+        this.remainingCapacity = remainingCapacity;
+        this.roomNumber = roomNumber;
+        this.classType = classType;
+        this.instructor = instructor;
+    }
+
+    public SessionDto() {
     }
 
     public Date getDate() {
