@@ -109,7 +109,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
       <td>Kenny Duy Nguyen</td>
       <td>
         <ul>
-          <li>Sample</li>
+          <li>User/Login/Authentication API design and test</li>
         </ul>
       </td>
       <td>x hours </td>
@@ -144,3 +144,4 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
     <tr>
   </tbody>
 </table>
+Classes were split up between all six members and each member was responsible for the respective Service, Controller, ServiceTest, and DTO classes.
