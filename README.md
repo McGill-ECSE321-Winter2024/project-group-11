@@ -87,3 +87,60 @@ See project report here: [Deliverable 1](https://github.com/McGill-ECSE321-Winte
     <tr>
   </tbody>
 </table>
+
+## Deliverable 2
+See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki)<table>
+  <tbody>
+    <tr>
+      <th>Team Member</th>
+      <th>Responsibilities</th>
+      <th>Hours (incl. meetings)</th>
+    </tr>
+    <tr>
+      <td>Yazid Asselah</td>
+      <td>
+        <ul>
+          <li>Sample</li>
+        </ul>
+      </td>
+      <td>x hrs</td>
+    </tr>
+    <tr>
+      <td>Kenny Duy Nguyen</td>
+      <td>
+        <ul>
+          <li>Sample</li>
+        </ul>
+      </td>
+      <td>x hours </td>
+    </tr>
+    <tr>
+      <td>Liam Di Chiro</td>
+      <td>
+        <ul>
+          <li>sample</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+      <td>Seungyeon Lee</td>
+      <td>
+        <ul>
+          <li>Session API design and test</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+      <td>Luke Freund</td>
+      <td>
+        <ul>
+          <li>sample</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+  </tbody>
+</table>
