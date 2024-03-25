@@ -35,11 +35,6 @@ public class RegistrationServiceTests {
     @InjectMocks
     private RegistrationService registrationService;
 
-    @Mock
-    private SessionService sessionService;
-
-    @Mock
-    private CustomerService customerService;
 
     @InjectMocks
     private static final Integer CUSTOMER1_ID = 10;
