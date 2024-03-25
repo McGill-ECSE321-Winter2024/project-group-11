@@ -29,6 +29,11 @@ public class Customer extends User
     this.accountBalance = accountBalance;
   }
 
+  public Customer(String firstName, String lastName, String email, String password, String token, float accountBalance) {
+    super(firstName, lastName, email, password, token);
+    this.accountBalance = accountBalance;
+  }
+
   public Customer() {
 
   }

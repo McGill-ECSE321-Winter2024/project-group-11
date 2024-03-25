@@ -31,6 +31,12 @@ public class Instructor extends User
     this.biography = biography;
   }
 
+  public Instructor(String firstName, String lastName, String email, String password, String token, Integer yearsOfExperience, String biography) {
+    super(firstName, lastName, email, password, token);
+    this.yearsOfExperience = yearsOfExperience;
+    this.biography = biography;
+  }
+
   public Instructor() {
 
   }
