@@ -29,7 +29,7 @@ public class AuthenticationController {
             if (e instanceof AuthenticationException) {
                 return new ResponseEntity<>("Invalid Password.", HttpStatus.BAD_REQUEST); //Invalid password
             }
-            return new ResponseEntity<>("Invalid User Type or invalid Email.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Invalid User Type or invalid Email.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -44,7 +44,7 @@ public class AuthenticationController {
             authenticationService.logout(credentials);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
