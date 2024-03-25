@@ -100,7 +100,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
       <td>Yazid Asselah</td>
       <td>
         <ul>
-          <li>Sample</li>
+          <li>ClassType and Instructor API design and test</li>
         </ul>
       </td>
       <td>20 hours</td>
