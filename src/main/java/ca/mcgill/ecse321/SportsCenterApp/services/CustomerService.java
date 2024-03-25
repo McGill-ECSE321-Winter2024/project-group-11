@@ -37,6 +37,7 @@ public class CustomerService {
         if (customer.isPresent()){
             Customer updatedCustomer = customer.get();
             updatedCustomer.setAccountBalance(accountBalance);
+            customerRepository.save(updatedCustomer);
             return updatedCustomer;
         }
         else{
