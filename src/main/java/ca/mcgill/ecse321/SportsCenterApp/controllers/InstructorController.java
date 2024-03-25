@@ -32,7 +32,7 @@ public class InstructorController {
     @PostMapping("/instructor")
     public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto) {
         try {
-            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getId(), instructorDto.getToken(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());
+            Instructor instructor = service.createInstructor(instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail(), instructorDto.getPassword(), instructorDto.getToken(), instructorDto.getYearsOfExperience(), instructorDto.getBiography());
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e);

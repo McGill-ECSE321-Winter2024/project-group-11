@@ -25,6 +25,10 @@ public class Owner extends User
     super(aFirstName, aLastName, aEmail, aPassword, aId, aToken);
   }
 
+  public Owner(String firstName, String lastName, String email, String password, String token) {
+    super(firstName, lastName, email, password, token);
+  }
+
   public Owner() {
 
   }

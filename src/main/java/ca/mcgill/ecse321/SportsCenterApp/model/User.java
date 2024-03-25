@@ -35,6 +35,14 @@ public abstract class User
   //------------------------
 
 
+  public User(String firstName, String lastName, String email, String password, String token) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.token = token;
+  }
+
   public User(String firstName, String lastName, String email, String password, Integer id, String token) {
     this.firstName = firstName;
     this.lastName = lastName;

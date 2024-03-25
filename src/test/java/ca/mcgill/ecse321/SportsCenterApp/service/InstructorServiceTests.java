@@ -176,24 +176,24 @@ public class InstructorServiceTests {
         //invalid Emails
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail1, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail1, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid Email adress", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail2, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail2, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid Email adress", exception.getMessage());
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail3, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail3, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid Email adress", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail4, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, invalidEmail4, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid Email adress", exception.getMessage());
 
@@ -203,31 +203,31 @@ public class InstructorServiceTests {
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword1, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword1, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword2, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
-        });
-        assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
-
-
-        exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword3, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword2, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword4, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword3, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+        });
+        assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
+
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword4, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
 
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword5, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, invalidPassword5, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length", exception.getMessage());
 
@@ -235,33 +235,33 @@ public class InstructorServiceTests {
         //Empty name fields
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor("", I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor("", I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Name fields cannot be empty", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, "", I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, "", I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Name fields cannot be empty", exception.getMessage());
 
 
         //passing negative years of XP
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, -2, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_TOKEN, -2, I_TEST_BIOGRAPHY);
         });
         assertEquals("Instructor cannot have negative years of experience", exception.getMessage());
 
 
         //Instructor with existing email
         exception = assertThrows(IllegalArgumentException.class, () -> {
-            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I1_EMAIL, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+            instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I1_EMAIL, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
         });
         assertEquals("Instructor with email exists!", exception.getMessage());
 
 
         //Successfull creation
-        Instructor createdInstructor = instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_ID, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
+        Instructor createdInstructor = instructorService.createInstructor(I_TEST_FIRST_NAME, I_TEST_LAST_NAME, I_TEST_EMAIL, I_TEST_PASSWORD, I_TEST_TOKEN, I_TEST_YEARS_OF_EXPERIENCE, I_TEST_BIOGRAPHY);
 
         assertNotNull(createdInstructor);
         assertEquals(I_TEST_FIRST_NAME, createdInstructor.getFirstName());
