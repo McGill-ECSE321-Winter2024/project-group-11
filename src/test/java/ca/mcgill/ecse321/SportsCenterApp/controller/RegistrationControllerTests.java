@@ -31,20 +31,11 @@ public class RegistrationControllerTests {
     private TestRestTemplate client;
     @Autowired
     private RegistrationRepository registrationRepository;
-    @Autowired
-    private SessionRepository sessionRepository;
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private ClassTypeRepository classTypeRepository;
 
     @BeforeEach
     @AfterEach
     void clearDatabase() {
         registrationRepository.deleteAll();
-        sessionRepository.deleteAll();
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -66,6 +57,15 @@ public class RegistrationControllerTests {
 
         RegistrationDto registrationDto = new RegistrationDto(new Date(1000), new Time(100), customerDto, sessionDto);
 
+        InstructorDto instructorDto2 = new InstructorDto("Troy", "Barnes","troy@email.com",
+                "password", null, "aToken", 3, "biography");
+        ClassTypeDto classTypeDto2 = new ClassTypeDto("Weights", "description", true, ClassType.DifficultyLevel.Intermediate, null);
+        CustomerDto customerDto2 = new CustomerDto("Annie", "Edison", "annie@email.com", "password", null, "aToken", 10);
+        SessionDto sessionDto2 = new SessionDto(new Date(400), new Time(40), new Time(80), 5, 5,
+                5, classTypeDto2, instructorDto2);
+
+        RegistrationDto registrationDto2 = new RegistrationDto(new Date(100), new Time(10), customerDto2, sessionDto2);
+
         // Post the registration and check the response
         ResponseEntity<RegistrationDto> response = client.postForEntity("/register", registrationDto, RegistrationDto.class);
 
@@ -86,18 +86,18 @@ public class RegistrationControllerTests {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.hasBody());
-        // assert other fields as necessary
         assertEquals(id, response.getBody().getId());
     }
 
     private void testGetAllRegistrations() {
         ResponseEntity<List<RegistrationDto>> response = client.exchange("/register/", HttpMethod.GET, null, new ParameterizedTypeReference<List<RegistrationDto>>() {});
-
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
         // assert other fields as necessary
     }
+
+
 
 }
