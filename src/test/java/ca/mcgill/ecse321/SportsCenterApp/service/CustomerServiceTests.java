@@ -147,6 +147,21 @@ public class CustomerServiceTests {
     }
 
     @Test
+    public void testGetAllCustomers(){
+        List<Customer> customers = null;
+
+        try {
+            customers = customerService.getAllCustomers();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertEquals(2,customers.size());
+
+    }
+
+    @Test
     public void testUpdateCustomerEmail(){
         Customer customer = customerService.getCustomer(CUSTOMER1_ID);
         assertNotNull(customer);
