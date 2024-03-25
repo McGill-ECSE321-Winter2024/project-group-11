@@ -14,13 +14,13 @@ import ca.mcgill.ecse321.SportsCenterApp.dto.OwnerDto;
 import ca.mcgill.ecse321.SportsCenterApp.services.OwnerService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("")
 public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
 
-    @PostMapping(value = { "/owner/{aId}" , "/owner/{aId}/"})
+    @PostMapping(value = { "/owner" , "/owner/"})
     public ResponseEntity<?> createOwner(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail, @RequestParam("aPassword") String aPassword,
                                       @RequestParam("aToken") String aToken){
                                         try{
@@ -43,7 +43,7 @@ public class OwnerController {
         }
     }
 
-    @DeleteMapping(value = {"/owner/delete/{aId}" , "/owner/delete/{aId}/"})
+    @DeleteMapping(value = {"/owner/{aId}" , "/owner/{aId}/"})
     public void deleteOwner(@PathVariable("aId") Integer aId){
         try{
             ownerService.deleteOwner(aId);
