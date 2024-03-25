@@ -88,7 +88,8 @@ public class OwnerControllerTests {
         assertEquals("rose@gmail.com", response.getBody().get(1).getEmail());
 
     }
-/**
+
+    
     @Test
     public void testUpdateOwnerPassword(){
         OwnerDto ownerDto = new OwnerDto("Gary", "Bettman", "gary@nhl.com", "crosby87", null, "token1");
@@ -98,7 +99,7 @@ public class OwnerControllerTests {
         assertNotNull(response.getBody());
         Integer id = response.getBody().getId();
 
-        String newPassword = "geno71";
+        String newPassword = "Geno71!Malkin";
         String url = "/owner/" + id + "/password?newPassword=" + newPassword;
         ResponseEntity<OwnerDto> putResponse = client.exchange(url, HttpMethod.PUT, null, OwnerDto.class);
 
@@ -107,11 +108,11 @@ public class OwnerControllerTests {
         assertNotNull(response.getBody());
 
         assertEquals("Gary", putResponse.getBody().getFirstName(), "The name is the same");
-        assertEquals("geno71", putResponse.getBody().getPassword(), "the password has been changed");
+        assertEquals("Geno71!Malkin", putResponse.getBody().getPassword(), "the password has been changed");
 
 
     }
-**/
+
 
 
 
