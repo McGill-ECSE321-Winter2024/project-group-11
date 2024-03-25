@@ -36,7 +36,7 @@ public class InstructorController {
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -67,8 +67,8 @@ public class InstructorController {
 
 
     /**
-     * GET request to retrieve a instructor by ID
-     * @param email (Integer) ID of the instructor
+     * GET request to retrieve a instructor by email
+     * @param email (String) email of the instructor
      * @return Instructor type dto
      */
     @GetMapping("/instructors/email/{email}")
@@ -95,7 +95,7 @@ public class InstructorController {
             Instructor instructor = service.updateInstructorPassword(id, newPassword);
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -107,7 +107,7 @@ public class InstructorController {
      * @param newPassword (String) new desired password
      * @return Instructor dto
      */
-    @PutMapping("/instructors/{email}/password")
+    @PutMapping("/instructors/email/{email}/password")
     public ResponseEntity<?> updateInstructorPassword (@PathVariable String email, @RequestParam String newPassword) {
 
         try {
@@ -125,7 +125,7 @@ public class InstructorController {
      * @return Status no content (204)
      */
 
-    @DeleteMapping("/instructos/{id}")
+    @DeleteMapping("/instructors/{id}")
     public ResponseEntity<?> deleteInstructor(@PathVariable Integer id) {
         try {
             service.deleteInstructor(id);
