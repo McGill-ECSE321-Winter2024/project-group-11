@@ -56,21 +56,18 @@ public class RegistrationControllerTests {
 
     private int testCreateRegistration() {
         // Create and save the ClassType entity first
-        ClassType classType = new ClassType("yoga", "description", true, ClassType.DifficultyLevel.Intermediate);
-        ClassType savedClassType = classTypeRepository.save(classType);
 
-        Session session = new Session(new Date(System.currentTimeMillis()), new Time(System.currentTimeMillis()),
-                new Time(System.currentTimeMillis() + 3600000), 25, 10, 100, savedClassType);
+        InstructorDto instructorDto = new InstructorDto("Jeff", "Winger","jeff@email.com",
+                "password", null, "aToken", 3, "biography");
+        ClassTypeDto classTypeDto = new ClassTypeDto("Yoga", "description", true, ClassType.DifficultyLevel.Intermediate, null);
+        CustomerDto customerDto = new CustomerDto("Bob", "Doe", "bob@email.com", "password", null, "aToken", 10);
+        SessionDto sessionDto = new SessionDto(new Date(1000), new Time(50), new Time(90), 5, 5,
+                5, classTypeDto, instructorDto);
 
-        Customer customer = new Customer("John", "Doe", "john.doe@example.com", "1234567890", "12345", 10);
-        Customer savedCustomer = customerRepository.save(customer);
-
-        CustomerDto customerDto = new CustomerDto()
-        RegistrationDto registrationDto = new RegistrationDto()
-
+        RegistrationDto registrationDto = new RegistrationDto(new Date(1000), new Time(100), customerDto, sessionDto);
 
         // Post the registration and check the response
-        ResponseEntity<RegistrationDto> response = client.postForEntity("/register/", registrationDto, RegistrationDto.class);
+        ResponseEntity<RegistrationDto> response = client.postForEntity("/register", registrationDto, RegistrationDto.class);
 
         // Assertions as previously written
         assertNotNull(response);

@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.controller;
 
 import ca.mcgill.ecse321.SportsCenterApp.dto.ClassTypeDto;
-import ca.mcgill.ecse321.SportsCenterApp.dto.SessionDto;
 import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
 import ca.mcgill.ecse321.SportsCenterApp.model.ClassType.DifficultyLevel;
 import ca.mcgill.ecse321.SportsCenterApp.repository.ClassTypeRepository;
@@ -12,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.internal.Diff;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
