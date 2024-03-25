@@ -108,6 +108,32 @@ public class AuthenticationServiceTests {
     }
 
     @Test
+    public void testInvalidOwnerLogin2() {
+        assertThrows(AuthenticationException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(userEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Owner);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testInvalidOwnerLogin3() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Owner);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
     public void testValidInstructorLogin() {
         try {
             LoginDto loginDto = new LoginDto();
@@ -134,6 +160,32 @@ public class AuthenticationServiceTests {
     }
 
     @Test
+    public void testInvalidInstructorLogin2() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(userPassword);
+                    loginDto.setUserType(UserType.Instructor);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testInvalidInstructorLogin3() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Instructor);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+
+    @Test
     public void testValidCustomerLogin() {
         try {
             LoginDto loginDto = new LoginDto();
@@ -152,6 +204,18 @@ public class AuthenticationServiceTests {
                 () -> {
                     LoginDto loginDto = new LoginDto();
                     loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(userPassword);
+                    loginDto.setUserType(UserType.Customer);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
+    @Test
+    public void testInvalidCustomerLogin2() {
+        assertThrows(AuthenticationException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(userEmail);
                     loginDto.setPassword(badUserPassword);
                     loginDto.setUserType(UserType.Customer);
                     authenticationService.logIn(loginDto);
@@ -159,5 +223,88 @@ public class AuthenticationServiceTests {
         );
     }
 
+    @Test
+    public void testInvalidCustomerLogin3() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setPassword(badUserPassword);
+                    loginDto.setUserType(UserType.Customer);
+                    authenticationService.logIn(loginDto);
+                }
+        );
+    }
 
+    @Test
+    public void testValidOwnerLogout() {
+        try {
+            LoginDto loginDto = new LoginDto();
+            loginDto.setEmail(userEmail);
+            loginDto.setUserType(UserType.Owner);
+            authenticationService.logout(loginDto);
+        } catch (Exception e) {
+            fail("Should not throw exception");
+        }
+    }
+
+    @Test
+    public void testInvalidOwnerLogout() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setUserType(UserType.Customer);
+                    authenticationService.logout(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testValidInstructorLogout() {
+        try {
+            LoginDto loginDto = new LoginDto();
+            loginDto.setEmail(userEmail);
+            loginDto.setUserType(UserType.Instructor);
+            authenticationService.logout(loginDto);
+        } catch (Exception e) {
+            fail("Should not throw exception");
+        }
+    }
+
+    @Test
+    public void testInvalidInstructorLogout() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setUserType(UserType.Instructor);
+                    authenticationService.logout(loginDto);
+                }
+        );
+    }
+
+    @Test
+    public void testValidCustomerLogout() {
+        try {
+            LoginDto loginDto = new LoginDto();
+            loginDto.setEmail(userEmail);
+            loginDto.setUserType(UserType.Customer);
+            authenticationService.logout(loginDto);
+        } catch (Exception e) {
+            fail("Should not throw exception");
+        }
+    }
+
+    @Test
+    public void testInvalidCustomerLogout() {
+        assertThrows(EntityNotFoundException.class,
+                () -> {
+                    LoginDto loginDto = new LoginDto();
+                    loginDto.setEmail(badUserEmail);
+                    loginDto.setUserType(UserType.Customer);
+                    authenticationService.logout(loginDto);
+                }
+        );
+    }
 }

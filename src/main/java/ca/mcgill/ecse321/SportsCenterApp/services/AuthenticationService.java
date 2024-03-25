@@ -67,32 +67,7 @@ public class AuthenticationService {
         }
     }
 
-    /**
-     * Validate owner's token
-     * @param token token of the owner
-     * @return owner (Owner)
-     */
-    public Owner validateOwnerToken(String token) {
-        return ownerRepository.findOwnerByToken(token);
-    }
 
-    /**
-     * Validate instructor's token
-     * @param token token of the instructor
-     * @return instructor (Instructor)
-     */
-    public Instructor validateInstructorToken(String token) {
-        return instructorRepository.findInstructorByToken(token);
-    }
-
-    /**
-     * Validate customer's token
-     * @param token token of the customer
-     * @return customer (Customer)
-     */
-    public Customer validateCustomerToken(String token) {
-        return customerRepository.findCustomerByToken(token);
-    }
 
     /**
      * Verifies that the correct instructor is logged in with the correct email and password
