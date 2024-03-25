@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
 
+import ca.mcgill.ecse321.SportsCenterApp.dto.InstructorDto;
+import ca.mcgill.ecse321.SportsCenterApp.model.Instructor;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
 import org.apache.coyote.Response;
 import  org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,16 +19,16 @@ import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+
     @PostMapping(value = { "/customer/", "/customer"})
-    public ResponseEntity<?> createCustomer(@RequestParam("aFirstName") String aFirstName, @RequestParam("aLastName")  String aLastName, @RequestParam("aEmail") String aEmail, @RequestParam("aPassword") String aPassword,
-                                         @RequestParam("aAccountBalance") float aAccountBalance, @RequestParam("aToken") String aToken){
+    public ResponseEntity<?> createCustomer(@RequestBody CustomerDto customerDto){
                                         try{
-                                            Customer customer = customerService.createCustomer(aFirstName, aLastName, aEmail, aPassword, aToken, aAccountBalance);
+                                            Customer customer = customerService.createCustomer(customerDto.getFirstName(), customerDto.getLastName(), customerDto.getEmail(), customerDto.getPassword(), customerDto.getToken(), customerDto.getAccountBalance());
                                             return new ResponseEntity<>(convertToDto(customer), HttpStatus.CREATED);
                                         }catch (Exception e){
                                             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
@@ -33,16 +36,18 @@ public class CustomerController {
                                         }
                                     }
 
+
     @GetMapping(value = { "/customer/{aId}", "/customer/{aId}/"})
     public ResponseEntity<?> getCustomer(@PathVariable("aId") Integer aId){
         try{
-            Customer customer = customerService.getCustomer(aId);
-            CustomerDto customerDto = convertToDto(customer);
+            CustomerDto customerDto = DtoConverter.convertToDto(customerService.getCustomer(aId));
             return new ResponseEntity<>(customerDto, HttpStatus.OK);
         }catch (Exception e){
+            System.out.println(e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @PutMapping(value = { "/customer/update-balance/{aId}" , "/customer/update-balance/{aId}/"})
     public ResponseEntity<?> updateCustomer(@PathVariable("aId") Integer aId, @RequestParam("aAccoutBalance") float aAccoutBalance){
@@ -55,7 +60,7 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping(value = {"/customer/delete/{aId}" , "/customer/delete/{aId}/"})
+    @DeleteMapping(value = {"/customer/{aId}" , "/customer/{aId}/"})
     public void deleteCustomer(@PathVariable("aId") Integer aId){
         customerService.deleteCustomer(aId);
     }
