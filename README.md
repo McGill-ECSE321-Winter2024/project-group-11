@@ -103,7 +103,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
           <li>Sample</li>
         </ul>
       </td>
-      <td>x hrs</td>
+      <td>20 hours</td>
     </tr>
     <tr>
       <td>Kenny Duy Nguyen</td>
@@ -112,7 +112,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
           <li>User/Login/Authentication API design and test</li>
         </ul>
       </td>
-      <td>x hours </td>
+      <td>21 hours </td>
     </tr>
     <tr>
       <td>Liam Di Chiro</td>
@@ -121,7 +121,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
           <li>sample</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>19 hours</td>
     </tr>
     <tr>
       <td>Seungyeon Lee</td>
@@ -130,7 +130,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
           <li>Session API design and test</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>21 hours</td>
     </tr>
     <tr>
       <td>Luke Freund</td>
@@ -139,7 +139,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
           <li>sample</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>20 hours</td>
     </tr>
     <tr>
   </tbody>
