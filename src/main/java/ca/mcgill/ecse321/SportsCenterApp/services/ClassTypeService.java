@@ -74,7 +74,7 @@ public class ClassTypeService {
             return classType;
         }
         else {
-            throw new IllegalArgumentException("Class " + className + "not found ");
+            throw new IllegalArgumentException("Class " + className + " not found");
         }
     }
     
@@ -135,7 +135,6 @@ public class ClassTypeService {
             if (newDesc.isEmpty()) {
                 throw new IllegalArgumentException("description cannot be empty!");
             }
-
             classType.setDescription(newDesc);
         }
         if (newLevel != null) {

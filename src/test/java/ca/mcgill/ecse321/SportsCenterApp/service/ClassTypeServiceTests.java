@@ -221,19 +221,19 @@ public class ClassTypeServiceTests {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             classTypeService.getClassType(invalidName1);
         });
-        assertEquals("Class " + invalidName1 + "not found ", exception.getMessage());
+        assertEquals("Class " + invalidName1 + " not found", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
             classTypeService.getClassType(invalidName2);
         });
-        assertEquals("Class " + invalidName2 + "not found ", exception.getMessage());
+        assertEquals("Class " + invalidName2 + " not found", exception.getMessage());
 
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
             classTypeService.getClassType(invalidName3);
         });
-        assertEquals("Class " + invalidName3 + "not found ", exception.getMessage());
+        assertEquals("Class " + invalidName3 + " not found", exception.getMessage());
 
 
         //By ID
