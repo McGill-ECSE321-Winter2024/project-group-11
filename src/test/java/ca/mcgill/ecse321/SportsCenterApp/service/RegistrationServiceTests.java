@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.SportsCenterApp.service;
 
-import ca.mcgill.ecse321.SportsCenterApp.model.*;
+import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
+import ca.mcgill.ecse321.SportsCenterApp.model.Owner;
+import ca.mcgill.ecse321.SportsCenterApp.model.Registration;
+import ca.mcgill.ecse321.SportsCenterApp.model.Session;
 import ca.mcgill.ecse321.SportsCenterApp.repository.*;
 import ca.mcgill.ecse321.SportsCenterApp.services.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
@@ -29,11 +33,14 @@ public class RegistrationServiceTests {
     private CustomerRepository customerRepository;
     @Mock
     private RegistrationRepository registrationRepository;
-
-
     @InjectMocks
     private RegistrationService registrationService;
 
+    @Mock
+    private SessionService sessionService;
+
+    @Mock
+    private CustomerService customerService;
 
     @InjectMocks
     private static final Integer CUSTOMER1_ID = 10;
@@ -83,14 +90,6 @@ public class RegistrationServiceTests {
 
         lenient().when(registrationRepository.findAll()).thenReturn(allRegistrations);
 
-        lenient().when(sessionRepository.findById(anyInt())).thenAnswer(invocation -> {
-            if (invocation.getArgument(0).equals(1)) {
-                return Optional.of(new Session(new Date(1000), new Time(150), new Time(400), 5f, 1,2,new ClassType()));
-            }
-            return Optional.empty();
-        });
-        
-
 
         lenient().when(customerRepository.findById(anyInt())).thenAnswer(invocation -> {
             if (invocation.getArgument(0).equals(1)) {
@@ -114,6 +113,46 @@ public class RegistrationServiceTests {
             return List.of(notConflicting);
         });
 
+        lenient().when(sessionRepository.findById(any())).thenAnswer(invocation -> {
+            if (invocation.getArgument(0).equals(1)) {
+                Session goodSession = new Session();
+                goodSession.setId(1);
+                goodSession.setStartTime(new Time(10));
+                goodSession.setDate(new Date(100));
+                goodSession.setEndTime(new Time(120));
+                goodSession.setRemainingCapacity(5);
+                goodSession.setRoomNumber(5);
+                goodSession.setPrice(2);
+                return Optional.of(goodSession);
+            } else if (invocation.getArgument(0).equals(2)) {
+                Session fullSession = new Session();
+                fullSession.setRemainingCapacity(0);
+                return Optional.of(fullSession);
+            } else if (invocation.getArgument(0).equals(3)) {
+                Session priceSession = new Session();
+                priceSession.setPrice(6);
+                priceSession.setRemainingCapacity(6);
+                return Optional.of(priceSession);
+            }
+            return Optional.empty();
+        });
+        lenient().when(registrationRepository.save(any())).thenAnswer((invocation) -> {
+            if (invocation.getArgument(0) instanceof Registration) {
+                Customer one = new Customer();
+                one.setFirstName("jon");
+                Session three = new Session();
+                three.setPrice(4);
+                Registration newReg = new Registration(new Date(1000), new Time(100), one, three);
+                return newReg;
+            }
+            return null;
+        });
+        lenient().when(sessionRepository.updateSessionById(anyInt(), any(), any(), any(), anyInt(), anyInt(), anyInt(), any())).thenAnswer(invocation -> {
+            if (invocation.getArgument(0).equals(1)) {
+                return 2;
+            }
+            return 1;
+        });
     }
 
     @Test
@@ -147,19 +186,45 @@ public class RegistrationServiceTests {
         Date dateCreate = new Date(2020);
         Time timeCreate = new Time(10);
         Session sessionCreate = new Session();
+        sessionCreate.setId(4);
         Customer customerCreate = new Customer();
+        customerCreate.setId(4);
 
         Integer sessionId = sessionCreate.getId();
         Integer customerId = customerCreate.getId();
 
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate,  customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not find session", exception.getMessage());
 
-        Registration registration = registrationService.createRegistration(dateCreate, timeCreate, sessionId, customerId);
+        sessionCreate.setId(2);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not find customer", exception.getMessage());
 
-        assertNotNull(registration);
-        assertEquals(customerId, registration.getCustomer());
-        assertEquals(sessionId, registration.getCustomer());
+        customerCreate.setId(1);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("This session is already full!", exception.getMessage());
+
+        sessionCreate.setId(3);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Insufficient funds to register for this session.", exception.getMessage());
+
+        sessionCreate.setId(1);
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not get session information.", exception.getMessage());
+
+
     }
-
     @Test
     void testUpdateRegistrationBySession(){
         Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
