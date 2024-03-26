@@ -63,6 +63,11 @@ public class RegistrationServiceTests {
         Session session = new Session();
         session.setRoomNumber(12);
         session.setId(SESSION1_ID);
+        session.setDate(new Date(100));
+        session.setStartTime(new Time(10));
+        session.setEndTime(new Time(1000));
+        session.setPrice(10);
+        session.setRemainingCapacity(5);
 
 
         registration.setDate(date);
@@ -255,6 +260,19 @@ public class RegistrationServiceTests {
         registration.setCustomer(customerTest);
 
         assertEquals(newCustomerId, registration.getCustomer().getId());
+
+    }
+    @Test
+    void testDeleteRegistration() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.deleteRegistration(3);
+        });
+        assertEquals("Could not find registration with id: 3", exception.getMessage());
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.deleteRegistration(1);
+        });
+        assertEquals("Could not update session", exception.getMessage());
 
     }
 
