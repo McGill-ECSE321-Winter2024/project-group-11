@@ -90,6 +90,26 @@ public class CustomerControllerTests {
     }
 
 
+    @Test
+    public void createInvalidCustomer(){
+        CustomerDto customerDto = new CustomerDto("Spice", "Adams", null, "123@password", null, "atoken", 34f);
+
+        ResponseEntity<String> response = client.postForEntity("/customer", customerDto, String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Email cannot be null", response.getBody());
+    }
+    @Test
+    public void getInvalidCustomer(){
+        ResponseEntity<String> response = client.getForEntity("/customer/" + 99, String.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Customer not found for id: 99", response.getBody());
+    }
+
+
+
 
     @Test
     public void testUpdateCustomerAccountBalance(){
