@@ -46,6 +46,9 @@ public class RegistrationServiceTests {
     private static final Integer CUSTOMER1_ID = 10;
     private static final Integer SESSION1_ID = 10;
     private static final Integer REGISTRATION1_ID = 1;
+    private static final Integer SESSION2_ID = 11;
+    private static final Integer REGISTRATION2_ID = 2;
+    private static final Integer CUSTOMER2_ID = 21;
 
 
 
