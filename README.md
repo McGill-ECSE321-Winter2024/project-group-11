@@ -100,7 +100,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
       <td>Yazid Asselah</td>
       <td>
         <ul>
-          <li>Sample</li>
+          <li>ClassType and Instructor API design and test</li>
         </ul>
       </td>
       <td>20 hours</td>
@@ -118,7 +118,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
       <td>Liam Di Chiro</td>
       <td>
         <ul>
-          <li>sample</li>
+          <li>Owner and Customer API design and test</li>
         </ul>
       </td>
       <td>19 hours</td>
@@ -136,7 +136,7 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
       <td>Luke Freund</td>
       <td>
         <ul>
-          <li>sample</li>
+          <li>Registration API design and test</li>
         </ul>
       </td>
       <td>20 hours</td>
@@ -144,4 +144,5 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
     <tr>
   </tbody>
 </table>
+
 Classes were split up between all six members and each member was responsible for the respective Service, Controller, ServiceTest, and DTO classes.

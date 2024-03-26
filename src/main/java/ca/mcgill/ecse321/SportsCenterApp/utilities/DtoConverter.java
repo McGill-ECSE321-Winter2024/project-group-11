@@ -56,4 +56,12 @@ public class DtoConverter {
         }
         return registrationDtos;
     }
+        public static OwnerDto convertToDto(Owner owner){
+        if (owner == null){
+            throw new IllegalArgumentException("There is no such owner");
+        }
+        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());
+        return ownerDto;
+
+    }
 }

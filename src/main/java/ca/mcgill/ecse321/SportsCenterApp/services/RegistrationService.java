@@ -71,8 +71,8 @@ public class RegistrationService {
 
     //verify
     @Transactional
-    public Iterable<Registration> getAllRegistrations() {
-        return registrationRepository.findAll();
+    public List<Registration> getAllRegistrations() {
+        return (List<Registration>) registrationRepository.findAll();
     }
     
     @Transactional
