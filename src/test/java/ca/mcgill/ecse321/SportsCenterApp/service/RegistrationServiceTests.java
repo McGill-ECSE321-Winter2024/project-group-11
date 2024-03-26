@@ -22,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +46,9 @@ public class RegistrationServiceTests {
     private static final Integer CUSTOMER1_ID = 10;
     private static final Integer SESSION1_ID = 10;
     private static final Integer REGISTRATION1_ID = 1;
+    private static final Integer SESSION2_ID = 11;
+    private static final Integer REGISTRATION2_ID = 2;
+    private static final Integer CUSTOMER2_ID = 21;
 
 
 
@@ -62,6 +66,11 @@ public class RegistrationServiceTests {
         Session session = new Session();
         session.setRoomNumber(12);
         session.setId(SESSION1_ID);
+        session.setDate(new Date(100));
+        session.setStartTime(new Time(10));
+        session.setEndTime(new Time(1000));
+        session.setPrice(10);
+        session.setRemainingCapacity(5);
 
 
         registration.setDate(date);
@@ -112,6 +121,46 @@ public class RegistrationServiceTests {
             return List.of(notConflicting);
         });
 
+        lenient().when(sessionRepository.findById(any())).thenAnswer(invocation -> {
+            if (invocation.getArgument(0).equals(1)) {
+                Session goodSession = new Session();
+                goodSession.setId(1);
+                goodSession.setStartTime(new Time(10));
+                goodSession.setDate(new Date(100));
+                goodSession.setEndTime(new Time(120));
+                goodSession.setRemainingCapacity(5);
+                goodSession.setRoomNumber(5);
+                goodSession.setPrice(2);
+                return Optional.of(goodSession);
+            } else if (invocation.getArgument(0).equals(2)) {
+                Session fullSession = new Session();
+                fullSession.setRemainingCapacity(0);
+                return Optional.of(fullSession);
+            } else if (invocation.getArgument(0).equals(3)) {
+                Session priceSession = new Session();
+                priceSession.setPrice(6);
+                priceSession.setRemainingCapacity(6);
+                return Optional.of(priceSession);
+            }
+            return Optional.empty();
+        });
+        lenient().when(registrationRepository.save(any())).thenAnswer((invocation) -> {
+            if (invocation.getArgument(0) instanceof Registration) {
+                Customer one = new Customer();
+                one.setFirstName("jon");
+                Session three = new Session();
+                three.setPrice(4);
+                Registration newReg = new Registration(new Date(1000), new Time(100), one, three);
+                return newReg;
+            }
+            return null;
+        });
+        lenient().when(sessionRepository.updateSessionById(anyInt(), any(), any(), any(), anyInt(), anyInt(), anyInt(), any())).thenAnswer(invocation -> {
+            if (invocation.getArgument(0).equals(1)) {
+                return 2;
+            }
+            return 1;
+        });
     }
 
     @Test
@@ -145,16 +194,42 @@ public class RegistrationServiceTests {
         Date dateCreate = new Date(2020);
         Time timeCreate = new Time(10);
         Session sessionCreate = new Session();
+        sessionCreate.setId(4);
         Customer customerCreate = new Customer();
+        customerCreate.setId(4);
 
         Integer sessionId = sessionCreate.getId();
         Integer customerId = customerCreate.getId();
 
-        Registration registration = registrationService.createRegistration(dateCreate, timeCreate, sessionId, customerId);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate,  customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not find session", exception.getMessage());
 
-        assertNotNull(registration);
-        assertEquals(customerId, registration.getCustomer());
-        assertEquals(sessionId, registration.getCustomer());
+        sessionCreate.setId(2);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not find customer", exception.getMessage());
+
+        customerCreate.setId(1);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("This session is already full!", exception.getMessage());
+
+        sessionCreate.setId(3);
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Insufficient funds to register for this session.", exception.getMessage());
+
+        sessionCreate.setId(1);
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.createRegistration(dateCreate, timeCreate, customerCreate.getId(), sessionCreate.getId());
+        });
+        assertEquals("Could not get session information.", exception.getMessage());
 
 
     }
@@ -176,18 +251,38 @@ public class RegistrationServiceTests {
     }
 
     @Test
-    void testUpdateRegistrationByCustomer(){
+    void testUpdateRegistrationBySession() {
         Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
 
         assertNotNull(registration);
 
-        assertEquals(CUSTOMER1_ID, registration.getCustomer().getId());
+        assertEquals(SESSION1_ID, registration.getSession().getId());
 
-        Customer customerTest = new Customer();
-        Integer newCustomerId = customerTest.getId();
-        registration.setCustomer(customerTest);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.updateRegistrationBySession(REGISTRATION2_ID, SESSION2_ID);
+        });
+        assertEquals("Registration could not be updated with session id: " + SESSION2_ID, exception.getMessage());
 
-        assertEquals(newCustomerId, registration.getCustomer().getId());
+        registrationService.updateRegistrationBySession(1, 1);
+
+
+    }
+
+    @Test
+    void testUpdateRegistrationByCustomer() {
+        Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
+
+        assertNotNull(registration);
+
+        assertEquals(CUSTOMER1_ID, registration.getSession().getId());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.updateRegistrationBySession(REGISTRATION2_ID, CUSTOMER2_ID);
+        });
+        assertEquals("Registration could not be updated with session id: " + CUSTOMER2_ID, exception.getMessage());
+
+        registrationService.updateRegistrationBySession(1, 1);
+
 
     }
 
