@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-03-26T01:41:49" hostname="Lukes-MBP-4" time="0.542">
+  <properties/>
+  <testcase name="updateClassType1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.129"/>
+  <testcase name="updateClassType2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.034"/>
+  <testcase name="getInvalidClassType1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.013"/>
+  <testcase name="getInvalidClassType2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.02"/>
+  <testcase name="testDeleteClassType()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.05"/>
+  <testcase name="testCreateAndGetClassType()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.049"/>
+  <testcase name="testDeleteClassType2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.057"/>
+  <testcase name="testApproveDisaprove()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.051"/>
+  <testcase name="createInvalidClassType1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.018"/>
+  <testcase name="createInvalidClassType2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.018"/>
+  <testcase name="updateInvalidClassType1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.056"/>
+  <testcase name="updateInvalidClassType2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests" time="0.031"/>
+  <system-out><![CDATA[2024-03-25T21:41:49.817-04:00  INFO 33096 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests]: ClassTypeControllerTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-03-25T21:41:49.819-04:00  INFO 33096 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ca.mcgill.ecse321.SportsCenterApp.SportsCenterAppApplication for test class ca.mcgill.ecse321.SportsCenterApp.controller.ClassTypeControllerTests
+description cannot be empty!
+Difficulty Level cannot be null!
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

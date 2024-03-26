@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2024-03-26T01:41:50" hostname="Lukes-MBP-4" time="0.379">
+  <properties/>
+  <testcase name="testDeleteInstructor2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.08"/>
+  <testcase name="testDeleteInstructor()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.067"/>
+  <testcase name="createInvalidInstructor1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.018"/>
+  <testcase name="createInvalidInstructor2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.019"/>
+  <testcase name="createInvalidInstructor3()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.017"/>
+  <testcase name="updateInstructorPassword1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.031"/>
+  <testcase name="updateInstructorPassword2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.026"/>
+  <testcase name="getInvalidInstructor1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.011"/>
+  <testcase name="getInvalidInstructor2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.016"/>
+  <testcase name="updateInvalidInstructor1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.019"/>
+  <testcase name="updateInvalidInstructor2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.019"/>
+  <testcase name="testCreateAndGetInstructor()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest" time="0.043"/>
+  <system-out><![CDATA[2024-03-25T21:41:50.626-04:00  INFO 33096 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest]: InstructorControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-03-25T21:41:50.628-04:00  INFO 33096 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ca.mcgill.ecse321.SportsCenterApp.SportsCenterAppApplication for test class ca.mcgill.ecse321.SportsCenterApp.controller.InstructorControllerTest
+java.lang.IllegalArgumentException: Name fields cannot be empty
+java.lang.IllegalArgumentException: Invalid Email adress
+java.lang.IllegalArgumentException: Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

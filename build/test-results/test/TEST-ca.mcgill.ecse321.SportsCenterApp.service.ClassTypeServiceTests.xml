@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-03-26T01:41:54" hostname="Lukes-MBP-4" time="0.146">
+  <properties/>
+  <testcase name="testCreateClassType()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.112"/>
+  <testcase name="testDeleteClassType()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.005"/>
+  <testcase name="testUpdateClassType()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.009"/>
+  <testcase name="testGetClassTypes()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.007"/>
+  <testcase name="testGetAllClassTypes()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.004"/>
+  <testcase name="testApproveDisaprove()" classname="ca.mcgill.ecse321.SportsCenterApp.service.ClassTypeServiceTests" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

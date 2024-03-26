@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-03-26T01:41:51" hostname="Lukes-MBP-4" time="0.246">
+  <properties/>
+  <testcase name="testUpdateSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.042"/>
+  <testcase name="testAddInstructorToSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.028"/>
+  <testcase name="testGetInvalidSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.01"/>
+  <testcase name="testAddInvalidInstructorToSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.02"/>
+  <testcase name="testCreateAndGetSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.038"/>
+  <testcase name="testCreateInvalidSession1()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.012"/>
+  <testcase name="testCreateInvalidSession2()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.013"/>
+  <testcase name="testDropInstructorFromSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.022"/>
+  <testcase name="testUnsuccessfullyUpdateSession()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.015"/>
+  <testcase name="testGetAllSessionsByInstructorId()" classname="ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests" time="0.038"/>
+  <system-out><![CDATA[2024-03-25T21:41:51.402-04:00  INFO 33096 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests]: SessionControllerTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-03-25T21:41:51.403-04:00  INFO 33096 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ca.mcgill.ecse321.SportsCenterApp.SportsCenterAppApplication for test class ca.mcgill.ecse321.SportsCenterApp.controller.SessionControllerTests
+java.lang.IllegalArgumentException: Could not find session with id 1000
+Instructor with id 10 not found.
+Session start time must be before end time
+Capacity can't be less than 1.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
