@@ -31,7 +31,7 @@ public class OwnerController {
                                             Owner owner = ownerService.createOwner(ownerDto.getFirstName(), ownerDto.getLastName(), ownerDto.getEmail(), ownerDto.getPassword(), ownerDto.getToken());
                                             return new ResponseEntity<>(convertToDto(owner), HttpStatus.CREATED);
                                         }catch (Exception e){
-                                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating owner", e);
+                                            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
                                         }
                                     }
 
