@@ -257,12 +257,12 @@ public class RegistrationServiceTests {
 
         assertNotNull(registration);
 
-        assertEquals(CUSTOMER1_ID, registration.getSession().getId());
+        assertEquals(CUSTOMER1_ID, registration.getCustomer().getId());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            registrationService.updateRegistrationBySession(REGISTRATION2_ID, CUSTOMER2_ID);
+            registrationService.updateRegistrationByCustomer(REGISTRATION2_ID, CUSTOMER2_ID);
         });
-        assertEquals("Registration could not be updated with session id: " + CUSTOMER2_ID, exception.getMessage());
+        assertEquals("Registration could not be updated with customer id: 21", exception.getMessage());
 
         registrationService.updateRegistrationBySession(1, 1);
 
