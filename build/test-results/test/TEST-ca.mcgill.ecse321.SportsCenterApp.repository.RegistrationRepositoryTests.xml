@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ca.mcgill.ecse321.SportsCenterApp.repository.RegistrationRepositoryTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-26T01:41:53" hostname="Lukes-MBP-4" time="0.033">
-  <properties/>
-  <testcase name="TestFindRegistrationByCustomerFirstName()" classname="ca.mcgill.ecse321.SportsCenterApp.repository.RegistrationRepositoryTests" time="0.033"/>
-  <system-out><![CDATA[2024-03-25T21:41:53.097-04:00  INFO 33096 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ca.mcgill.ecse321.SportsCenterApp.repository.RegistrationRepositoryTests]: RegistrationRepositoryTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-03-25T21:41:53.099-04:00  INFO 33096 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ca.mcgill.ecse321.SportsCenterApp.SportsCenterAppApplication for test class ca.mcgill.ecse321.SportsCenterApp.repository.RegistrationRepositoryTests
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -71,8 +71,8 @@ import java.util.*;
 
     //verify
     @Transactional
-    public Iterable&lt;Registration&gt; getAllRegistrations() {
-<span class="fc" id="L75">        return registrationRepository.findAll();</span>
+    public List&lt;Registration&gt; getAllRegistrations() {
+<span class="fc" id="L75">        return (List&lt;Registration&gt;) registrationRepository.findAll();</span>
     }
     
     @Transactional
