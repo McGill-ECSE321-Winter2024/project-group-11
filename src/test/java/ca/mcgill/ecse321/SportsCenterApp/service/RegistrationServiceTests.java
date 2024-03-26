@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.service;
 
-import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
-import ca.mcgill.ecse321.SportsCenterApp.model.Owner;
-import ca.mcgill.ecse321.SportsCenterApp.model.Registration;
-import ca.mcgill.ecse321.SportsCenterApp.model.Session;
+import ca.mcgill.ecse321.SportsCenterApp.model.*;
 import ca.mcgill.ecse321.SportsCenterApp.repository.*;
 import ca.mcgill.ecse321.SportsCenterApp.services.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +29,8 @@ public class RegistrationServiceTests {
     private CustomerRepository customerRepository;
     @Mock
     private RegistrationRepository registrationRepository;
+
+
     @InjectMocks
     private RegistrationService registrationService;
 
@@ -83,6 +82,14 @@ public class RegistrationServiceTests {
         });
 
         lenient().when(registrationRepository.findAll()).thenReturn(allRegistrations);
+
+        lenient().when(sessionRepository.findById(anyInt())).thenAnswer(invocation -> {
+            if (invocation.getArgument(0).equals(1)) {
+                return Optional.of(new Session(new Date(1000), new Time(150), new Time(400), 5f, 1,2,new ClassType()));
+            }
+            return Optional.empty();
+        });
+        
 
 
         lenient().when(customerRepository.findById(anyInt())).thenAnswer(invocation -> {
@@ -145,14 +152,14 @@ public class RegistrationServiceTests {
         Integer sessionId = sessionCreate.getId();
         Integer customerId = customerCreate.getId();
 
+
         Registration registration = registrationService.createRegistration(dateCreate, timeCreate, sessionId, customerId);
 
         assertNotNull(registration);
         assertEquals(customerId, registration.getCustomer());
         assertEquals(sessionId, registration.getCustomer());
-
-
     }
+
     @Test
     void testUpdateRegistrationBySession(){
         Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
