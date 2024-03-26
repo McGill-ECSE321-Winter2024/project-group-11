@@ -234,23 +234,6 @@ public class RegistrationServiceTests {
 
     }
     @Test
-    void testUpdateRegistrationBySession(){
-        Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
-
-        assertNotNull(registration);
-
-        assertEquals(SESSION1_ID, registration.getSession().getId());
-
-        Session sessionTest = new Session();
-        Integer newSessionId = sessionTest.getId();
-        registration.setSession(sessionTest);
-
-        assertEquals(newSessionId, registration.getSession().getId());
-
-
-    }
-
-    @Test
     void testUpdateRegistrationBySession() {
         Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
 
@@ -283,6 +266,20 @@ public class RegistrationServiceTests {
 
         registrationService.updateRegistrationBySession(1, 1);
 
+
+    }
+
+    @Test
+    void testDeleteRegistration() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.deleteRegistration(3);
+        });
+        assertEquals("Could not find registration with id: 3", exception.getMessage());
+
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.deleteRegistration(1);
+        });
+        assertEquals("Could not update session", exception.getMessage());
 
     }
 
