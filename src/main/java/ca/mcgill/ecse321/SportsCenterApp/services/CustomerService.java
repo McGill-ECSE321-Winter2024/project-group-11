@@ -18,6 +18,9 @@ public class CustomerService {
     @Transactional
     public Customer createCustomer(String firstName, String lastName, String email, String password, String token, float accountBalance) {
         Customer customer = new Customer(firstName, lastName, email, password, token, accountBalance);
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null");
+        }
         return customerRepository.save(customer);
     }
 
