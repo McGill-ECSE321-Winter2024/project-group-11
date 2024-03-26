@@ -69,6 +69,24 @@ public class OwnerControllerTests {
     }
 
 
+    @Test
+    public void testCreateInvalidOwner(){
+        OwnerDto ownerDto = new OwnerDto("Spice",  "bing", null, "slice", 1, "aToken");
+
+        ResponseEntity<String> response = client.postForEntity("/owner", ownerDto, String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Email cannot be null", response.getBody());
+    }
+
+    @Test
+    public void getInvalidOwner(){
+        ResponseEntity<String> response = client.getForEntity("/owner/" + 99, String.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("No owner found with id: 99", response.getBody());
+    }
     private void testGetOwner(int id){
 
         ResponseEntity<OwnerDto> response = client.getForEntity("/owner/" + id, OwnerDto.class);
@@ -89,7 +107,6 @@ public class OwnerControllerTests {
 
     }
 
-    
     @Test
     public void testUpdateOwnerPassword(){
         OwnerDto ownerDto = new OwnerDto("Gary", "Bettman", "gary@nhl.com", "crosby87", null, "token1");
@@ -112,7 +129,6 @@ public class OwnerControllerTests {
 
 
     }
-
 
 
 
