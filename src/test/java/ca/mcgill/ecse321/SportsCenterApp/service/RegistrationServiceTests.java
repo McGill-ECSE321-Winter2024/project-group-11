@@ -248,31 +248,38 @@ public class RegistrationServiceTests {
     }
 
     @Test
-    void testUpdateRegistrationByCustomer(){
+    void testUpdateRegistrationBySession() {
         Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
 
         assertNotNull(registration);
 
-        assertEquals(CUSTOMER1_ID, registration.getCustomer().getId());
+        assertEquals(SESSION1_ID, registration.getSession().getId());
 
-        Customer customerTest = new Customer();
-        Integer newCustomerId = customerTest.getId();
-        registration.setCustomer(customerTest);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.updateRegistrationBySession(REGISTRATION2_ID, SESSION2_ID);
+        });
+        assertEquals("Registration could not be updated with session id: " + SESSION2_ID, exception.getMessage());
 
-        assertEquals(newCustomerId, registration.getCustomer().getId());
+        registrationService.updateRegistrationBySession(1, 1);
+
 
     }
-    @Test
-    void testDeleteRegistration() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            registrationService.deleteRegistration(3);
-        });
-        assertEquals("Could not find registration with id: 3", exception.getMessage());
 
-        exception = assertThrows(IllegalArgumentException.class, () -> {
-            registrationService.deleteRegistration(1);
+    @Test
+    void testUpdateRegistrationByCustomer() {
+        Registration registration = registrationService.getRegistration(REGISTRATION1_ID);
+
+        assertNotNull(registration);
+
+        assertEquals(CUSTOMER1_ID, registration.getSession().getId());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            registrationService.updateRegistrationBySession(REGISTRATION2_ID, CUSTOMER2_ID);
         });
-        assertEquals("Could not update session", exception.getMessage());
+        assertEquals("Registration could not be updated with session id: " + CUSTOMER2_ID, exception.getMessage());
+
+        registrationService.updateRegistrationBySession(1, 1);
+
 
     }
 
