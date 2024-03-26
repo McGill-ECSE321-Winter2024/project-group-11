@@ -34,8 +34,8 @@ public class CustomerController {
                                             Customer customer = customerService.createCustomer(customerDto.getFirstName(), customerDto.getLastName(), customerDto.getEmail(), customerDto.getPassword(), customerDto.getToken(), customerDto.getAccountBalance());
                                             return new ResponseEntity<>(convertToDto(customer), HttpStatus.CREATED);
                                         }catch (Exception e){
-                                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error creating customer", e);
-
+                                            System.out.println(e);
+                                            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
                                         }
                                     }
 
