@@ -37,18 +37,18 @@ public class Registration
   //------------------------
 
   public Registration(Date aDate, Time aTime, Customer aCustomer, Session aSession)
-<span class="nc" id="L40">  {</span>
-<span class="nc" id="L41">    date = aDate;</span>
-<span class="nc" id="L42">    time = aTime;</span>
-<span class="nc bnc" id="L43" title="All 2 branches missed.">    if (!setCustomer(aCustomer))</span>
+<span class="fc" id="L40">  {</span>
+<span class="fc" id="L41">    date = aDate;</span>
+<span class="fc" id="L42">    time = aTime;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">    if (!setCustomer(aCustomer))</span>
     {
 <span class="nc" id="L45">      throw new RuntimeException(&quot;Unable to create Registration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html&quot;);</span>
     }
-<span class="nc bnc" id="L47" title="All 2 branches missed.">    if (!setSession(aSession))</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    if (!setSession(aSession))</span>
     {
 <span class="nc" id="L49">      throw new RuntimeException(&quot;Unable to create Registration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html&quot;);</span>
     }
-<span class="nc" id="L51">  }</span>
+<span class="fc" id="L51">  }</span>
 
 <span class="fc" id="L53">  public Registration() {</span>
 
@@ -76,44 +76,44 @@ public class Registration
 
   public Date getDate()
   {
-<span class="nc" id="L79">    return date;</span>
+<span class="fc" id="L79">    return date;</span>
   }
 
   public Time getTime()
   {
-<span class="nc" id="L84">    return time;</span>
+<span class="fc" id="L84">    return time;</span>
   }
   /* Code from template association_GetOne */
   public Customer getCustomer() 
   {
-<span class="nc" id="L89">    return customer;</span>
+<span class="fc" id="L89">    return customer;</span>
   }
   /* Code from template association_GetOne */
   public Session getSession()
   {
-<span class="nc" id="L94">    return session;</span>
+<span class="fc" id="L94">    return session;</span>
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setCustomer(Customer aNewCustomer)
   {
-<span class="nc" id="L99">    boolean wasSet = false;</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">    if (aNewCustomer != null)</span>
+<span class="fc" id="L99">    boolean wasSet = false;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    if (aNewCustomer != null)</span>
     {
-<span class="nc" id="L102">      customer = aNewCustomer;</span>
-<span class="nc" id="L103">      wasSet = true;</span>
+<span class="fc" id="L102">      customer = aNewCustomer;</span>
+<span class="fc" id="L103">      wasSet = true;</span>
     }
-<span class="nc" id="L105">    return wasSet;</span>
+<span class="fc" id="L105">    return wasSet;</span>
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setSession(Session aNewSession)
   {
-<span class="nc" id="L110">    boolean wasSet = false;</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">    if (aNewSession != null)</span>
+<span class="fc" id="L110">    boolean wasSet = false;</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (aNewSession != null)</span>
     {
-<span class="nc" id="L113">      session = aNewSession;</span>
-<span class="nc" id="L114">      wasSet = true;</span>
+<span class="fc" id="L113">      session = aNewSession;</span>
+<span class="fc" id="L114">      wasSet = true;</span>
     }
-<span class="nc" id="L116">    return wasSet;</span>
+<span class="fc" id="L116">    return wasSet;</span>
   }
 
   public void delete()
@@ -138,7 +138,7 @@ public class Registration
 <span class="nc" id="L138">  }</span>
 
   public Integer getId() {
-<span class="nc" id="L141">    return id;</span>
+<span class="fc" id="L141">    return id;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

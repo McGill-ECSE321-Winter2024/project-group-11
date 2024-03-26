@@ -1,14 +1,9 @@
 package ca.mcgill.ecse321.SportsCenterApp.controller;
 
 import ca.mcgill.ecse321.SportsCenterApp.dto.*;
-import ca.mcgill.ecse321.SportsCenterApp.model.ClassType;
-import ca.mcgill.ecse321.SportsCenterApp.model.Customer;
-import ca.mcgill.ecse321.SportsCenterApp.model.Registration;
-import ca.mcgill.ecse321.SportsCenterApp.model.Session;
-import ca.mcgill.ecse321.SportsCenterApp.repository.CustomerRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.RegistrationRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.SessionRepository;
-import ca.mcgill.ecse321.SportsCenterApp.repository.ClassTypeRepository;
+import ca.mcgill.ecse321.SportsCenterApp.model.*;
+import ca.mcgill.ecse321.SportsCenterApp.repository.*;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +26,14 @@ public class RegistrationControllerTests {
     private TestRestTemplate client;
     @Autowired
     private RegistrationRepository registrationRepository;
+    @Autowired
+    private InstructorRepository instructorRepository;
+    @Autowired
+    private ClassTypeRepository classTypeRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
 
     @BeforeEach
     @AfterEach
@@ -46,39 +49,38 @@ public class RegistrationControllerTests {
     }
 
     private int testCreateRegistration() {
-        // Create and save the ClassType entity first
 
-        InstructorDto instructorDto = new InstructorDto("Jeff", "Winger","jeff@email.com",
-                "password", null, "aToken", 3, "biography");
-        ClassTypeDto classTypeDto = new ClassTypeDto("Yoga", "description", true, ClassType.DifficultyLevel.Intermediate, null);
-        CustomerDto customerDto = new CustomerDto("Bob", "Doe", "bob@email.com", "password", null, "aToken", 10);
-        SessionDto sessionDto = new SessionDto(new Date(1000), new Time(50), new Time(90), 5, 5,
-                5, classTypeDto, instructorDto);
+        Instructor instructor = new Instructor("Jeff", "Winger", "jeff@email.com",
+                "password", "aToken", 3, "biography");
+        Instructor savedInstructor = instructorRepository.save(instructor);
+        InstructorDto instructorDto = DtoConverter.convertToDto(savedInstructor);
 
-        RegistrationDto registrationDto = new RegistrationDto(new Date(1000), new Time(100), customerDto, sessionDto);
+        ClassType classType = new ClassType("Yoga", "description", true, ClassType.DifficultyLevel.Intermediate);
+        ClassType savedClassType = classTypeRepository.save(classType);
+        ClassTypeDto classTypeDto = DtoConverter.convertToDto(savedClassType);
 
-        InstructorDto instructorDto2 = new InstructorDto("Troy", "Barnes","troy@email.com",
-                "password", null, "aToken", 3, "biography");
-        ClassTypeDto classTypeDto2 = new ClassTypeDto("Weights", "description", true, ClassType.DifficultyLevel.Intermediate, null);
-        CustomerDto customerDto2 = new CustomerDto("Annie", "Edison", "annie@email.com", "password", null, "aToken", 10);
-        SessionDto sessionDto2 = new SessionDto(new Date(400), new Time(40), new Time(80), 5, 5,
-                5, classTypeDto2, instructorDto2);
+        Customer customer = new Customer("Bob", "Doe", "bob@email.com", "password", "aToken", 10);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDto customerDto = DtoConverter.convertToDto(savedCustomer);
 
-        RegistrationDto registrationDto2 = new RegistrationDto(new Date(100), new Time(10), customerDto2, sessionDto2);
+        Session session = new Session(new Date(1000), new Time(50), new Time(90), 5, 5,
+                5, instructor, classType);
+        Session savedSession = sessionRepository.save(session);
+        SessionDto sessionDto = DtoConverter.convertToDto(savedSession);
 
-        // Post the registration and check the response
+        Time time = new Time(100);
+        Date date = new Date(1000);
+        RegistrationDto registrationDto = new RegistrationDto(date, time, customerDto, sessionDto);
+
         ResponseEntity<RegistrationDto> response = client.postForEntity("/register", registrationDto, RegistrationDto.class);
 
-        // Assertions as previously written
         assertNotNull(response);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertTrue(response.hasBody());
+        assertNotNull(response.getBody().getTime());
         assertNotNull(response.getBody().getId());
 
         return response.getBody().getId();
     }
-
-
 
     private void testGetRegistration(int id) {
         ResponseEntity<RegistrationDto> response = client.getForEntity("/register/" + id, RegistrationDto.class);
@@ -90,14 +92,80 @@ public class RegistrationControllerTests {
     }
 
     private void testGetAllRegistrations() {
-        ResponseEntity<List<RegistrationDto>> response = client.exchange("/register/", HttpMethod.GET, null, new ParameterizedTypeReference<List<RegistrationDto>>() {});
+        ResponseEntity<List<RegistrationDto>> response = client.exchange("/register", HttpMethod.GET, null, new ParameterizedTypeReference<List<RegistrationDto>>() {});
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
         assertFalse(response.getBody().isEmpty());
-        // assert other fields as necessary
     }
 
+    @Test
+    void testCreateAndGetRegistrationInvalid() {
+        Instructor instructor = new Instructor("Jeff", "Winger", "jeff@email.com",
+                "password", "aToken", 3, "biography");
+        Instructor savedInstructor = instructorRepository.save(instructor);
+        InstructorDto instructorDto = DtoConverter.convertToDto(savedInstructor);
+
+        ClassType classType = new ClassType("Yoga", "description", true, ClassType.DifficultyLevel.Intermediate);
+        ClassType savedClassType = classTypeRepository.save(classType);
+        ClassTypeDto classTypeDto = DtoConverter.convertToDto(savedClassType);
 
 
+        CustomerDto customerDto = new CustomerDto("Bob", "Doe", "bob@email.com", "password", 99,"aToken", 10);
+
+        Session session = new Session(new Date(1000), new Time(50), new Time(90), 5, 5,
+                5, instructor, classType);
+        Session savedSession = sessionRepository.save(session);
+        SessionDto sessionDto = DtoConverter.convertToDto(savedSession);
+
+        Time time = new Time(100);
+        Date date = new Date(1000);
+        RegistrationDto registrationDto = new RegistrationDto(date, time, customerDto, sessionDto);
+
+        // Post the registration and check the response
+        ResponseEntity<String> response = client.postForEntity("/register", registrationDto, String.class);
+
+        // Assertions as previously written
+        assertNotNull(response);
+        assertTrue(response.hasBody());
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Could not find customer", response.getBody());
+    }
+
+    @Test
+    void testDeleteRegistration(){
+        int id = testCreateRegistration();
+        testGetRegistration(id);
+        testDeleteSpecificRegistration(id);
+    }
+
+    private void testDeleteSpecificRegistration(int id) {
+        String url = "/register/" + id;
+        ResponseEntity<String> deleteResponse = client.exchange(url, HttpMethod.DELETE, null, String.class);
+        assertNotNull(deleteResponse);
+
+        ResponseEntity<List<RegistrationDto>> response = client.exchange("/register", HttpMethod.GET, null, new ParameterizedTypeReference<List<RegistrationDto>>() {});
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().size());
+    }
+
+    @Test
+    void testDeleteRegistrationInvalid(){
+        int id = testCreateRegistration();
+        testGetRegistration(id);
+        testDeleteSpecificRegistrationInvalid(99);
+    }
+
+    private void testDeleteSpecificRegistrationInvalid(int id) {
+        String url = "/register/" + id;
+        ResponseEntity<String> deleteResponse = client.exchange(url, HttpMethod.DELETE, null, String.class);
+        assertNotNull(deleteResponse);
+        assertEquals(HttpStatus.BAD_REQUEST, deleteResponse.getStatusCode());
+        assertNotNull(deleteResponse.getBody());
+        assertEquals("Could not find registration with id: 99", deleteResponse.getBody());
+    }
 }

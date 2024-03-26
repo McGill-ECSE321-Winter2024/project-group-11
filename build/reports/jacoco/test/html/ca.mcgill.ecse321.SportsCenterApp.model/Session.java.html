@@ -55,16 +55,16 @@ public class Session
     }
 <span class="nc" id="L56">  }</span>
 
-<span class="nc" id="L58">  public Session(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, Instructor instructor, ClassType classType) {</span>
-<span class="nc" id="L59">    this.date = date;</span>
-<span class="nc" id="L60">    this.startTime = startTime;</span>
-<span class="nc" id="L61">    this.endTime = endTime;</span>
-<span class="nc" id="L62">    this.price = price;</span>
-<span class="nc" id="L63">    this.remainingCapacity = remainingCapacity;</span>
-<span class="nc" id="L64">    this.roomNumber = roomNumber;</span>
-<span class="nc" id="L65">    this.instructor = instructor;</span>
-<span class="nc" id="L66">    this.classType = classType;</span>
-<span class="nc" id="L67">  }</span>
+<span class="fc" id="L58">  public Session(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, Instructor instructor, ClassType classType) {</span>
+<span class="fc" id="L59">    this.date = date;</span>
+<span class="fc" id="L60">    this.startTime = startTime;</span>
+<span class="fc" id="L61">    this.endTime = endTime;</span>
+<span class="fc" id="L62">    this.price = price;</span>
+<span class="fc" id="L63">    this.remainingCapacity = remainingCapacity;</span>
+<span class="fc" id="L64">    this.roomNumber = roomNumber;</span>
+<span class="fc" id="L65">    this.instructor = instructor;</span>
+<span class="fc" id="L66">    this.classType = classType;</span>
+<span class="fc" id="L67">  }</span>
 
 <span class="nc" id="L69">  public Session(Date date, Time startTime, Time endTime, float price, Integer remainingCapacity, Integer roomNumber, ClassType classType) {</span>
 <span class="nc" id="L70">    this.date = date;</span>
@@ -142,42 +142,42 @@ public class Session
 
   public Date getDate()
   {
-<span class="nc" id="L145">    return date;</span>
+<span class="fc" id="L145">    return date;</span>
   }
 
   public Time getStartTime()
   {
-<span class="nc" id="L150">    return startTime;</span>
+<span class="fc" id="L150">    return startTime;</span>
   }
 
   public Time getEndTime()
   {
-<span class="nc" id="L155">    return endTime;</span>
+<span class="fc" id="L155">    return endTime;</span>
   }
 
   public float getPrice()
   {
-<span class="nc" id="L160">    return price;</span>
+<span class="fc" id="L160">    return price;</span>
   }
 
   public Integer getRemainingCapacity()
   {
-<span class="nc" id="L165">    return remainingCapacity;</span>
+<span class="fc" id="L165">    return remainingCapacity;</span>
   }
 
   public Integer getRoomNumber()
   {
-<span class="nc" id="L170">    return roomNumber;</span>
+<span class="fc" id="L170">    return roomNumber;</span>
   }
 
   public Integer getId()
   {
-<span class="nc" id="L175">    return id;</span>
+<span class="fc" id="L175">    return id;</span>
   }
   /* Code from template association_GetOne */
   public Instructor getInstructor()
   {
-<span class="nc" id="L180">    return instructor;</span>
+<span class="fc" id="L180">    return instructor;</span>
   }
 
   public boolean hasInstructor()
@@ -188,7 +188,7 @@ public class Session
   /* Code from template association_GetOne */
   public ClassType getClassType()
   {
-<span class="nc" id="L191">    return classType;</span>
+<span class="fc" id="L191">    return classType;</span>
   }
   /* Code from template association_SetUnidirectionalOptionalOne */
   public boolean setInstructor(Instructor aNewInstructor)

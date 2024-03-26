@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
     @PostMapping(value = { &quot;/owner&quot; , &quot;/owner/&quot;})
     public ResponseEntity&lt;?&gt; createOwner(@RequestBody OwnerDto ownerDto){
                                         try{
-<span class="fc" id="L31">                                            Owner owner = ownerService.createOwner(ownerDto.getFirstName(), ownerDto.getLastName(), ownerDto.getEmail(), ownerDto.getPassword(), ownerDto.getToken());</span>
-<span class="fc" id="L32">                                            return new ResponseEntity&lt;&gt;(convertToDto(owner), HttpStatus.CREATED);</span>
+<span class="nc" id="L31">                                            Owner owner = ownerService.createOwner(ownerDto.getFirstName(), ownerDto.getLastName(), ownerDto.getEmail(), ownerDto.getPassword(), ownerDto.getToken());</span>
+<span class="nc" id="L32">                                            return new ResponseEntity&lt;&gt;(convertToDto(owner), HttpStatus.CREATED);</span>
 <span class="nc" id="L33">                                        }catch (Exception e){</span>
 <span class="nc" id="L34">                                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Error creating owner&quot;, e);</span>
                                         }
@@ -40,8 +40,8 @@ import java.util.stream.Collectors;
     @GetMapping(value = { &quot;/owner/{aId}&quot;, &quot;/owner/{aId}/&quot;})
     public ResponseEntity&lt;?&gt; getOwner(@PathVariable(&quot;aId&quot;) Integer aId){
         try{
-<span class="fc" id="L43">            OwnerDto ownerDto = DtoConverter.convertToDto(ownerService.getOwner(aId));</span>
-<span class="fc" id="L44">            return new ResponseEntity&lt;&gt;(ownerDto, HttpStatus.OK);</span>
+<span class="nc" id="L43">            OwnerDto ownerDto = DtoConverter.convertToDto(ownerService.getOwner(aId));</span>
+<span class="nc" id="L44">            return new ResponseEntity&lt;&gt;(ownerDto, HttpStatus.OK);</span>
 <span class="nc" id="L45">        }catch (Exception e){</span>
 <span class="nc" id="L46">            return new ResponseEntity&lt;&gt;(e.getMessage(), HttpStatus.BAD_REQUEST);</span>
         }
@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 
     @GetMapping(&quot;/owners&quot;)
     public List&lt;OwnerDto&gt; getAllOwners() {
-<span class="fc" id="L53">        return ownerService.getAllOwners().stream().map(i -&gt; convertToDto(i)).collect(Collectors.toList());</span>
+<span class="nc" id="L53">        return ownerService.getAllOwners().stream().map(i -&gt; convertToDto(i)).collect(Collectors.toList());</span>
     }
 
     @PutMapping(&quot;/owner/{id}/password&quot;)
@@ -75,11 +75,11 @@ import java.util.stream.Collectors;
     }
 
     private OwnerDto convertToDto(Owner owner){
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (owner == null){</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (owner == null){</span>
 <span class="nc" id="L79">            throw new IllegalArgumentException(&quot;There is no such owner&quot;);</span>
         }
-<span class="fc" id="L81">        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());</span>
-<span class="fc" id="L82">        return ownerDto;</span>
+<span class="nc" id="L81">        OwnerDto ownerDto = new OwnerDto(owner.getFirstName(), owner.getLastName(), owner.getEmail(), owner.getPassword(), owner.getId(), owner.getToken());</span>
+<span class="nc" id="L82">        return ownerDto;</span>
 
     }
 

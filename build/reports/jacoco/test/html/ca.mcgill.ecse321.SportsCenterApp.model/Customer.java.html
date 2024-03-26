@@ -30,9 +30,9 @@ public class Customer extends User
 <span class="nc" id="L30">  }</span>
 
   public Customer(String firstName, String lastName, String email, String password, String token, float accountBalance) {
-<span class="nc" id="L33">    super(firstName, lastName, email, password, token);</span>
-<span class="nc" id="L34">    this.accountBalance = accountBalance;</span>
-<span class="nc" id="L35">  }</span>
+<span class="fc" id="L33">    super(firstName, lastName, email, password, token);</span>
+<span class="fc" id="L34">    this.accountBalance = accountBalance;</span>
+<span class="fc" id="L35">  }</span>
 
 <span class="fc" id="L37">  public Customer() {</span>
 
@@ -44,15 +44,15 @@ public class Customer extends User
 
   public boolean setAccountBalance(float aAccountBalance)
   {
-<span class="nc" id="L47">    boolean wasSet = false;</span>
-<span class="nc" id="L48">    accountBalance = aAccountBalance;</span>
-<span class="nc" id="L49">    wasSet = true;</span>
-<span class="nc" id="L50">    return wasSet;</span>
+<span class="fc" id="L47">    boolean wasSet = false;</span>
+<span class="fc" id="L48">    accountBalance = aAccountBalance;</span>
+<span class="fc" id="L49">    wasSet = true;</span>
+<span class="fc" id="L50">    return wasSet;</span>
   }
 
   public float getAccountBalance()
   {
-<span class="nc" id="L55">    return accountBalance;</span>
+<span class="fc" id="L55">    return accountBalance;</span>
   }
 
   public void delete()

@@ -38,6 +38,7 @@ public class SessionControllerTests {
     @AfterEach
     void clearDatabaes() {
         sessionRepository.deleteAll();
+
     }
 
     @Test

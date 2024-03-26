@@ -55,6 +55,7 @@ public class RegistrationController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRegistration(@PathVariable("id") Integer id) {
         try {

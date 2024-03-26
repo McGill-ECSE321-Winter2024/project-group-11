@@ -40,12 +40,12 @@ import java.util.*;
 
     @Transactional
     public Customer updateCustomer(Integer id, float accountBalance){
-<span class="nc" id="L43">        Optional&lt;Customer&gt; customer = customerRepository.findById(id);</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (customer.isPresent()){</span>
-<span class="nc" id="L45">            Customer updatedCustomer = customer.get();</span>
-<span class="nc" id="L46">            updatedCustomer.setAccountBalance(accountBalance);</span>
-<span class="nc" id="L47">            customerRepository.save(updatedCustomer);</span>
-<span class="nc" id="L48">            return updatedCustomer;</span>
+<span class="fc" id="L43">        Optional&lt;Customer&gt; customer = customerRepository.findById(id);</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (customer.isPresent()){</span>
+<span class="fc" id="L45">            Customer updatedCustomer = customer.get();</span>
+<span class="fc" id="L46">            updatedCustomer.setAccountBalance(accountBalance);</span>
+<span class="fc" id="L47">            customerRepository.save(updatedCustomer);</span>
+<span class="fc" id="L48">            return updatedCustomer;</span>
         }
         else{
 <span class="nc" id="L51">            throw new IllegalArgumentException(&quot;Customer not found for id: &quot;+ id);</span>
