@@ -19,6 +19,9 @@ public class OwnerService {
     public Owner createOwner(String aFirstName, String aLastName, String aEmail, String aPassword,  String aToken){
         Owner owner = new Owner(aFirstName, aLastName, aEmail, aPassword, aToken);
         ownerRepository.save(owner);
+        if (aEmail == null) {
+            throw new IllegalArgumentException("Email cannot be null");
+        }
         return owner;
     }
     
