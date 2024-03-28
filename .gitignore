@@ -1,0 +1,7 @@
+.gradle/
+.vscode/
+build/
+
+
+src/main/resources/application-test.properties
+src/main/resources/application.properties
