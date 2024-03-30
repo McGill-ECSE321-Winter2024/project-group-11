@@ -6,14 +6,19 @@
         <router-link to="/about" class="nav-link">About</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
         <router-link to="/gallery" class="nav-link">Gallery</router-link>
-        <router-link to="/enroll" class="nav-link enroll-button">Enroll Now</router-link>
+        <router-link to="/authentication" class="nav-link enroll-button">Enroll Now</router-link>
       </div>
     </div>
   </template>
   
   <script>
   export default {
-    name: 'navbar'
+    name: 'navbar',
+    methods: {
+      redirectToEnroll(){
+
+      }
+    }
   }
   </script>
   
