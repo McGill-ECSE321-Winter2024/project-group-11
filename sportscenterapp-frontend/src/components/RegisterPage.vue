@@ -1,7 +1,8 @@
 <template>
     <div class="register-page">
-      <navbar />  
+      <navbar />
       <registerlogin />
+      
     </div>
   </template>
 
@@ -9,12 +10,16 @@
 <script>
 import navbar from '@/components/Navbar'
 import registerlogin from '@/components/registerlogin'
+import login from '@/components/loginform'
+import register from '@/components/registerform'
 
 export default {
     name: 'RegisterPage',
     components: {
       navbar,
-      registerlogin
+      registerlogin,
+      login,
+      register
     }
 }
 </script>
