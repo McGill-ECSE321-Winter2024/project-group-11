@@ -5,6 +5,7 @@ import RegisterPage from '@/pages/RegisterPage'
 import AboutPage from '@/pages/AboutPage'
 import Dashboard from '@/pages/Dashboard'
 import profilePage from '@/pages/dashboardPages/profilePage'
+import centerinfosPage from '@/pages/dashboardPages/centerinfosPage'
 
 
 Vue.use(Router)
@@ -37,6 +38,12 @@ export default new Router({
       path: '/gallery/profile',
       name: 'profile',
       component: profilePage
+      },
+
+      {
+      path: '/gallery/infos',
+      name: 'infos',
+      component: centerinfosPage
       }
   ]
 })

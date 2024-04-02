@@ -2,7 +2,7 @@
     <div class="sidebar">
       <div class="nav-links">
         <router-link to="/gallery/profile" class="nav-link">Profile</router-link>
-        <router-link to="/center-infos" class="nav-link">Center Infos</router-link>
+        <router-link to="/gallery/infos" class="nav-link">Center Infos</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
         <router-link to="/class-types" class="nav-link">Class Types</router-link>
         <router-link to="/instructors" class="nav-link">Instructors</router-link>
