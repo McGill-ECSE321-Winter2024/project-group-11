@@ -22,7 +22,7 @@
   
   <script>
   import navbar from '@/components/Navbar'
-  import card from '@/components/Card' 
+  import card from '@/components/card' 
   import catImage from '@/assets/cat1.jpg'
   import catImage2 from '@/assets/cat2.jpg'
   
