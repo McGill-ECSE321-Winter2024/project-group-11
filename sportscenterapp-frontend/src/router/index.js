@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import homepage from '@/components/Homepage'
-import RegisterPage from '@/components/RegisterPage'
+import homepage from '@/pages/Homepage'
+import RegisterPage from '@/pages/RegisterPage'
+import AboutPage from '@/pages/AboutPage'
+import Dashboard from '@/pages/Dashboard'
+import profilePage from '@/pages/dashboardPages/profilePage'
+
 
 Vue.use(Router)
 
@@ -17,6 +21,22 @@ export default new Router({
       name: 'authentication',
       component: RegisterPage
     },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutPage
+    },
 
+    {
+      path: '/gallery',
+      name: 'gallery',
+      component: Dashboard,
+    },
+
+    {
+      path: '/gallery/profile',
+      name: 'profile',
+      component: profilePage
+      }
   ]
 })

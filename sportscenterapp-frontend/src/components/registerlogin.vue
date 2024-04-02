@@ -59,6 +59,8 @@ export default {
   min-height: 700px;
   min-width: 1400px;
   height: 700px;
+  box-shadow: 7px 7px 50px #000000;
+  background-color: white;
 }
 
 .box1,
