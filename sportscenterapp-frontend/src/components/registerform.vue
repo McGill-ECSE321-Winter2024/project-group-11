@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -49,6 +50,20 @@ export default {
         alert("Passwords do not match");
         return;
       }
+      const requestBody = {
+        firstName: "fafaa",
+        lastName: "stfafaffring",
+        email: "strisfsfsfsng",
+        password: "strisdfsfsfsng",
+        id: 0,
+        accountBalance: 0,
+        token: "ssdfsftring"
+      }
+
+      axios.post('http://localhost:8080/customer', requestBody)
+        .then(response => {
+        console.log(response.data);
+      }).catch(err => console.log(err));
       console.log('Form Submitted');
     }
   }
