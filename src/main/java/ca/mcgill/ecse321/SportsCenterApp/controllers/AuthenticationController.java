@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
+import ca.mcgill.ecse321.SportsCenterApp.dto.AuthenticationDto;
 import ca.mcgill.ecse321.SportsCenterApp.dto.LoginDto;
 import ca.mcgill.ecse321.SportsCenterApp.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody LoginDto credentials) {
         try {
             String token = authenticationService.logIn(credentials);
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            AuthenticationDto auth = new AuthenticationDto(token, credentials.getUserType());
+            return new ResponseEntity<>(auth, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof AuthenticationException) {
                 return new ResponseEntity<>("Invalid Password.", HttpStatus.BAD_REQUEST); //Invalid password

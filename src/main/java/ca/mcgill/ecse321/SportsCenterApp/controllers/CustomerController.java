@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("")
 public class CustomerController {

@@ -16,8 +16,9 @@
       </form>
     </div>
   </template>
-  
+
   <script>
+  import axios from 'axios';
   export default {
     data() {
       return {
@@ -31,10 +32,27 @@
         console.log('Login Form Submitted');
         console.log('Email:', this.email);
         console.log('Password:', this.password);
-  
+        const requestBody = {
+          email: "string",
+          password: "string",
+          userType: "Customer"
+        }
+
+        axios.post('http://localhost:8080/authentication/login', requestBody)
+          .then(response => {
+            console.log(response.data);
+            const jsonObject = response.data;
+            const jsonString = JSON.stringify(jsonObject);
+            localStorage.setItem('loginInfo', jsonString);
+          }).catch(err => {
+          console.log(err.response.data)
+        });
+        console.log('Form Submitted');
+      }
         // After successful login, you may want to redirect the user or perform other actions
       }
-    }
+
+
   };
   </script>
 
@@ -47,7 +65,7 @@
     flex-direction: column;
     justify-content: center;
     margin: 36px;
-    
+
   }
 
   input{
@@ -59,15 +77,15 @@
     width: 100%;
     outline: none;
     padding-left: 16px;
-    
 
-    
+
+
   }
 
   input::placeholder{
     color: black;
     opacity: 0.4;
-    
+
 
   }
 
