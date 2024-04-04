@@ -17,11 +17,27 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(String firstName, String lastName, String email, String password, String token, float accountBalance) {
-        Customer customer = new Customer(firstName, lastName, email, password, token, accountBalance);
-        if (email == null) {
-            throw new IllegalArgumentException("Email cannot be null");
+        if (!isValidEmailAddress(email)) {
+            throw new IllegalArgumentException("Invalid Email address");
         }
-        return customerRepository.save(customer);
+
+        if (!isValidPassword(password)) {
+            throw new IllegalArgumentException("Invalid password, password must have at least 1 digit, one lowercase, one uppercase, no whitespace and at least 8 character in length");
+        }
+
+        if (firstName == null || lastName == null || firstName.isEmpty() || lastName.isEmpty()) {
+            throw new IllegalArgumentException("Name fields cannot be empty");
+        }
+
+        Customer customer = customerRepository.findCustomerByEmail(email);
+        if (customer != null) {
+            throw new IllegalArgumentException("Customer with email exists!");
+        }
+        customer = new Customer(firstName, lastName, email, password, token, accountBalance);
+
+        customerRepository.save(customer);
+
+        return customer;
     }
 
     @Transactional
@@ -67,6 +83,36 @@ public class CustomerService {
             resultList.add(t);
         }
         return resultList;
+    }
+
+    /**
+     * Method to validate an email
+     * @param email
+     * @return true if the email is valid, false otherwise
+     */
+    public static boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    /**
+     * Method to validate a password
+     * @param password of instructor
+     * @return true if the password is valid
+     * At least 1 digit
+     * At least one lowercase
+     * At least one uppercase
+     * no whitespace
+     * at least 8 character in length
+     */
+    public static boolean isValidPassword(String password) {
+        String passwordpattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";;
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(passwordpattern);
+        java.util.regex.Matcher m = p.matcher(password);
+        return m.matches();
+
     }
 }
 
