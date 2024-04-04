@@ -14,9 +14,10 @@ import registrationPage from '@/pages/dashboardPages/registrationPage'
 import ClassesPage from '@/pages/ClassesPage'
 
 
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -44,56 +45,67 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/profile',
       name: 'profile',
-      component: profilePage
-      },
+      component: profilePage,
+      meta: {requiresAuth: true}
+    },
 
-      {
+    {
       path: '/dashboard/infos',
       name: 'infos',
-      component: centerinfosPage
-      },
+      component: centerinfosPage,
+      meta: {requiresAuth: true}
+    },
 
-      {
-        path: '/dashboard/sessions',
-        name: 'sessions',
-        component: sessionPage
-      },
+    {
+      path: '/dashboard/sessions',
+      name: 'sessions',
+      component: sessionPage,
+      meta: {requiresAuth: true}
+    },
 
-      {
-        path: '/dashboard/class-types',
-        name: 'classtypes',
-        component: classtypesPage
-      },
+    {
+      path: '/dashboard/class-types',
+      name: 'classtypes',
+      component: classtypesPage,
+      meta: {requiresAuth: true}
+    },
 
-      {
-        path: '/dashboard/instructors',
-        name: 'instructors',
-        component: instructorsPage
-      },
+    {
+      path: '/dashboard/instructors',
+      name: 'instructors',
+      component: instructorsPage,
+      meta: {requiresAuth: true}
+    },
 
-      {
-        path: '/dashboard/customers',
-        name: 'customers',
-        component: customerPage
-      },
+    {
+      path: '/dashboard/customers',
+      name: 'customers',
+      component: customerPage,
+      meta: {requiresAuth: true}
+    },
 
-      {
-        path: '/dashboard/registrations',
-        name: 'registration',
-        component: registrationPage
-      },
-
-
-
-
-
-      
-
-
+    {
+      path: '/dashboard/registrations',
+      name: 'registration',
+      component: registrationPage,
+      meta: {requiresAuth: true}
+    }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthed = !!localStorage.getItem('token');
+  console.log(to.meta);
+  if (to.meta.requiresAuth && !isAuthed) {
+    next('/authentication');
+  }
+  next();
+});
+
+export default router;
