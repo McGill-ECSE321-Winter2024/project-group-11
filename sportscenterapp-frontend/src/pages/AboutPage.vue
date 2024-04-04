@@ -3,6 +3,7 @@
       <navbar />
       
       <div class="card-form">
+        <h1>This page should show all the staff and the sports center infos</h1>
         <h2>Add New Card</h2>
         <form @submit.prevent="addCard">
           <div class="form-group">

@@ -1,13 +1,13 @@
 <template>
     <div class="sidebar">
       <div class="nav-links">
-        <router-link to="/gallery/profile" class="nav-link">Profile</router-link>
-        <router-link to="/gallery/infos" class="nav-link">Center Infos</router-link>
-        <router-link to="/classes" class="nav-link">Classes</router-link>
-        <router-link to="/class-types" class="nav-link">Class Types</router-link>
-        <router-link to="/instructors" class="nav-link">Instructors</router-link>
-        <router-link to="/customers" class="nav-link">Customers</router-link>
-        <router-link to="/registrations" class="nav-link">Registrations</router-link>
+        <router-link to="/dashboard/profile" class="nav-link">Profile</router-link>
+        <router-link to="/dashboard/infos" class="nav-link">Center Infos</router-link>
+        <router-link to="/dashboard/sessions" class="nav-link">Sessions</router-link>
+        <router-link to="/dashboard/class-types" class="nav-link">Class Types</router-link>
+        <router-link to="/dashboard/instructors" class="nav-link">Instructors</router-link>
+        <router-link to="/dashboard/customers" class="nav-link">Customers</router-link>
+        <router-link to="/dashboard/registrations" class="nav-link">My Registrations</router-link>
       </div>
       <button class="logout-button" @click="logout">Logout</button>
     </div>

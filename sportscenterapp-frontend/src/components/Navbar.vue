@@ -5,7 +5,7 @@
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/about" class="nav-link">About</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
-        <router-link to="/gallery" class="nav-link">Gallery</router-link>
+        <router-link to="/dashboard/profile" class="nav-link">Dashboard</router-link>
         <router-link to="/authentication" class="nav-link enroll-button">Enroll Now</router-link>
       </div>
     </div>
