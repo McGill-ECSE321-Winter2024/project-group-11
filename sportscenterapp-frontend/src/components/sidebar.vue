@@ -12,18 +12,21 @@
       <button class="logout-button" @click="logout">Logout</button>
     </div>
   </template>
-  
+
   <script>
+
   export default {
     name: 'sidebar',
     methods: {
       logout() {
+        localStorage.removeItem('token');
+        this.$router.push('/');
         console.log("logout");
       }
     }
   }
   </script>
-  
+
   <style scoped>
   .sidebar {
     background-color: #01161e;
@@ -32,29 +35,29 @@
     flex-direction: column;
     height: 100%;
   }
-  
+
   .nav-links {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; 
+    flex-grow: 1;
   }
-  
+
   .nav-link {
     color: white;
     text-decoration: none;
     margin-bottom: 10px;
     padding: 8px 16px;
     transition: 0.3s;
-    border: none; 
-    background: none; 
-    cursor: pointer; 
+    border: none;
+    background: none;
+    cursor: pointer;
   }
-  
+
   .nav-link:hover {
     background-color: #90e0ef;
     color: #01161e;
   }
-  
+
   .logout-button {
     background-color: #c70039;
     border: none;
@@ -62,11 +65,10 @@
     padding: 8px 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: auto; 
+    margin-top: auto;
   }
-  
+
   .logout-button:hover {
     background-color: #ff5733;
   }
   </style>
-  

@@ -19,6 +19,7 @@
 
   <script>
   import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -29,12 +30,9 @@
     methods: {
       submitForm() {
         // Here you would typically send the login data to your backend for authentication
-        console.log('Login Form Submitted');
-        console.log('Email:', this.email);
-        console.log('Password:', this.password);
         const requestBody = {
-          email: "string",
-          password: "string",
+          email: this.email,
+          password: this.password,
           userType: "Customer"
         }
 
@@ -43,13 +41,17 @@
             console.log(response.data);
             const jsonObject = response.data;
             const jsonString = JSON.stringify(jsonObject);
-            localStorage.setItem('loginInfo', jsonString);
-          }).catch(err => {
-          console.log(err.response.data)
+            localStorage.setItem('token', jsonString);
+            this.$router.push('/');
+          })
+          .catch(err => {
+          alert(err.response.data);
+          console.log(err.response.data);
         });
         console.log('Form Submitted');
       }
         // After successful login, you may want to redirect the user or perform other actions
+
       }
 
 

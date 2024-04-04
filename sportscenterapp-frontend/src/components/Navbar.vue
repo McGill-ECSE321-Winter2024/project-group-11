@@ -5,12 +5,13 @@
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/about" class="nav-link">About</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
-        <router-link to="/dashboard/profile" class="nav-link">Dashboard</router-link>
-        <router-link to="/authentication" class="nav-link enroll-button">Enroll Now</router-link>
+        <router-link to="/dashboard/profile" v-if="isAuthenticated" class="nav-link enroll-button">Dashboard</router-link>
+        <router-link to="/authentication" v-if="!isAuthenticated"class="nav-link enroll-button">Enroll Now</router-link>
+
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     name: 'navbar',
@@ -18,10 +19,15 @@
       redirectToEnroll(){
 
       }
+    },
+    computed: {
+      isAuthenticated() {
+        return localStorage.getItem('token') !== null;
+      }
     }
   }
   </script>
-  
+
   <style scoped>
   .navbar {
     display: flex;
@@ -30,16 +36,16 @@
     background-color: #01161e;
     padding: 20px;
   }
-  
+
   .logo {
     width: 64px;
     border-radius: 3px;
   }
-  
+
   .nav-links {
     display: flex;
   }
-  
+
   .nav-link {
     color: white;
     text-decoration: none;
@@ -47,22 +53,21 @@
     padding: 8px 16px;
     transition: 0.3s;
   }
-  
+
   .nav-link:hover {
     background-color: #90e0ef;
     color: #01161e;
   }
-  
+
   .enroll-button {
     background-color: #90e0ef;
     border: none;
     margin-right: 16px;
     transition: 0.3s;
   }
-  
+
   .enroll-button:hover {
     background-color: #8de1f0c9;
     color: white;
   }
   </style>
-  

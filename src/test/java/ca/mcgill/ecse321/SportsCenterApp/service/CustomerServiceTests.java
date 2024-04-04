@@ -40,7 +40,7 @@ public class CustomerServiceTests {
     private static final String CUSTOMER1_FIRST_NAME = "Kenny";
     private static final String CUSTOMER1_LAST_NAME = "Nguyen";
     private static final String CUSTOMER1_EMAIL = "ken@gmail.com";
-    private static final String CUSTOMER1_PASSWORD = "kennyNoMoney!";
+    private static final String CUSTOMER1_PASSWORD = "kennyNoMoney1!";
     private static final int CUSTOMER1_ID = 1;
     private static final float CUSTOMER1_ACCOUNT_BALANCE = 0.45f;
     private static final String CUSTOMER1_TOKEN = "blabla";
@@ -48,7 +48,7 @@ public class CustomerServiceTests {
     private static final String CUSTOMER2_FIRST_NAME = "yo";
     private static final String CUSTOMER2_LAST_NAME = "yoyo";
     private static final String CUSTOMER2_EMAIL = "yoyoyo@mcdo.ca";
-    private static final String CUSTOMER2_PASSWORD = "324!";
+    private static final String CUSTOMER2_PASSWORD = "324asdasdadw!";
     private static final int CUSTOMER2_ID = 2;
     private static final float CUSTOMER2_ACCOUNT_BALANCE = 100f;
     private static final String CUSTOMER2_TOKEN = "hahaha";
@@ -113,15 +113,21 @@ public class CustomerServiceTests {
     @Test
     public void testCreateCustomer(){
         {
-            Customer customer = customerService.createCustomer(CUSTOMER1_FIRST_NAME, CUSTOMER1_LAST_NAME, CUSTOMER1_EMAIL, CUSTOMER1_PASSWORD, CUSTOMER1_TOKEN,CUSTOMER1_ACCOUNT_BALANCE);
+            String C_TEST_FIRSTNAME = "kenny";
+            String C_TEST_LASTNAME = "nguyen";
+            String C_TEST_EMAIL = "kenny@gmail.com";
+            String C_TEST_PASSWORD = "1aBccccccc!";
+            String C_TEST_TOKEN = "okay";
+            float C_TEST_ACCOUNTBALANCE = 25f;
+            Customer createdCustomer = customerService.createCustomer(C_TEST_FIRSTNAME, C_TEST_LASTNAME, C_TEST_EMAIL, C_TEST_PASSWORD, C_TEST_TOKEN,C_TEST_ACCOUNTBALANCE);
 
-            assertNotNull(customer);
-            assertEquals(CUSTOMER1_FIRST_NAME, customer.getFirstName());
-            assertEquals(CUSTOMER1_LAST_NAME, customer.getLastName());
-            assertEquals(CUSTOMER1_EMAIL, customer.getEmail());
-            assertEquals(CUSTOMER1_PASSWORD, customer.getPassword());
-            assertEquals(CUSTOMER1_TOKEN, customer.getToken());
-            assertEquals(CUSTOMER1_ACCOUNT_BALANCE, customer.getAccountBalance());
+            assertNotNull(createdCustomer);
+            assertEquals(C_TEST_FIRSTNAME, createdCustomer.getFirstName());
+            assertEquals(C_TEST_LASTNAME, createdCustomer.getLastName());
+            assertEquals(C_TEST_EMAIL, createdCustomer.getEmail());
+            assertEquals(C_TEST_PASSWORD, createdCustomer.getPassword());
+            assertEquals(C_TEST_TOKEN, createdCustomer.getToken());
+            assertEquals(C_TEST_ACCOUNTBALANCE, createdCustomer.getAccountBalance());
         }
     }
 

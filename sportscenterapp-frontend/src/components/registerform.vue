@@ -51,19 +51,21 @@ export default {
         return;
       }
       const requestBody = {
-        firstName: "fafaa",
-        lastName: "stfafaffring",
-        email: "strisfsfsfsng",
-        password: "strisdfsfsfsng",
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password,
         id: 0,
         accountBalance: 0,
-        token: "ssdfsftring"
+        token: ""
       }
 
       axios.post('http://localhost:8080/customer', requestBody)
         .then(response => {
         console.log(response.data);
-      }).catch(err => console.log(err));
+      }).catch(err => {
+        alert(err.response.data);
+      });
       console.log('Form Submitted');
     }
   }
