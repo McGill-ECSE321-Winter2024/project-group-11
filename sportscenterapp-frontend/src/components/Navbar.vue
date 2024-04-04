@@ -5,8 +5,9 @@
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/about" class="nav-link">About</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
-        <router-link to="/gallery" v-if="isAuthenticated" class="nav-link enroll-button">Dashboard</router-link>
+        <router-link to="/dashboard/profile" v-if="isAuthenticated" class="nav-link enroll-button">Dashboard</router-link>
         <router-link to="/authentication" v-if="!isAuthenticated"class="nav-link enroll-button">Enroll Now</router-link>
+
       </div>
     </div>
   </template>
