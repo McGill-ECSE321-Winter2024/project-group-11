@@ -12,6 +12,14 @@
           <br>
           <input placeholder="Password" type="password" id="password" v-model="password" required class="input" autocomplete="off">
         </div>
+        <div class="form-group">
+          <input type="radio" id="owner" name="customerType" value="Owner" v-model="customerType">
+          <label for="owner">Owner</label>
+          <input type="radio" id="customer" name="customerType" value="Customer" v-model="customerType">
+          <label for="customer">Customer</label>
+          <input type="radio" id="instructor" name="customerType" value="Instructor" v-model="customerType">
+          <label for="instructor">Instructor</label>
+        </div>
         <button type="submit" class="btn-57">Login</button>
       </form>
     </div>
@@ -24,7 +32,8 @@
     data() {
       return {
         email: '',
-        password: ''
+        password: '',
+        customerType: null
       };
     },
     methods: {
@@ -33,7 +42,7 @@
         const requestBody = {
           email: this.email,
           password: this.password,
-          userType: "Customer"
+          userType: this.customerType
         }
 
         axios.post('http://localhost:8080/authentication/login', requestBody)
