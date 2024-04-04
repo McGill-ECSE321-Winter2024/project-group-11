@@ -100,7 +100,7 @@ public class SessionController {
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {
         try {
             Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
-                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getClassType().getId());
+                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId() ,sessionDto.getClassType().getId());
             return new ResponseEntity<>(session, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
