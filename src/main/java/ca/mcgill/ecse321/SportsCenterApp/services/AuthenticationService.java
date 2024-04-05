@@ -33,7 +33,7 @@ public class AuthenticationService {
      * @return true is login was successful otherwise false
      */
     @Transactional
-    public String logIn(LoginDto credentials) throws Exception {
+    public AuthenticationDto logIn(LoginDto credentials) throws Exception {
         switch (credentials.getUserType()) {
             case Owner:
                 return authenticateOwner(credentials.getEmail(), credentials.getPassword());
@@ -76,11 +76,11 @@ public class AuthenticationService {
      * @return token of the instructor (String)
      * @throws AuthenticationException if invalid password
      */
-    private String authenticateInstructor(String email, String password) throws AuthenticationException {
+    private AuthenticationDto authenticateInstructor(String email, String password) throws AuthenticationException {
         Instructor ins = instructorRepository.findInstructorByEmail(email);
         if (ins.getPassword().equals(password)) {
             ins.setToken(tokenProvider.createToken(ins.getEmail()));
-            return ins.getToken();
+            return new AuthenticationDto(ins.getToken(), ins.getId());
         } else {
             throw new AuthenticationException("Invalid password.");
         }
@@ -93,11 +93,11 @@ public class AuthenticationService {
      * @return token of the owner (String)
      * @throws AuthenticationException if invalid password
      */
-    private String authenticateOwner(String email, String password) throws AuthenticationException {
+    private AuthenticationDto authenticateOwner(String email, String password) throws AuthenticationException {
         Owner owner = ownerRepository.findOwnerByEmail(email);
         if (owner.getPassword().equals(password)) {
             owner.setToken(tokenProvider.createToken(owner.getEmail()));
-            return owner.getToken();
+            return new AuthenticationDto(owner.getToken(), owner.getId());
         } else {
             throw new AuthenticationException("Invalid password.");
         }
@@ -110,11 +110,11 @@ public class AuthenticationService {
      * @return token of the customer (String)
      * @throws AuthenticationException if invalid password
      */
-    private String authenticateCustomer(String email, String password) throws AuthenticationException {
+    private AuthenticationDto authenticateCustomer(String email, String password) throws AuthenticationException {
         Customer customer = customerRepository.findCustomerByEmail(email);
         if (customer.getPassword().equals(password)) {
             customer.setToken(tokenProvider.createToken(customer.getEmail()));
-            return customer.getToken();
+            return new AuthenticationDto(customer.getToken(), customer.getId());
         } else {
             throw new AuthenticationException("Invalid password.");
         }

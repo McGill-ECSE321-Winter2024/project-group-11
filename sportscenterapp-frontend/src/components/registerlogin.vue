@@ -56,7 +56,7 @@ export default {
   align-items: center;
   margin-top: 48px;
   margin-bottom: 48px;
-  min-height: 700px;
+  min-height: 780px;
   min-width: 1400px;
   height: 700px;
   box-shadow: 7px 7px 50px #000000;
