@@ -1,6 +1,7 @@
 <template>
     <Dashboard>
       <div class="register-form">
+        <popup v-if="this.errorMessage" :error-message="this.errorMessage" />
         <h2>Create Instructor</h2>
         <form @submit.prevent="submitForm">
           <div class="form-group">
@@ -28,7 +29,7 @@
             <br>
             <input type="password" id="confirm-password" v-model="confirmPassword" required class="input" autocomplete="off" placeholder="Confirm password">
           </div>
-          <button type="submit" @click="createInstructor" class="btn-57">Register</button>
+          <button type="submit" class="btn-57">Register</button>
         </form>
       </div>
     </Dashboard>
@@ -37,23 +38,34 @@
   <script>
   import Dashboard from '@/pages/Dashboard'
   import axios from "axios";
+  import popup from "../../components/popup.vue";
+  import { showErrMsg} from "../../components/loginform.vue";
+
   export default {
+    comments: {
+      popup
+    },
     data() {
       return {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        errorMessage: ''
       };
     },
     name: 'instructors',
     components: {
+      popup,
       Dashboard
     },
     methods: {
-      createInstructor() {
-        console.log("HIII")
+      submitForm() {
+        if (this.password !== this.confirmPassword) {
+          showErrMsg.call(this, "Passwords do not match");
+          return;
+        }
         const body = {
           firstName: this.firstName,
           lastName: this.lastName,
@@ -65,9 +77,14 @@
         }
         axios.post('http://localhost:8080/instructor', body)
           .then(res => {
-            alert("Instructor created");
+            showErrMsg.call(this, "Instructor created");
+            this.firstName = '';
+            this.lastName = '';
+            this.email = '';
+            this.password = '';
+            this.confirmPassword = '';
         }).catch(err => {
-            alert(err.response.data);
+            showErrMsg.call(this, err.response.data);
           });
       }
     }
