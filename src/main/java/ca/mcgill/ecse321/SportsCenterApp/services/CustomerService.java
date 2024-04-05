@@ -70,6 +70,19 @@ public class CustomerService {
             throw new IllegalArgumentException("Customer not found for id: "+ id);
         }
     }
+    @Transactional
+    public Customer updateCustomerPassword(Integer id, String newPassword) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty()) {
+            throw new IllegalArgumentException("Customer not found for id: " + id);
+        }
+        Customer updatedCustomer = customer.get();
+        if (!isValidPassword(newPassword)) {
+            throw new IllegalArgumentException("Invalid password, password must have at least 1 digit, one lowercase, one uppercase, no whitespace and at least 8 character in length");
+        }
+        updatedCustomer.setPassword(newPassword);
+        return customerRepository.save(updatedCustomer);
+    }
 
     @Transactional
     public void deleteCustomer(Integer id){

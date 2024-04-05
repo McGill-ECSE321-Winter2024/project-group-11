@@ -20,9 +20,8 @@ import ca.mcgill.ecse321.SportsCenterApp.services.CustomerService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
@@ -63,6 +62,15 @@ public class CustomerController {
 
             return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PutMapping("/customer/{id}")
+    public ResponseEntity<?> updateCustomerPassword(@PathVariable("id") Integer id, @RequestParam("password") String password) {
+        try {
+            Customer customer = customerService.updateCustomerPassword(id, password);
+            return new ResponseEntity<>(convertToDto(customer), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
