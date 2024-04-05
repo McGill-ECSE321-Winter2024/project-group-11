@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     fetchInstructors() {
-      axios.get('http://localhost:8080/instructors/')
+      axios.get('http://localhost:8080/instructors')
         .then(response => {
           this.instructors = response.data; // Assign the fetched instructors to the instructors array
         })

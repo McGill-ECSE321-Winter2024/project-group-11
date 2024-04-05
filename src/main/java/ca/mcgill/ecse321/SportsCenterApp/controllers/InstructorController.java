@@ -15,9 +15,9 @@ import ca.mcgill.ecse321.SportsCenterApp.services.InstructorService;
 import java.util.*;
 
 
-
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("")
 public class InstructorController {
 
     @Autowired
@@ -144,7 +144,6 @@ public class InstructorController {
         InstructorDto instructorDto = new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());
         return instructorDto;
     }
-
 
 }
 
