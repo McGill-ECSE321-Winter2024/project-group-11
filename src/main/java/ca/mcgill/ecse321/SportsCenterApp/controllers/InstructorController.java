@@ -26,7 +26,7 @@ public class InstructorController {
 
     /**
      * POST request to create a new Instructor
-     * @param InstructorDto (InstructorDto)
+     * @param instructorDto (InstructorDto)
      * @return a insturctor dto
      */
     @PostMapping("/instructor")
