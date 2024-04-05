@@ -24,9 +24,9 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto credentials) {
         try {
-            String token = authenticationService.logIn(credentials);
-            AuthenticationDto auth = new AuthenticationDto(token, credentials.getUserType());
-            return new ResponseEntity<>(auth, HttpStatus.OK);
+            AuthenticationDto res = authenticationService.logIn(credentials);
+            res.setUserType(credentials.getUserType());
+            return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception e) {
             if (e instanceof AuthenticationException) {
                 return new ResponseEntity<>("Invalid Password.", HttpStatus.BAD_REQUEST); //Invalid password

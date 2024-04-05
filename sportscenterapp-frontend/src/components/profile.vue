@@ -1,25 +1,9 @@
 <template>
   <div class="profile">
     <h2>User Profile</h2>
-    <div v-if="!editing" class="info-group">
-      <label>First Name:</label>
-      <span>{{ user.firstName }}</span>
-    </div>
-    <div v-if="!editing" class="info-group">
-      <label>Last Name:</label>
-      <span>{{ user.lastName }}</span>
-    </div>
-    <div v-if="!editing" class="info-group">
-      <label>Email:</label>
-      <span>{{ user.email }}</span>
-    </div>
-    <div v-if="!editing" class="info-group">
-      <label>Password:</label>
-      <span>{{ user.password }}</span>
-    </div>
-    <div v-if="!editing" class="info-group">
-      <label>Balance:</label>
-      <span>{{ user.balance }}</span>
+    <div v-for="(value, key) in user" :key="key" v-if="!editing && key !== 'id' && key !== 'token'"  class="info-group">
+      <label>{{ key }}</label>
+      <span>{{value}}</span>
     </div>
     <div v-if="!editing">
       <button class="btn-57" @click="editProfile">Edit</button>
@@ -52,25 +36,18 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      user: {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
-        password: 'p@ssword321412',
-        balance: 1000
-      },
-      editedUser: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        balance: 0
-      },
+      user: null,
+      editedUser: null,
       editing: false
     };
+  },
+  mounted() {
+    this.retrieveUserData();
   },
   methods: {
     editProfile() {
@@ -80,10 +57,42 @@ export default {
     saveChanges() {
       this.user = { ...this.editedUser };
       this.editing = false;
+      axios.put('')
     },
     cancelEdit() {
       this.editing = false;
       this.editedUser = { ...this.user };
+    },
+
+    async retrieveUserData() {
+      try {
+        let storageObj = JSON.parse(localStorage.getItem('token'));
+        if (!storageObj) {
+          alert("Could not retrieve user info");
+        }
+        let userType = "";
+
+        const user = storageObj.userType;
+        const id = storageObj.id;
+        if (user === "Instructor") {
+          userType = "instructors";
+        } else if (user === "Owner") {
+          userType = "owner";
+        } else if (user === "Customer") {
+          userType = "customer"
+        } else {
+          console.log("didnt fetch");
+        }
+        console.log(`http://localhost:8080/${userType}/${id}`);
+        const response = await axios.get(`http://localhost:8080/${userType}/${id}`);
+        if (response.status !== 200) {
+          alert("Could not retrieve user info");
+        }
+        console.log(response.data);
+        this.user = response.data;
+      } catch(err) {
+        console.log(`Error caused by ${err}`);
+      }
     }
   }
 };
@@ -103,7 +112,7 @@ export default {
 }
 
 .info-group span {
-  display: flex; 
+  display: flex;
   align-items: center;
   border: none;
   height: 48px;

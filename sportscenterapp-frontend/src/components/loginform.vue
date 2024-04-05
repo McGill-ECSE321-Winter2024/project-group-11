@@ -1,5 +1,6 @@
 <template>
     <div class="login-form">
+      <popup v-if="this.errorMessage" :error-message="this.errorMessage" />
       <h2>Login</h2>
       <form @submit.prevent="submitForm">
         <div class="form-group">
@@ -27,13 +28,27 @@
 
   <script>
   import axios from 'axios';
+  import popup from "./popup.vue";
+  export const showErrMsg = async function(errMsg) {
+    this.errorMessage = errMsg;
+    await delay(5000);
 
+    this.errorMessage = "";
+  };
+
+  const delay = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  };
   export default {
+    components: {
+      popup
+    },
     data() {
       return {
         email: '',
         password: '',
-        customerType: null
+        customerType: null,
+        errorMessage: ""
       };
     },
     methods: {
@@ -44,7 +59,6 @@
           password: this.password,
           userType: this.customerType
         }
-
         axios.post('http://localhost:8080/authentication/login', requestBody)
           .then(response => {
             console.log(response.data);
@@ -54,8 +68,7 @@
             this.$router.push('/');
           })
           .catch(err => {
-          alert(err.response.data);
-          console.log(err.response.data);
+          showErrMsg.call(this, err.response.data)
         });
         console.log('Form Submitted');
       }
