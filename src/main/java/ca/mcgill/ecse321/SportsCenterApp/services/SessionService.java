@@ -62,6 +62,29 @@ public class SessionService {
 
         return sessionRepository.save(session);
     }
+
+    @Transactional
+    public Session createSession(Date date, Time startTime, Time endTime, float price, Integer remainingCap, Integer roomNumber, Integer instructorId, Integer classTypeId) {
+        //preliminary input validations
+        inputValidation(startTime, endTime, price, roomNumber, remainingCap);
+        verifySessionConflicts(date, startTime, endTime, roomNumber, -1);
+
+        Optional<ClassType> classType = classTypeRepository.findById(classTypeId);
+        Optional<Instructor> instructor = instructorRepository.findById(instructorId);
+
+        if (classType.isEmpty() || !classType.get().isApproved()) {
+            throw new IllegalArgumentException("Invalid/ Not approved class type.");
+        }
+
+        if (instructor.isEmpty()) {
+            throw new IllegalArgumentException("Instructor not found.");
+        }
+
+        Session session = new Session(date, startTime, endTime, price, remainingCap, roomNumber, instructor.get(), classType.get());
+
+        return sessionRepository.save(session);
+    }
+
     private void inputValidation(Time startTime, Time endTime, float price, Integer roomNumber, Integer remainingCap) {
 
         if (startTime.after(endTime)) {

@@ -1,116 +1,118 @@
 <template>
-    <div class="about-page">
-      <navbar />
-      
-      <div class="card-form">
-        <h1>This page should show all the staff and the sports center infos</h1>
-        <h2>Add New Card</h2>
-        <form @submit.prevent="addCard">
-          <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" id="title" v-model="newCard.title" required>
-          </div>
-          <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" v-model="newCard.description" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="imageSrc">Image URL:</label>
-            <input type="url" id="imageSrc" v-model="newCard.imageSrc" required>
-          </div>
-          <button type="submit">Add Card</button>
-        </form>
-      </div>
-  
-      <div class="card-container">
-        <Card v-for="(card, index) in cards" :key="index" :imageSrc="card.imageSrc" :title="card.title" :description="card.description" />
+  <div>
+    <navbar />
+    <div class="heading">
+      <h1 class="title">Instructors</h1>
+    </div>
+
+    <div class="card-container">
+      <div v-for="instructor in instructors" :key="instructor.id" class="card">
+        <h2>{{ instructor.firstName }} {{ instructor.lastName }}</h2>
+        <p> Biography: {{ instructor.biography }}</p>
+        <p>Years of Experience: {{ instructor.yearsOfExperience }} </p>
+        <p>Contact: {{ instructor.email }}</p>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import navbar from '@/components/Navbar'
-  import Card from '@/components/card'
-  
-  export default {
-    name: 'AboutPage',
-    components: {
-      navbar,
-      Card
-    },
-    data() {
-      return {
-        newCard: {
-          title: '',
-          description: '',
-          imageSrc: ''
-        },
-        cards: []
-      }
-    },
-    methods: {
-      addCard() {
-        this.cards.push({ ...this.newCard });
-        // Clear the form after adding the card
-        this.newCard = {
-          title: '',
-          description: '',
-          imageSrc: ''
-        };
-      }
+
+  </div>
+</template>
+
+
+
+<script>
+import axios from 'axios';
+import navbar from '@/components/Navbar';
+
+export default {
+  name: 'instructors',
+  components: {
+    navbar,
+  },
+  data() {
+    return {
+      instructors: []    // Initialize instructors array
+    };
+  },
+  mounted() {
+    this.fetchInstructors(); // Fetch instructors when component mounts
+  },
+  methods: {
+    fetchInstructors() {
+      axios.get('http://localhost:8080/instructors')
+        .then(response => {
+          this.instructors = response.data; // Assign the fetched instructors to the instructors array
+        })
+        .catch(error => {
+          console.error("There was an error fetching the instructors: ", error.response);
+        });
     }
   }
-  </script>
-  
-  <style scoped>
-  body {
-    background-color: aliceblue;
-    margin: 10px; /* Added margin around the window */
-  }
-  
-  .card-form {
-    margin: 24px;
-  }
-  
-  .form-group {
-    margin-bottom: 10px;
-  }
-  
-  form input[type="text"],
-  form textarea,
-  form input[type="url"] {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  form button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  form button:hover {
-    background-color: #0056b3;
-  }
-  
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    
-    margin-left: 24px; /* Added margin to the left of the card container */
-    margin-right: 24px;
-  }
-  
-  .card-container .card {
-    margin-left: 24px;
-  }
-  
-  </style>
-  
+}
+</script>
+
+
+<style>
+.heading {
+  margin: 50px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* This will space out the cards nicely */
+  margin: 15px; /* Adjust the spacing between cards */
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px;
+  transition: box-shadow 0.3s ease-in-out;
+  flex: 0 1 calc(33.333% - 30px);
+}
+
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #666;
+  line-height: 1.6;
+}
+
+h3 {
+  color: #333;
+  margin-top: 20px;
+}
+
+.beginner {
+  color: green;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.intermediate {
+  color: yellow;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.advanced {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+</style>
+
