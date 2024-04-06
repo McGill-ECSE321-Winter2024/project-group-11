@@ -24,7 +24,7 @@
             <td>{{ session.date }}</td>
             <td>{{ session.startTime }}</td>
             <td>{{ session.endTime }}</td>
-            <td>{{ session.instructor.firstName }}</td>
+            <td>{{ session.instructor ? session.instructor.firstName : "Not Assigned" }}</td>
           </tr>
         </tbody>
       </table>
