@@ -36,6 +36,8 @@
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     props: {
       sessions: Array // Array of sports sessions
@@ -49,14 +51,28 @@
       editActiveSession() {
         if (this.activeIndex !== null) {
           // Emit event to parent component to edit the active session
-          this.$emit('edit-session', this.activeIndex);
+
+          this.$emit('edit-session', this.sessions[this.activeIndex].id);
         }
       },
       deleteActiveSession() {
         if (this.activeIndex !== null) {
-          // Emit event to parent component to delete the active session
-          this.$emit('delete-session', this.activeIndex);
+        // Emit event to parent component to delete the active session
+        console.log(`active session: ${this.activeIndex} and ${this.sessions[this.activeIndex].id}`)
+        const id = this.sessions[this.activeIndex].id;
+        if (!id) {
+          console.log("id could not be parsed")
+          return;
         }
+        axios.delete(`http://localhost:8080/session/${id}`)
+          .then(res => {
+            this.$emit('delete-session', this.activeIndex);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+      }
       },
       setActiveRow(index) {
         // Set the active index to the clicked row index

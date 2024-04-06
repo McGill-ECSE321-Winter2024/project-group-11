@@ -12,6 +12,10 @@
     <div class="modal-overlay" v-if="showCreateSessionPopup">
         <createviewsessions class ="modal-content" @close="showCreateSessionPopup = false" @create-session="addSession" />
     </div>
+
+    <div class="modal-overlay" v-if="showEditSessionPopup">
+        <editsession :sessionId="chosenSession" class="modal-content" @close="showEditSessionPopup = false" @edit-session="editSession" />
+    </div>
   </div>
 </template>
 
@@ -20,18 +24,23 @@ import axios from 'axios';
 import Dashboard from '@/pages/Dashboard'
 import createviewsessions from '@/components/createviewsessions'
 import sessiontable from '@/components/sessiontable'
+import editsession from '@/components/editsession'
 
 export default {
   name: 'sessionPage',
   components: {
     Dashboard,
     sessiontable,
-    createviewsessions
+    createviewsessions,
+    editsession
   },
   data() {
     return {
       showCreateSessionPopup: false,
-      sessions: []
+      showEditSessionPopup: false,
+      sessions: [],
+      chosenSession: null,
+      errorMessage: ''
     };
   },
   mounted(){
@@ -44,10 +53,12 @@ export default {
       this.showCreateSessionPopup = false;
     },
     editSession(index) {
-      // Implement edit session logic here if needed
+      this.chosenSession = index;
+      this.showEditSessionPopup = true;
+      this.fetchSessions();
     },
     deleteSession(index) {
-      this.sessions.splice(index, 1);
+      this.fetchSessions();
     },
     fetchSessions() {
         axios.get('http://localhost:8080/session/')
@@ -56,6 +67,7 @@ export default {
           })
           .catch(err => {
             console.log(err.response.data);
+            this.errorMessage = err.response.data;
           })
   }
 }
