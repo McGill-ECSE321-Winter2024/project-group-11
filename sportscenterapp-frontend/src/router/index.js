@@ -45,56 +45,56 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/profile',
       name: 'profile',
       component: profilePage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/infos',
       name: 'infos',
       component: centerinfosPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/sessions',
       name: 'sessions',
       component: sessionPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/class-types',
       name: 'classtypes',
       component: classtypesPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/instructors',
       name: 'instructors',
       component: instructorsPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/customers',
       name: 'customers',
       component: customerPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     },
 
     {
       path: '/dashboard/registrations',
       name: 'registration',
       component: registrationPage,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: false}
     }
   ]
 });
