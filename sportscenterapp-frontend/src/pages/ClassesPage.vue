@@ -12,7 +12,14 @@
         <p>Date & Time: {{ session.date }}: {{ session.startTime }} - {{ session.endTime }}</p>
         <p>Price: ${{ session.price }} | Remaining Capacity: {{ session.remainingCapacity }}</p>
         <p>Room: {{ session.roomNumber }}</p>
-        <p>Instructor: {{ session.instructor.firstName }} {{ session.instructor.lastName }}</p>
+        <div>
+          <p v-if="session.instructor">
+            Instructor: {{ session.instructor.firstName }} {{ session.instructor.lastName }}
+          </p>
+          <p v-else>
+            No instructor assigned
+          </p>
+        </div>
         <span :class="{'beginner': session.classType.difficultyLevel === 'Beginner',
                        'intermediate': session.classType.difficultyLevel === 'Intermediate',
                        'advanced': session.classType.difficultyLevel === 'Advanced'}">

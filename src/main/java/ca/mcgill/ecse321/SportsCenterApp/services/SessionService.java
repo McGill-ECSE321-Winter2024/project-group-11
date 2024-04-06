@@ -123,7 +123,14 @@ public class SessionService {
 
     @Transactional
     public Integer dropInstructorFromSession(Integer sessionId) {
-        return sessionRepository.updateSessionByInstructorId(sessionId);
+        Optional<Session> session = sessionRepository.findById(sessionId);
+        if (session.isEmpty()) {
+            return 0;
+        }
+        Session res = session.get();
+        res.setInstructor(null);
+        sessionRepository.save(res);
+        return 1;
     }
 
     @Transactional
@@ -144,9 +151,25 @@ public class SessionService {
         if (updatedSession.hasInstructor()) {
             throw new IllegalArgumentException("Session already has an instructor");
         }
+        if (verifyInstructorScheduleConflicts(sessionId, instructorId)) {
+            throw new IllegalArgumentException("Instructor is has conflicting schedule.");
+        }
         updatedSession.setInstructor(instructor.get());
         sessionRepository.save(updatedSession);
         return updatedSession;
+    }
+    @Transactional
+    private boolean verifyInstructorScheduleConflicts(Integer sessionId, Integer instructorId) {
+        List<Session> sessions = getAllSessionsByInstructorId(instructorId);
+        Session session = getSession(sessionId);
+        for (Session s: sessions) {
+            if (s.getDate().equals(session.getDate())) {
+                if (s.getEndTime().after(session.getStartTime())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Transactional
@@ -156,6 +179,18 @@ public class SessionService {
         }
         return sessionRepository.getSessionsByInstructorId(id);
 
+    }
+
+    @Transactional
+    public List<Session> getAllUninstructedSessions() {
+        Iterable<Session> allSessions = sessionRepository.findAll();
+        List<Session> res = new ArrayList<>();
+        for (Session s: allSessions) {
+            if (s.getInstructor() == null) {
+                res.add(s);
+            }
+        }
+        return res;
     }
 
     @Transactional
