@@ -106,7 +106,7 @@ router.beforeEach((to, from, next) => {
     next('/authentication');
   }
   const token = JSON.parse(localStorage.getItem('token')).token;
-  
+
   const userType = JSON.parse(localStorage.getItem('token')).userType;
   if (to.name === 'instructors' && userType !== 'Owner') {
     next('/dashboard');
