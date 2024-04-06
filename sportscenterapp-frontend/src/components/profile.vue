@@ -2,7 +2,7 @@
   <div class="profile">
     <h2>User Profile</h2>
     <div v-for="(value, key) in user" :key="key" v-if="!editing && key !== 'id' && key !== 'token'"  class="info-group">
-      <label>{{ key }}</label>
+      <label>{{ keyConverter[key] }}</label>
       <span>{{value}}</span>
     </div>
     <div v-if="!editing">
@@ -11,7 +11,7 @@
     <form v-else @submit.prevent="saveChanges" class="info-group">
       <popup v-if="this.errMsg" :error-message="this.errMsg" />
       <div v-for="(value, key) in editedUser" :key="key" v-if="editing && key !== 'id' && key !== 'token'"  class="info-group">
-        <label>{{ key }}</label>
+        <label>{{ keyConverter[key] }}</label>
         <input type="text" :id="key" v-model="editedUser[key]" class="input" autocomplete="off" :readonly="isImmutableData(key)">
       </div>
       <button type="submit" class="btn-57">Save Changes</button>
@@ -30,7 +30,16 @@ export default {
       user: null,
       editedUser: null,
       editing: false,
-      errMsg: ""
+      errMsg: "",
+      keyConverter: {
+        firstName: "First Name",
+        lastName: "Last Name",
+        password: "Password",
+        email: "Email Address",
+        yearsOfExperience: "Years of Experience",
+        biography: "Biography",
+        accountBalance: "Account Balance"
+      }
     };
   },
   mounted() {
@@ -87,7 +96,10 @@ export default {
         );
       } else {
         // Owner or other user types
-
+        axios.put(`http://localhost:8080/owner/${storageObj.id}/password?newPassword=${this.editedUser.password}`)
+          .catch(err => {
+            this.errMsg = err.response.data;
+          })
       }
 
       return Promise.all(requests);
