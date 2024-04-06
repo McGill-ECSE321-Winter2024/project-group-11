@@ -30,16 +30,18 @@
           <label for="instructor">Instructor:</label>
           <select id="instructor" v-model="session.instructor" class="input">
             <option value="">Select Instructor</option>
-            <option value="John Doe">John Doe</option>
-            <option value="Jane Smith">Jane Smith</option>
+            <option v-for="i in instructors" :value="i.id" :key="i.id">
+              {{ i.firstName }} {{ i.lastName }}
+            </option>
           </select>
         </div>
         <div class="form-group">
           <label for="classType">Class Type:</label>
           <select id="classType" v-model="session.classType" class="input">
             <option value="">Select Class Type</option>
-            <option value="Yoga">Yoga</option>
-            <option value="Pilates">Pilates</option>
+            <option v-for="c in classtypes" :value="c.id" :key="c.id">
+              {{ c.difficultyLevel }} {{ c.name }}
+            </option>
           </select>
         </div>
       </form>
@@ -51,6 +53,8 @@
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -64,16 +68,50 @@
           endTime: '',
           instructor: '',
           classType: ''
-        }
+        },
+        instructors: [],
+        classtypes: [],
+        errMsg : '',
       };
+    },
+
+    created(){
+      this.fetchInstructors();
+      this.fetchClassTypes();
     },
     methods: {
       createSession() {
-        // Handle creating the session here
-        console.log("Creating session:", this.session);
-        this.$emit('create-session', this.session);
-        this.clearForm();
-      },
+      // Prepare the session data for the POST request
+
+      const startTimeUTC = `${this.session.date}T${this.session.startTime}:00.000Z`;
+      const endTimeUTC = `${this.session.date}T${this.session.endTime}:00.000Z`;
+
+      const sessionData = {
+        roomNumber: this.session.roomNumber,
+        price: this.session.price,
+        remainingCapacity: this.session.capacity,
+        date: this.date,
+        startTime: startTimeUTC,
+        endTime: endTimeUTC,
+        instructor: { id: this.session.instructor},
+        classType: { id: this.session.classType }
+      };
+
+
+      console.log(sessionData);
+      // Make the POST request to create a new session
+      axios.post('http://localhost:8080/session/', sessionData)
+        .then(response => {
+          console.log('Session created successfully:', response.data);
+          this.clearForm(); // Clear the form after successful creation
+          this.$emit('create-session', response.data); // Emit an event to notify parent component
+        })
+        .catch(error => {
+          console.error('Error creating session:', error.response.data);
+          // Handle error (e.g., show error message to user)
+          this.errMsg = error.response.data; // Set error message to display
+        });
+    },
       cancel() {
         this.clearForm();
         this.$emit('close');
@@ -90,6 +128,27 @@
           instructor: '',
           classType: ''
         };
+      },
+
+      fetchInstructors() {
+        axios.get('http://localhost:8080/instructors')
+          .then(res => {
+            this.instructors = res.data;
+          })
+          .catch(err => {
+            console.log(err.response.data);
+          })
+      },
+
+      fetchClassTypes() {
+        axios.get('http://localhost:8080/classtypes/approved')
+          .then(res => {
+            this.classtypes = res.data;
+          })
+          .catch(err => {
+            console.log(err.response.data);
+          })
+
       }
     }
   };
