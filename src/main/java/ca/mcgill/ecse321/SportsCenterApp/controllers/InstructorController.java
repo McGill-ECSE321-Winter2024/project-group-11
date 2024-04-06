@@ -56,7 +56,7 @@ public class InstructorController {
      * @return class type dto
      */
     @GetMapping("/instructors/{id}")
-    public ResponseEntity<?> getInstructorById(@PathVariable Integer id) {
+    public ResponseEntity<?> getInstructorById(@PathVariable("id") Integer id) {
         try {
             Instructor instructor = service.getInstructor(id);
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
@@ -72,7 +72,7 @@ public class InstructorController {
      * @return Instructor type dto
      */
     @GetMapping("/instructors/email/{email}")
-    public ResponseEntity<?> getInstructorByEmail(@PathVariable String email) {
+    public ResponseEntity<?> getInstructorByEmail(@PathVariable("email") String email) {
         try {
             Instructor instructor = service.getInstructorByEmail(email);
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
@@ -89,7 +89,7 @@ public class InstructorController {
      * @return Instructor dto
      */
     @PutMapping("/instructors/{id}/password")
-    public ResponseEntity<?> updateInstructorPassword (@PathVariable Integer id, @RequestParam String newPassword) {
+    public ResponseEntity<?> updateInstructorPassword (@PathVariable("id") Integer id, @RequestParam String newPassword) {
 
         try {
             Instructor instructor = service.updateInstructorPassword(id, newPassword);
@@ -108,7 +108,7 @@ public class InstructorController {
      * @return Instructor dto
      */
     @PutMapping("/instructors/email/{email}/password")
-    public ResponseEntity<?> updateInstructorPassword (@PathVariable String email, @RequestParam String newPassword) {
+    public ResponseEntity<?> updateInstructorPassword (@PathVariable("email") String email, @RequestParam String newPassword) {
 
         try {
             Instructor instructor = service.updateInstructorPassword(email, newPassword);
@@ -119,7 +119,7 @@ public class InstructorController {
 
     }
     @PutMapping("/instructors/{id}/bio")
-    public ResponseEntity<?> updateInstructorBio(@PathVariable Integer id, @RequestParam String bio) {
+    public ResponseEntity<?> updateInstructorBio(@PathVariable("id") Integer id, @RequestParam String bio) {
         try {
             Instructor instructor = service.updateInstructorBio(id, bio);
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
@@ -128,7 +128,7 @@ public class InstructorController {
         }
     }
     @PutMapping("/instructors/{id}/yrOfExp")
-    public ResponseEntity<?> updateInstructorExperience(@PathVariable Integer id, @RequestParam Integer experience) {
+    public ResponseEntity<?> updateInstructorExperience(@PathVariable("id") Integer id, @RequestParam Integer experience) {
         try {
             Instructor instructor = service.updateInstructorYearsOfXp(id, experience);
             return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
@@ -144,7 +144,7 @@ public class InstructorController {
      */
 
     @DeleteMapping("/instructors/{id}")
-    public ResponseEntity<?> deleteInstructor(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteInstructor(@PathVariable("id") Integer id) {
         try {
             service.deleteInstructor(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

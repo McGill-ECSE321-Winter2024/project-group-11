@@ -54,7 +54,7 @@ public class OwnerController {
     }
 
     @PutMapping("/owner/{id}/password")
-    public ResponseEntity<?> updateOwnerPassword (@PathVariable Integer id, @RequestParam String newPassword){
+    public ResponseEntity<?> updateOwnerPassword (@PathVariable("id") Integer id, @RequestParam String newPassword){
         try{
             Owner owner = ownerService.updateOwnerPassword(id, newPassword);
             return new ResponseEntity<>(convertToDto(owner), HttpStatus.OK);

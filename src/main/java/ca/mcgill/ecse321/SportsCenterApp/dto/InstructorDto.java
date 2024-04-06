@@ -10,6 +10,10 @@ public class InstructorDto {
     private Integer aYearsOfExperience;
     private String aBiography;
 
+    public InstructorDto(){
+        
+    }
+
     public InstructorDto(String firstName, String lastName, String email, String password, Integer id, String token, Integer YearsOfExperience, String Biography) {
         this.firstName = firstName;
         this.lastName = lastName;

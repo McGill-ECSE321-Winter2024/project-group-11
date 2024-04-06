@@ -54,7 +54,7 @@
   
   <script>
   import axios from 'axios';
-
+  
   export default {
     data() {
       return {
@@ -71,51 +71,66 @@
         },
         instructors: [],
         classtypes: [],
-        errMsg : '',
+        errMsg: ''
       };
     },
-
-    created(){
+  
+    created() {
       this.fetchInstructors();
       this.fetchClassTypes();
     },
+  
+    computed: {
+      formattedDate() {
+        if (!this.session.date) return '';
+        const date = new Date(this.session.date);
+        return date.toISOString().slice(0, 10); // Format as "yyyy-MM-dd"
+      },
+      formattedStartTime() {
+        if (!this.session.startTime) return '';
+        // Ensure startTime is in "HH:mm:ss" format
+        return `${this.session.startTime}:00`;
+      },
+      formattedEndTime() {
+        if (!this.session.endTime) return '';
+        // Ensure endTime is in "HH:mm:ss" format
+        return `${this.session.endTime}:00`;
+      }
+    },
+  
     methods: {
       createSession() {
-      // Prepare the session data for the POST request
-
-      const startTimeUTC = `${this.session.date}T${this.session.startTime}:00.000Z`;
-      const endTimeUTC = `${this.session.date}T${this.session.endTime}:00.000Z`;
-
-      const sessionData = {
-        roomNumber: this.session.roomNumber,
-        price: this.session.price,
-        remainingCapacity: this.session.capacity,
-        date: this.date,
-        startTime: startTimeUTC,
-        endTime: endTimeUTC,
-        instructor: { id: this.session.instructor},
-        classType: { id: this.session.classType }
-      };
-
-
-      console.log(sessionData);
-      // Make the POST request to create a new session
-      axios.post('http://localhost:8080/session/', sessionData)
-        .then(response => {
-          console.log('Session created successfully:', response.data);
-          this.clearForm(); // Clear the form after successful creation
-          this.$emit('create-session', response.data); // Emit an event to notify parent component
-        })
-        .catch(error => {
-          console.error('Error creating session:', error.response.data);
-          // Handle error (e.g., show error message to user)
-          this.errMsg = error.response.data; // Set error message to display
-        });
-    },
+        const startTimeUTC = this.formattedStartTime;
+        const endTimeUTC = this.formattedEndTime;
+  
+        const sessionData = {
+          roomNumber: this.session.roomNumber,
+          price: this.session.price,
+          remainingCapacity: this.session.capacity,
+          date: this.formattedDate,
+          startTime: startTimeUTC,
+          endTime: endTimeUTC,
+          instructor: { id: this.session.instructor },
+          classType: { id: this.session.classType }
+        };
+  
+        axios.post('http://localhost:8080/session/', sessionData)
+          .then(response => {
+            console.log('Session created successfully:', response.data);
+            this.clearForm();
+            this.$emit('create-session', response.data);
+          })
+          .catch(error => {
+            console.error('Error creating session:', error.response.data);
+            this.errMsg = error.response.data;
+          });
+      },
+  
       cancel() {
         this.clearForm();
         this.$emit('close');
       },
+  
       clearForm() {
         this.session = {
           id: '',
@@ -129,7 +144,7 @@
           classType: ''
         };
       },
-
+  
       fetchInstructors() {
         axios.get('http://localhost:8080/instructors')
           .then(res => {
@@ -137,9 +152,9 @@
           })
           .catch(err => {
             console.log(err.response.data);
-          })
+          });
       },
-
+  
       fetchClassTypes() {
         axios.get('http://localhost:8080/classtypes/approved')
           .then(res => {
@@ -147,12 +162,13 @@
           })
           .catch(err => {
             console.log(err.response.data);
-          })
-
+          });
       }
     }
   };
   </script>
+  
+
   
   <style scoped>
 
