@@ -13,6 +13,7 @@
   import Dashboard from '@/pages/Dashboard'
   import registrationtable from '@/components/registrationtable'
 
+
 export default {
   name: 'registrationPage',
   components: {
@@ -35,20 +36,21 @@ export default {
     cancelRegistration(index) {
       this.registrations.splice(index, 1);
     },
-    fetchRegistrations() {
-        axios.get('http://localhost:8080/registration/')
-          .then(res => {
-            this.registrations = res.data;
-          })
-          .catch(err => {
-            console.log(err.response.data);
-          })
-  }
+      fetchRegistrations() {
+          axios.get('http://localhost:8080/register')
+            .then(res => {
+              this.registrations = res.data;
+            })
+            .catch(error => {
+            console.error('There was an error fetching the registrations:', error);
+            this.errorMessage = 'Failed to load registrations.';
+          });
+    }
 }
 }
 </script>
 
-<style scoped>
+<style >
 
 
 .button-container {

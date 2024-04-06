@@ -3,29 +3,28 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Room Number</th>
             <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Time</th>
+            <th>Class Name</th>
+            <th>Session Id</th>
             <th>Instructor</th>
+
           </tr>
         </thead>
         <tbody>
           <tr v-for="(registration, index) in registrations" :key="index" :class="{ 'active-row': activeIndex === index }" @click="setActiveRow(index)">
-            <td>{{ registration.id }}</td>
-            <td>{{ registration.session.classType.name }}</td>
-            <td>{{ registration.session.roomNumber }}</td>
             <td>{{ registration.date }}</td>
-            <td>{{ registration.session.startTime }}</td>
-            <td>{{ registration.session.endTime }}</td>
-            <td>{{ registration.session.instructor.firstName }}</td>
+            <td>{{ registration.time }}</td>
+            <td>{{ registration.classType.name }}</td>
+            <td>{{ registration.session.id }}</td>
+            <td>{{ registration.instructor.firstName }}</td>
+
+
           </tr>
         </tbody>
       </table>
       <div class="action-buttons">
-        <button class="cnl-btn" @click="cancelActiveRegistratino" :disabled="activeIndex === null">Cancel</button>
+        <button class="cnl-btn" @click="cancelActiveRegistration" :disabled="activeIndex === null">Cancel</button>
       </div>
     </div>
   </template>
@@ -53,6 +52,7 @@
       }
     }
   };
+
   </script>
 
   <style scoped>
