@@ -48,7 +48,7 @@ public class CenterController {
 
 
     @GetMapping("/center/{id}")
-    public ResponseEntity<?> getClassTypeById(@PathVariable Integer id) {
+    public ResponseEntity<?> getCenterById(@PathVariable Integer id) {
         try {
             Center center = service.getCenter(id);
             return new ResponseEntity<>(convertToDto(center), HttpStatus.OK);
@@ -59,7 +59,7 @@ public class CenterController {
 
 
     @PutMapping("/center/{id}")
-    public ResponseEntity<?> updateClassType(@PathVariable Integer id, @RequestBody CenterDto centerDto) {
+    public ResponseEntity<?> updateCenter(@PathVariable Integer id, @RequestBody CenterDto centerDto) {
         try {
             Center center = service.updateCenter(id, centerDto.getWeekSchedule(), centerDto.getWeekendSchedule(), centerDto.getAdress());
             return new ResponseEntity<>(convertToDto(center), HttpStatus.OK);
