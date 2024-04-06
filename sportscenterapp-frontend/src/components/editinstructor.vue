@@ -78,7 +78,6 @@ export default {
     },
     async submitForm() {
       await this.editInstructor();
-      console.log("EDITED");
       if (this.errorMessage) {
         return;
       }

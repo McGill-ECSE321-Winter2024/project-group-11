@@ -53,7 +53,6 @@ export default {
     async saveChanges() {
       this.errMsg = "";
       this.user = { ...this.editedUser };
-      console.log(this.errMsg);
       await this.updateUserData();
       console.log(this.errMsg);
       if (this.errMsg) {
