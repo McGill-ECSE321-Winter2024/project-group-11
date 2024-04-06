@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -100,9 +101,17 @@ public class SessionController {
     @PostMapping("/")
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {
         try {
-            Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
+            if (sessionDto.getInstructor() == null){
+                Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
+                    sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(),sessionDto.getClassType().getId());
+                    return new ResponseEntity<>(DtoConverter.convertToDto(session), HttpStatus.CREATED);
+            } else {
+                Session session = sessionService.createSession(sessionDto.getDate(), sessionDto.getStartTime(), sessionDto.getEndTime(), sessionDto.getPrice(),
                     sessionDto.getRemainingCapacity(), sessionDto.getRoomNumber(), sessionDto.getInstructor().getId() ,sessionDto.getClassType().getId());
-            return new ResponseEntity<>(session, HttpStatus.CREATED);
+                    return new ResponseEntity<>(DtoConverter.convertToDto(session), HttpStatus.CREATED);
+            }
+            
+            
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
