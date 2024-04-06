@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.SportsCenterApp.dto.SessionDto;
 import ca.mcgill.ecse321.SportsCenterApp.model.Session;
 import ca.mcgill.ecse321.SportsCenterApp.services.SessionService;
 import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,18 +86,29 @@ public class SessionController {
         }
     }
 
+
     //TODO findallsession by instructorID (for insturcot to see what sessions hes teaching)
     @GetMapping("/instructor/{id}")
     public ResponseEntity<?> getAllSessionsByInstructorId(@PathVariable("id") Integer id) {
         try {
             List<Session> session = sessionService.getAllSessionsByInstructorId(id);
             List<SessionDto> sessions = session.stream().map(DtoConverter::convertToDto).toList();
-            return new ResponseEntity<>(sessionService.getAllSessionsByInstructorId(id), HttpStatus.OK);
+            return new ResponseEntity<>(sessions, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
+    @GetMapping("/empty")
+    public ResponseEntity<?> getAllUninstructedSessions() {
+        try {
+            List<Session> sessions = sessionService.getAllUninstructedSessions();
+            List<SessionDto> res = sessions.stream().map(DtoConverter::convertToDto).toList();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/")
     public ResponseEntity<?> createSession(@RequestBody SessionDto sessionDto) {

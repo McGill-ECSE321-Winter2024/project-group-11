@@ -8,6 +8,7 @@
         <router-link to="/dashboard/instructors" class="nav-link">Instructors</router-link>
         <router-link to="/dashboard/customers" class="nav-link">Customers</router-link>
         <router-link to="/dashboard/registrations" class="nav-link">My Registrations</router-link>
+        <router-link to="/dashboard/instructor-sessions" class="nav-link">InstructorSession</router-link>
       </div>
       <button class="logout-button" @click="logout">Logout</button>
     </div>
