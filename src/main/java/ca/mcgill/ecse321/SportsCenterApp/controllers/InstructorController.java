@@ -118,6 +118,24 @@ public class InstructorController {
         }
 
     }
+    @PutMapping("/instructors/{id}/bio")
+    public ResponseEntity<?> updateInstructorBio(@PathVariable Integer id, @RequestParam String bio) {
+        try {
+            Instructor instructor = service.updateInstructorBio(id, bio);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/instructors/{id}/yrOfExp")
+    public ResponseEntity<?> updateInstructorExperience(@PathVariable Integer id, @RequestParam Integer experience) {
+        try {
+            Instructor instructor = service.updateInstructorYearsOfXp(id, experience);
+            return new ResponseEntity<>(convertToDto(instructor), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
     /**
      * DELETE request to delete a instructor

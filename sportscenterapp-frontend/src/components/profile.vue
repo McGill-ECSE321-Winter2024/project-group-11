@@ -2,32 +2,17 @@
   <div class="profile">
     <h2>User Profile</h2>
     <div v-for="(value, key) in user" :key="key" v-if="!editing && key !== 'id' && key !== 'token'"  class="info-group">
-      <label>{{ key }}</label>
+      <label>{{ keyConverter[key] }}</label>
       <span>{{value}}</span>
     </div>
     <div v-if="!editing">
       <button class="btn-57" @click="editProfile">Edit</button>
     </div>
     <form v-else @submit.prevent="saveChanges" class="info-group">
-      <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" v-model="editedUser.firstName" class="input" autocomplete="off" placeholder="First Name">
-      </div>
-      <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" v-model="editedUser.lastName" class="input" autocomplete="off" placeholder="Last Name">
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="editedUser.email" class="input" autocomplete="off" placeholder="Email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="editedUser.password" class="input" autocomplete="off" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <label for="balance">Balance:</label>
-        <input type="number" id="balance" v-model="editedUser.balance" class="input" autocomplete="off" placeholder="Balance">
+      <popup v-if="this.errMsg" :error-message="this.errMsg" />
+      <div v-for="(value, key) in editedUser" :key="key" v-if="editing && key !== 'id' && key !== 'token'"  class="info-group">
+        <label>{{ keyConverter[key] }}</label>
+        <input type="text" :id="key" v-model="editedUser[key]" class="input" autocomplete="off" :readonly="isImmutableData(key)">
       </div>
       <button type="submit" class="btn-57">Save Changes</button>
       <button class="btn-57" @click="cancelEdit">Cancel</button>
@@ -37,13 +22,24 @@
 
 <script>
 import axios from "axios";
-
+import Popup from "./popup.vue";
 export default {
+  components: {Popup},
   data() {
     return {
       user: null,
       editedUser: null,
-      editing: false
+      editing: false,
+      errMsg: "",
+      keyConverter: {
+        firstName: "First Name",
+        lastName: "Last Name",
+        password: "Password",
+        email: "Email Address",
+        yearsOfExperience: "Years of Experience",
+        biography: "Biography",
+        accountBalance: "Account Balance"
+      }
     };
   },
   mounted() {
@@ -54,14 +50,59 @@ export default {
       this.editing = true;
       this.editedUser = { ...this.user };
     },
-    saveChanges() {
+    async saveChanges() {
+      this.errMsg = "";
       this.user = { ...this.editedUser };
+      console.log(this.errMsg);
+      await this.updateUserData();
+      console.log(this.errMsg);
+      if (this.errMsg) {
+        return;
+      }
       this.editing = false;
-      axios.put('')
     },
     cancelEdit() {
       this.editing = false;
       this.editedUser = { ...this.user };
+    },
+    updateUserData() {
+      const storageObj = JSON.parse(localStorage.getItem('token'));
+      const userType = storageObj.userType;
+
+      // Array to store all the requests (so that they all resolve first)
+      const requests = [];
+      if (userType === "Customer") {
+
+        requests.push(
+          axios.put(`http://localhost:8080/customer/${storageObj.id}/update-balance?updated-balance=${this.editedUser.accountBalance}`)
+            .catch(err => {
+              this.errMsg = err.response.data;
+            }),
+          axios.put(`http://localhost:8080/customer/${storageObj.id}?password=${this.editedUser.password}`)
+            .catch(err => {
+              this.errMsg = err.response.data;
+            })
+        );
+      } else if (userType === "Instructor") {
+        requests.push(
+          axios.put(`http://localhost:8080/instructors/${storageObj.id}/password?newPassword=${this.editedUser.password}`)
+            .catch(err => {
+              this.errMsg = err.response.data;
+            }),
+          axios.put(`http://localhost:8080/instructors/${storageObj.id}/bio?bio=${this.editedUser.biography}`)
+            .catch(err => {
+              this.errMsg = err.response.data;
+            })
+        );
+      } else {
+        // Owner or other user types
+        axios.put(`http://localhost:8080/owner/${storageObj.id}/password?newPassword=${this.editedUser.password}`)
+          .catch(err => {
+            this.errMsg = err.response.data;
+          })
+      }
+
+      return Promise.all(requests);
     },
 
     async retrieveUserData() {
@@ -93,6 +134,9 @@ export default {
       } catch(err) {
         console.log(`Error caused by ${err}`);
       }
+    },
+    isImmutableData(key) {
+      return key === "firstName" || key === "lastName" || key === "email";
     }
   }
 };
