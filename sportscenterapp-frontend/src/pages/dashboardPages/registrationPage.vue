@@ -14,6 +14,7 @@
   import registrationtable from '@/components/registrationtable'
 
 
+
 export default {
   name: 'registrationPage',
   components: {
