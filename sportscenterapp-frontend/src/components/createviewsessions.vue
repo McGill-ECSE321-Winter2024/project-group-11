@@ -1,30 +1,31 @@
 <template>
     <div class="profile">
       <h2>Create a Session</h2>
+      <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
       <form @submit.prevent="createSession" class="info-group">
         <div class="form-group">
           <label for="roomNumber">Room Number:</label>
-          <input type="text" id="roomNumber" v-model="session.roomNumber" class="input" autocomplete="off" placeholder="Room Number">
+          <input type="text" id="roomNumber" v-model="session.roomNumber" class="input" autocomplete="off" placeholder="Room Number" required>
         </div>
         <div class="form-group">
           <label for="price">Price:</label>
-          <input type="number" id="price" v-model="session.price" class="input" autocomplete="off" placeholder="Price">
+          <input type="number" id="price" v-model="session.price" class="input" autocomplete="off" placeholder="Price" required>
         </div>
         <div class="form-group">
           <label for="capacity">Capacity:</label>
-          <input type="number" id="capacity" v-model="session.capacity" class="input" autocomplete="off" placeholder="Capacity">
+          <input type="number" id="capacity" v-model="session.capacity" class="input" autocomplete="off" placeholder="Capacity" required>
         </div>
         <div class="form-group">
           <label>Date:</label>
-          <input type="date" id="date" v-model="session.date" class="input" autocomplete="off">
+          <input type="date" id="date" v-model="session.date" class="input" autocomplete="off" required>
         </div>
         <div class="form-group">
           <label for="startTime">Start Time:</label>
-          <input type="time" id="startTime" v-model="session.startTime" class="input" autocomplete="off">
+          <input type="time" id="startTime" v-model="session.startTime" class="input" autocomplete="off" required>
         </div>
         <div class="form-group">
           <label for="endTime">End Time:</label>
-          <input type="time" id="endTime" v-model="session.endTime" class="input" autocomplete="off">
+          <input type="time" id="endTime" v-model="session.endTime" class="input" autocomplete="off" required>
         </div>
         <div class="form-group">
           <label for="instructor">Instructor:</label>
@@ -44,18 +45,20 @@
             </option>
           </select>
         </div>
-      </form>
-      <div class="button-group">
+        <div class="button-group">
         <button type="button" @click="cancel" class="btn-57">Cancel</button>
-        <button type="submit" @click="createSession" class="btn-57">Create Session</button>
+        <button type="submit" class="btn-57">Create Session</button>
       </div>
+      </form>
     </div>
   </template>
   
   <script>
   import axios from 'axios';
+  import popup from './popup.vue';
   
   export default {
+    components: {popup},
     data() {
       return {
         session: {
@@ -71,7 +74,8 @@
         },
         instructors: [],
         classtypes: [],
-        errMsg: ''
+        errorMessage: '',
+        successMessage: ''
       };
     },
   
@@ -100,9 +104,11 @@
   
     methods: {
       createSession() {
+
         const startTimeUTC = this.formattedStartTime;
         const endTimeUTC = this.formattedEndTime;
   
+       
         const sessionData = {
           roomNumber: this.session.roomNumber,
           price: this.session.price,
@@ -110,19 +116,24 @@
           date: this.formattedDate,
           startTime: startTimeUTC,
           endTime: endTimeUTC,
-          instructor: { id: this.session.instructor },
           classType: { id: this.session.classType }
         };
+
+        if (this.session.instructor) {
+          sessionData.instructor = { id: this.session.instructor }
+        }
   
         axios.post('http://localhost:8080/session/', sessionData)
           .then(response => {
             console.log('Session created successfully:', response.data);
+
+
             this.clearForm();
             this.$emit('create-session', response.data);
           })
           .catch(error => {
             console.error('Error creating session:', error.response.data);
-            this.errMsg = error.response.data;
+            this.errorMessage = error.response.data;
           });
       },
   
