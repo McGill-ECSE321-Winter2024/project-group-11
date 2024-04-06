@@ -1,7 +1,7 @@
 <template>
     <Dashboard>
         <h1>PAGE FOR SEEING ALL CUSTOMER REGISTRATIONS</h1>
-        <h2>Accessible by customer</h2>
+        <h2>Accessible by cusstomer</h2>
         <p> The customer can see/cancel his registrations</p>
         <registrationtable :registrations="registrations" @cancel-registration="cancelRegistration" />
 
