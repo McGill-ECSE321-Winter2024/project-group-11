@@ -7,6 +7,10 @@ public class AuthenticationDto {
     private UserType userType;
     private Integer id;
 
+    public AuthenticationDto(){
+        
+    }
+
     public AuthenticationDto(String token, UserType userType, Integer id) {
         this.token = token;
         this.userType = userType;

@@ -48,7 +48,7 @@ public class CenterController {
 
 
     @GetMapping("/center/{id}")
-    public ResponseEntity<?> getCenterById(@PathVariable Integer id) {
+    public ResponseEntity<?> getCenterById(@PathVariable("id") Integer id) {
         try {
             Center center = service.getCenter(id);
             return new ResponseEntity<>(convertToDto(center), HttpStatus.OK);
@@ -59,7 +59,7 @@ public class CenterController {
 
 
     @PutMapping("/center/{id}")
-    public ResponseEntity<?> updateCenter(@PathVariable Integer id, @RequestBody CenterDto centerDto) {
+    public ResponseEntity<?> updateCenter(@PathVariable("id") Integer id, @RequestBody CenterDto centerDto) {
         try {
             Center center = service.updateCenter(id, centerDto.getWeekSchedule(), centerDto.getWeekendSchedule(), centerDto.getAdress());
             return new ResponseEntity<>(convertToDto(center), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class CenterController {
 
 
     @DeleteMapping("/center/{id}")
-    public ResponseEntity<?> deleteClassType(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteClassType(@PathVariable("id") Integer id) {
         try {
             service.deleteCenter(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

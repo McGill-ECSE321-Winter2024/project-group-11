@@ -62,7 +62,7 @@ public class ClassTypeController {
      * @return class type dto
      */
     @GetMapping("/classtypes/name/{name}")
-    public ResponseEntity<?> getClassTypeByName(@PathVariable String name){
+    public ResponseEntity<?> getClassTypeByName(@PathVariable("name") String name){
         try {
             ClassType classType = service.getClassType(name);
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class ClassTypeController {
      * @return class type dto
      */
     @GetMapping("/classtypes/{id}")
-    public ResponseEntity<?> getClassTypeById(@PathVariable Integer id) {
+    public ResponseEntity<?> getClassTypeById(@PathVariable("id") Integer id) {
         try {
             ClassType classType = service.getClassType(id);
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class ClassTypeController {
      * @return updated class type dto
      */
     @PutMapping("/classtypes/{id}")
-    public ResponseEntity<?> updateClassType(@PathVariable Integer id, @RequestBody ClassTypeDto classTypeDto) {
+    public ResponseEntity<?> updateClassType(@PathVariable("id") Integer id, @RequestBody ClassTypeDto classTypeDto) {
         try {
             ClassType classType = service.updateClassType(id, classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.getDifficultyLevel());
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.OK);
@@ -111,7 +111,7 @@ public class ClassTypeController {
      * @return approved class type dto
      */
     @PutMapping("/classtypes/{id}/approve")
-    public ResponseEntity<?> approveClassType(@PathVariable Integer id) {
+    public ResponseEntity<?> approveClassType(@PathVariable("id") Integer id) {
         try {
             ClassType approvedClassType = service.approveClassType(id);
             return new ResponseEntity<>(convertToDto(approvedClassType), HttpStatus.OK);
@@ -126,7 +126,7 @@ public class ClassTypeController {
      * @return disapproved class type dto
      */
     @PutMapping("/classtypes/{id}/disapprove")
-    public ResponseEntity<?> disapproveClassType(@PathVariable Integer id) {
+    public ResponseEntity<?> disapproveClassType(@PathVariable("id") Integer id) {
         try {
             ClassType disapprovedClassType = service.disapproveClassType(id);
             return new ResponseEntity<>(convertToDto(disapprovedClassType), HttpStatus.OK);
@@ -142,7 +142,7 @@ public class ClassTypeController {
      * @return Status no content (204)
      */
     @DeleteMapping("/classtype/{id}")
-    public ResponseEntity<?> deleteClassType(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteClassType(@PathVariable("id") Integer id) {
         try {
             service.deleteClassType(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

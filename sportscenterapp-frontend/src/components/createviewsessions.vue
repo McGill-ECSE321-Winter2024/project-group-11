@@ -30,16 +30,18 @@
           <label for="instructor">Instructor:</label>
           <select id="instructor" v-model="session.instructor" class="input">
             <option value="">Select Instructor</option>
-            <option value="John Doe">John Doe</option>
-            <option value="Jane Smith">Jane Smith</option>
+            <option v-for="i in instructors" :value="i.id" :key="i.id">
+              {{ i.firstName }} {{ i.lastName }}
+            </option>
           </select>
         </div>
         <div class="form-group">
           <label for="classType">Class Type:</label>
           <select id="classType" v-model="session.classType" class="input">
             <option value="">Select Class Type</option>
-            <option value="Yoga">Yoga</option>
-            <option value="Pilates">Pilates</option>
+            <option v-for="c in classtypes" :value="c.id" :key="c.id">
+              {{ c.difficultyLevel }} {{ c.name }}
+            </option>
           </select>
         </div>
       </form>
@@ -51,6 +53,8 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  
   export default {
     data() {
       return {
@@ -64,20 +68,69 @@
           endTime: '',
           instructor: '',
           classType: ''
-        }
+        },
+        instructors: [],
+        classtypes: [],
+        errMsg: ''
       };
     },
+  
+    created() {
+      this.fetchInstructors();
+      this.fetchClassTypes();
+    },
+  
+    computed: {
+      formattedDate() {
+        if (!this.session.date) return '';
+        const date = new Date(this.session.date);
+        return date.toISOString().slice(0, 10); // Format as "yyyy-MM-dd"
+      },
+      formattedStartTime() {
+        if (!this.session.startTime) return '';
+        // Ensure startTime is in "HH:mm:ss" format
+        return `${this.session.startTime}:00`;
+      },
+      formattedEndTime() {
+        if (!this.session.endTime) return '';
+        // Ensure endTime is in "HH:mm:ss" format
+        return `${this.session.endTime}:00`;
+      }
+    },
+  
     methods: {
       createSession() {
-        // Handle creating the session here
-        console.log("Creating session:", this.session);
-        this.$emit('create-session', this.session);
-        this.clearForm();
+        const startTimeUTC = this.formattedStartTime;
+        const endTimeUTC = this.formattedEndTime;
+  
+        const sessionData = {
+          roomNumber: this.session.roomNumber,
+          price: this.session.price,
+          remainingCapacity: this.session.capacity,
+          date: this.formattedDate,
+          startTime: startTimeUTC,
+          endTime: endTimeUTC,
+          instructor: { id: this.session.instructor },
+          classType: { id: this.session.classType }
+        };
+  
+        axios.post('http://localhost:8080/session/', sessionData)
+          .then(response => {
+            console.log('Session created successfully:', response.data);
+            this.clearForm();
+            this.$emit('create-session', response.data);
+          })
+          .catch(error => {
+            console.error('Error creating session:', error.response.data);
+            this.errMsg = error.response.data;
+          });
       },
+  
       cancel() {
         this.clearForm();
         this.$emit('close');
       },
+  
       clearForm() {
         this.session = {
           id: '',
@@ -90,10 +143,32 @@
           instructor: '',
           classType: ''
         };
+      },
+  
+      fetchInstructors() {
+        axios.get('http://localhost:8080/instructors')
+          .then(res => {
+            this.instructors = res.data;
+          })
+          .catch(err => {
+            console.log(err.response.data);
+          });
+      },
+  
+      fetchClassTypes() {
+        axios.get('http://localhost:8080/classtypes/approved')
+          .then(res => {
+            this.classtypes = res.data;
+          })
+          .catch(err => {
+            console.log(err.response.data);
+          });
       }
     }
   };
   </script>
+  
+
   
   <style scoped>
 
