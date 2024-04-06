@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Dashboard from '@/pages/Dashboard'
 import createviewsessions from '@/components/createviewsessions'
 import sessiontable from '@/components/sessiontable'
@@ -30,36 +31,16 @@ export default {
   data() {
     return {
       showCreateSessionPopup: false,
-      sessions: [
-        {
-          id: 1,
-          roomNumber: 'A101',
-          price: 20,
-          capacity: 15,
-          date: '2024-04-05',
-          startTime: '09:00',
-          endTime: '10:30',
-          classType: 'Yoga',
-          instructor: 'John'
-        },
-        {
-          id: 2,
-          roomNumber: 'B204',
-          price: 15,
-          capacity: 20,
-          date: '2024-04-06',
-          startTime: '11:00',
-          endTime: '12:30',
-          classType: 'Cardio',
-          instructor: 'Timmy'
-        },
-        // Add more dummy sessions as needed
-      ]
+      sessions: []
     };
+  },
+  mounted(){
+    this.fetchSessions();
   },
   methods: {
     addSession(session) {
-      this.sessions.push(session);
+
+      this.fetchSessions();
       this.showCreateSessionPopup = false;
     },
     editSession(index) {
@@ -67,9 +48,18 @@ export default {
     },
     deleteSession(index) {
       this.sessions.splice(index, 1);
-    }
+    },
+    fetchSessions() {
+        axios.get('http://localhost:8080/session/')
+          .then(res => {
+            this.sessions = res.data;
+          })
+          .catch(err => {
+            console.log(err.response.data);
+          })
   }
-};
+}
+}
 </script>
 
 <style scoped>

@@ -17,14 +17,14 @@
         <tbody>
           <tr v-for="(session, index) in sessions" :key="index" :class="{ 'active-row': activeIndex === index }" @click="setActiveRow(index)">
             <td>{{ session.id }}</td>
-            <td>{{ session.classType }}</td>
+            <td>{{ session.classType.name }}</td>
             <td>{{ session.roomNumber }}</td>
             <td>{{ session.price }}</td>
-            <td>{{ session.capacity }}</td>
+            <td>{{ session.remainingCapacity }}</td>
             <td>{{ session.date }}</td>
             <td>{{ session.startTime }}</td>
             <td>{{ session.endTime }}</td>
-            <td>{{ session.instructor }}</td>
+            <td>{{ session.instructor.firstName }}</td>
           </tr>
         </tbody>
       </table>

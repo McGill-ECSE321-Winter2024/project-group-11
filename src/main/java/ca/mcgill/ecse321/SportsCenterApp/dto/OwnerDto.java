@@ -8,6 +8,10 @@ public class OwnerDto {
     private Integer id;
     private String token;
 
+    public OwnerDto(){
+        
+    }
+
     public OwnerDto(String firstName, String lastName, String email, String password, Integer id, String token) {
         this.firstName = firstName;
         this.lastName = lastName;

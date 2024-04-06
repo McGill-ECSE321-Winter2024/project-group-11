@@ -11,6 +11,10 @@ public class CustomerDto {
     private float accountBalance;
 
     private String token;
+    
+    public CustomerDto(){
+        
+    }
 
     public CustomerDto(String firstName, String lastName, String email, String password, Integer id, String token, float accountBalance) {
         this.firstName = firstName;
