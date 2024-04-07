@@ -5,7 +5,7 @@
         <div class="button-container">
           <button @click="showCreateSessionPopup = true">Create Session</button>
         </div>
-        <sessiontable :sessions="sessions" @edit-session="editSession" @delete-session="deleteSession" />
+        <sessiontable :sessions="sessions" @edit-session="editSession" @delete-session="deleteSession" @edit-instructor="assignInstructor" />
       </div>
     </Dashboard>
     
@@ -16,15 +16,21 @@
     <div class="modal-overlay" v-if="showEditSessionPopup">
         <editsession :sessionId="chosenSession" class="modal-content" @close="showEditSessionPopup = false" @edit-session="editSession" />
     </div>
+
+    <div class="modal-overlay" v-if="showAssignPopup">
+        <assigninstructor :sessionId="chosenSession" class="modal-content" @close="showAssignPopup = false" @edit-instructor="assignInstructor" />
+    </div>
+
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import Dashboard from '@/pages/Dashboard'
 import createviewsessions from '@/components/createviewsessions'
 import sessiontable from '@/components/sessiontable'
 import editsession from '@/components/editsession'
+import assigninstructor from '@/components/assigninstructor'
 
 export default {
   name: 'sessionPage',
@@ -32,12 +38,14 @@ export default {
     Dashboard,
     sessiontable,
     createviewsessions,
-    editsession
+    editsession,
+    assigninstructor
   },
   data() {
     return {
       showCreateSessionPopup: false,
       showEditSessionPopup: false,
+      showAssignPopup: false,
       sessions: [],
       chosenSession: null,
       errorMessage: ''
@@ -56,6 +64,13 @@ export default {
       this.chosenSession = index;
       this.showEditSessionPopup = true;
       this.fetchSessions();
+    },
+
+    assignInstructor(index){
+      this.chosenSession = index;
+      this.showAssignPopup = true;
+      this.fetchSessions();
+
     },
     deleteSession(index) {
       this.fetchSessions();
