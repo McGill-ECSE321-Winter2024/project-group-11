@@ -80,7 +80,7 @@
         if (this.activeIndex !== null) {
         console.log('assignInstructor');
         console.log(this.sessions[this.activeIndex].id);
-        this.$emit('assign-instructor', this.sessions[this.activeIndex].id);
+        this.$emit('edit-instructor', this.sessions[this.activeIndex].id);
         }
 
       },
