@@ -73,6 +73,13 @@ export default {
 </script>
 
 <style scoped>
+  .heading {
+    margin: 50px;
+  }
+
+  .title {
+    font-weight: bold;
+  }
 
   .card {
     background: white;
@@ -133,10 +140,6 @@ export default {
     font-size: 1.2em;
   }
 
-  .title {
-    margin: 16px;
-  }
-
 
   button {
  --color: #00A97F;
@@ -155,7 +158,7 @@ export default {
  color: var(--color);
  z-index: 1;
  align-self: flex-end;
- 
+
 }
 
 button::before, .button::after {

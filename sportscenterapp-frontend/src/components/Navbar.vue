@@ -3,7 +3,7 @@
       <img src="@/assets/logo.jpg" alt="logo" class="logo">
       <div class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/about" class="nav-link">About</router-link>
+        <router-link to="/about" class="nav-link">Instructors</router-link>
         <router-link to="/classes" class="nav-link">Classes</router-link>
         <router-link to="/dashboard/profile" v-if="isAuthenticated" class="nav-link enroll-button">Dashboard</router-link>
         <router-link to="/authentication" v-if="!isAuthenticated"class="nav-link enroll-button">Enroll Now</router-link>
