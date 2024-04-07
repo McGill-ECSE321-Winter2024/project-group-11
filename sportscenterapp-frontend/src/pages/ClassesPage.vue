@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      sessions: [], // Initialize sessions array
+      sessions: [] // Initialize sessions array
     };
   },
   mounted() {
