@@ -107,6 +107,7 @@ body, html {
 
 .img-container {
   position: relative;
+  display: flex;
 }
 
 .homepage {
@@ -141,13 +142,20 @@ body, html {
 
 .text {
   position: absolute;
-  top: 8%;
-  left: 40%;
+  top: 10%;
+  left: 30%;
   color: white;
-  font-size: 4vh; /* Adjust font size as needed */
+  font-size: 4vh;
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  margin-right: 36px;
 }
 
 .schedule {
