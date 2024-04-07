@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
+    <popup :error-message="this.errorMessage" v-if="this.errorMessage" :popup-color="popupColor"/>
     <h2>Create Instructor account</h2>
     <form @submit.prevent="submitForm" class="info-group">
       <div class="form-group">
@@ -45,7 +45,8 @@ export default {
         password: '',
         confirmPassword: '',
       },
-      errorMessage: ""
+      errorMessage: "",
+      popupColor: "red"
     };
   },
   components: {
@@ -81,7 +82,9 @@ export default {
       }
       axios.post('http://localhost:8080/instructor', body)
         .then(async (res) => {
+          this.popupColor = "green";
           await showErrMsg.call(this, "Instructor created");
+          this.popupColor = "red";
           this.$emit('create-instructor');
           this.$emit('close');
         })

@@ -1,8 +1,8 @@
 <template>
     <div class="profile">
-      <h2>Create a Session</h2>
+      <h2>Edit Session</h2>
       <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
-      <form @submit.prevent="createSession" class="info-group">
+      <form @submit.prevent="editSession" class="info-group">
         <div class="form-group">
           <label for="roomNumber">Room Number:</label>
           <input type="text" id="roomNumber" v-model="session.roomNumber" class="input" autocomplete="off" placeholder="Room Number" required>
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
           <label for="capacity">Capacity:</label>
-          <input type="number" id="capacity" v-model="session.capacity" class="input" autocomplete="off" placeholder="Capacity" required>
+          <input type="number" id="capacity" v-model="session.remainingCapacity" class="input" autocomplete="off" placeholder="Capacity" required>
         </div>
         <div class="form-group">
           <label>Date:</label>
@@ -28,15 +28,6 @@
           <input type="time" id="endTime" v-model="session.endTime" class="input" autocomplete="off" required>
         </div>
         <div class="form-group">
-          <label for="instructor">Instructor:</label>
-          <select id="instructor" v-model="session.instructor" class="input">
-            <option value="">Select Instructor</option>
-            <option v-for="i in instructors" :value="i.id" :key="i.id">
-              {{ i.firstName }} {{ i.lastName }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
           <label for="classType">Class Type:</label>
           <select id="classType" v-model="session.classType" class="input">
             <option value="">Select Class Type</option>
@@ -47,7 +38,7 @@
         </div>
         <div class="button-group">
         <button type="button" @click="cancel" class="btn-57">Cancel</button>
-        <button type="submit" class="btn-57">Create Session</button>
+        <button type="submit" class="btn-57">Save changes</button>
       </div>
       </form>
     </div>
@@ -59,29 +50,28 @@
   
   export default {
     components: {popup},
+    props: {sessionId: Number},
     data() {
       return {
         session: {
           id: '',
           roomNumber: '',
           price: 0,
-          capacity: 0,
+          remainingCapacity: 0,
           date: '',
           startTime: '',
           endTime: '',
-          instructor: '',
-          classType: ''
+          classType: null
         },
-        instructors: [],
         classtypes: [],
         errorMessage: '',
         successMessage: ''
       };
     },
   
-    created() {
-      this.fetchInstructors();
+    mounted() {
       this.fetchClassTypes();
+      this.fetchSession(this.sessionId);
     },
   
     computed: {
@@ -93,17 +83,34 @@
       formattedStartTime() {
         if (!this.session.startTime) return '';
         // Ensure startTime is in "HH:mm:ss" format
-        return `${this.session.startTime}:00`;
+        return `${this.session.startTime}`;
       },
       formattedEndTime() {
         if (!this.session.endTime) return '';
         // Ensure endTime is in "HH:mm:ss" format
-        return `${this.session.endTime}:00`;
+        return `${this.session.endTime}`;
       }
     },
   
     methods: {
-      createSession() {
+
+        fetchSession(id) {
+            axios.get(`http://localhost:8080/session/${id}`)
+        .then(res => {
+          this.session = res.data;
+          this.session.classType = res.data.classType.id;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+            
+    },
+
+    submitForm() {
+        this.$emit('edit-session');
+        this.$emit('close');
+    },
+      editSession() {
 
         const startTimeUTC = this.formattedStartTime;
         const endTimeUTC = this.formattedEndTime;
@@ -112,27 +119,26 @@
         const sessionData = {
           roomNumber: this.session.roomNumber,
           price: this.session.price,
-          remainingCapacity: this.session.capacity,
+          remainingCapacity: this.session.remainingCapacity,
           date: this.formattedDate,
           startTime: startTimeUTC,
           endTime: endTimeUTC,
-          classType: { id: this.session.classType }
-        };
-
-        if (this.session.instructor) {
-          sessionData.instructor = { id: this.session.instructor }
+          classType: { id: this.session.classType },
+          id : this.session.id
         }
   
-        axios.post('http://localhost:8080/session/', sessionData)
+        console.log(sessionData)
+        const id = this.session.id;
+        axios.put(`http://localhost:8080/session/${id}`, sessionData)
           .then(response => {
-            console.log('Session created successfully:', response.data);
-
+            console.log('Session edited successfully:', response.data);
 
             this.clearForm();
-            this.$emit('create-session', response.data);
+            this.$emit('edit-session', response.data);
+            this.$emit('close');
           })
           .catch(error => {
-            console.error('Error creating session:', error.response.data);
+            console.error('Error editing session:', error.response.data);
             this.errorMessage = error.response.data;
           });
       },
@@ -151,20 +157,10 @@
           date: '',
           startTime: '',
           endTime: '',
-          instructor: '',
           classType: ''
         };
       },
   
-      fetchInstructors() {
-        axios.get('http://localhost:8080/instructors')
-          .then(res => {
-            this.instructors = res.data;
-          })
-          .catch(err => {
-            console.log(err.response.data);
-          });
-      },
   
       fetchClassTypes() {
         axios.get('http://localhost:8080/classtypes/approved')

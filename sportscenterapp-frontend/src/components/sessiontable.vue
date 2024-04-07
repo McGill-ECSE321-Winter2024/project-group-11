@@ -24,18 +24,22 @@
             <td>{{ session.date }}</td>
             <td>{{ session.startTime }}</td>
             <td>{{ session.endTime }}</td>
-            <td>{{ session.instructor.firstName }}</td>
+            <td>{{ session.instructor ? session.instructor.firstName : "Not Assigned" }}</td>
           </tr>
         </tbody>
       </table>
       <div class="action-buttons">
         <button class="edit-btn" @click="editActiveSession" :disabled="activeIndex === null">Edit</button>
+        <button class="edit-btn" @click="assignInstructor" :disabled="activeIndex === null">Assign Instructor</button>
+        <button class="edit-btn" @click="dropInstructor" :disabled="activeIndex === null">Drop Instructor</button>
         <button class="del-btn" @click="deleteActiveSession" :disabled="activeIndex === null">Delete</button>
       </div>
     </div>
   </template>
   
   <script>
+  import axios from 'axios';
+
   export default {
     props: {
       sessions: Array // Array of sports sessions
@@ -49,14 +53,55 @@
       editActiveSession() {
         if (this.activeIndex !== null) {
           // Emit event to parent component to edit the active session
-          this.$emit('edit-session', this.activeIndex);
+
+          this.$emit('edit-session', this.sessions[this.activeIndex].id);
         }
+      },
+      dropInstructor(){
+        if (this.activeIndex !== null) {
+          console.log('Hello');
+          const id = this.sessions[this.activeIndex].id;
+        if (!id) {
+          console.log("id could not be parsed")
+          return;
+        }
+        axios.put(`http://localhost:8080/session/${id}/instructor`)
+          .then(res => {
+            this.$emit('delete-session', this.activeIndex); //refresh the table
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+        }
+      },
+
+      assignInstructor(){
+        if (this.activeIndex !== null) {
+        console.log('assignInstructor');
+        console.log(this.sessions[this.activeIndex].id);
+        this.$emit('edit-instructor', this.sessions[this.activeIndex].id);
+        }
+
       },
       deleteActiveSession() {
         if (this.activeIndex !== null) {
-          // Emit event to parent component to delete the active session
-          this.$emit('delete-session', this.activeIndex);
+        // Emit event to parent component to delete the active session
+        console.log(`active session: ${this.activeIndex} and ${this.sessions[this.activeIndex].id}`)
+        const id = this.sessions[this.activeIndex].id;
+        if (!id) {
+          console.log("id could not be parsed")
+          return;
         }
+        axios.delete(`http://localhost:8080/session/${id}`)
+          .then(res => {
+            this.$emit('delete-session', this.activeIndex);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+      }
       },
       setActiveRow(index) {
         // Set the active index to the clicked row index
@@ -140,10 +185,11 @@
     background-color: #B6BBC4;
     color: white;
     border-radius: 4px;
-    width: 128px;
+    width: 168px;
     height: 32px;
     border: none;
     font-weight: bold;
+    margin-left: 10px;
   }
 
   .edit-btn:hover{

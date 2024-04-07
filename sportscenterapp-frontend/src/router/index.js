@@ -12,6 +12,8 @@ import instructorsPage from '@/pages/dashboardPages/instructorsPage'
 import customerPage from '@/pages/dashboardPages/customerPage'
 import registrationPage from '@/pages/dashboardPages/registrationPage'
 import ClassesPage from '@/pages/ClassesPage'
+import instructorSession from "../pages/dashboardPages/instructorSession.vue";
+import axios from "axios";
 
 
 
@@ -45,66 +47,77 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/profile',
       name: 'profile',
       component: profilePage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/infos',
       name: 'infos',
       component: centerinfosPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/sessions',
       name: 'sessions',
       component: sessionPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/class-types',
       name: 'classtypes',
       component: classtypesPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/instructors',
       name: 'instructors',
       component: instructorsPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/customers',
       name: 'customers',
       component: customerPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
     },
 
     {
       path: '/dashboard/registrations',
       name: 'registration',
       component: registrationPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: true}
+    },
+    {
+      path:'/dashboard/instructor-sessions',
+      name: 'instructorSession',
+      component: instructorSession,
+      meta: {requiresAuth: true}
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   const isAuthed = !!localStorage.getItem('token');
-  console.log(to.meta);
   if (to.meta.requiresAuth && !isAuthed) {
     next('/authentication');
   }
+  // const token = JSON.parse(localStorage.getItem('token')).token;
+  //
+  // const userType = JSON.parse(localStorage.getItem('token')).userType;
+  // if (to.name === 'instructors' && userType !== 'Owner') {
+  //   next('/dashboard');
+  // }
   next();
 });
 

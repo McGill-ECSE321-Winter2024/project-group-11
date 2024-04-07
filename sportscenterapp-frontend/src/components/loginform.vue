@@ -14,12 +14,14 @@
           <input placeholder="Password" type="password" id="password" v-model="password" required class="input" autocomplete="off">
         </div>
         <div class="form-group">
-          <input type="radio" id="owner" name="customerType" value="Owner" v-model="customerType">
+          <div class="buttons">
+          <input  class="radio" type="radio" id="owner" name="customerType" value="Owner" v-model="customerType">
           <label for="owner">Owner</label>
-          <input type="radio" id="customer" name="customerType" value="Customer" v-model="customerType">
+          <input class="radio" type="radio" id="customer" name="customerType" value="Customer" v-model="customerType">
           <label for="customer">Customer</label>
-          <input type="radio" id="instructor" name="customerType" value="Instructor" v-model="customerType">
+          <input class="radio" type="radio" id="instructor" name="customerType" value="Instructor" v-model="customerType">
           <label for="instructor">Instructor</label>
+          </div>
         </div>
         <button type="submit" class="btn-57">Login</button>
       </form>
@@ -102,14 +104,18 @@
     outline: none;
     padding-left: 16px;
 
-
-
   }
+
+  .radio{
+    height: 24px;
+    margin-left: -25px;
+    margin-right: -120px;
+  }
+
 
   input::placeholder{
     color: black;
     opacity: 0.4;
-
 
   }
 
@@ -117,6 +123,13 @@
   label {
     font-weight: bold;
     color: black;
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 20px;
+    margin-left: -40px;
+    margin-right: 40px;
   }
 
 
