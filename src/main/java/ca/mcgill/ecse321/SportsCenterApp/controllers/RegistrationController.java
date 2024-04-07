@@ -36,6 +36,20 @@ public class RegistrationController {
         }
     }
 
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<?> getRegistrationByCustomerId(@PathVariable("id") Integer id){
+        try {
+            Registration registration = registrationService.getRegistrationByCustomerId(id);
+            RegistrationDto dto = DtoConverter.convertToDto(registration);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("")
     public ResponseEntity<?> getAllRegistrations() {
         try {
