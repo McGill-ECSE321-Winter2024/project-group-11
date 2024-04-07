@@ -1,18 +1,18 @@
 <template>
-    <div class="sidebar">
-      <div class="nav-links">
-        <router-link to="/dashboard/profile" class="nav-link">Profile</router-link>
-        <router-link to="/dashboard/infos" class="nav-link">Center Infos</router-link>
-        <router-link to="/dashboard/sessions" class="nav-link">Sessions</router-link>
-        <router-link to="/dashboard/class-types" class="nav-link">Class Types</router-link>
-        <router-link to="/dashboard/instructors" class="nav-link">Instructors</router-link>
-        <router-link to="/dashboard/customers" class="nav-link">Customers</router-link>
-        <router-link to="/dashboard/registrations" class="nav-link">My Registrations</router-link>
-        <router-link to="/dashboard/instructor-sessions" class="nav-link">InstructorSession</router-link>
-      </div>
-      <button class="logout-button" @click="logout">Logout</button>
+  <div class="sidebar">
+    <div class="nav-links">
+      <router-link to="/dashboard/profile" class="nav-link" active-class="active-link">Profile</router-link>
+      <router-link to="/dashboard/infos" class="nav-link" active-class="active-link">Center Infos</router-link>
+      <router-link to="/dashboard/sessions" class="nav-link" active-class="active-link">Sessions</router-link>
+      <router-link to="/dashboard/class-types" class="nav-link" active-class="active-link">Class Types</router-link>
+      <router-link to="/dashboard/instructors" class="nav-link" active-class="active-link">Instructors</router-link>
+      <router-link to="/dashboard/customers" class="nav-link" active-class="active-link">Customers</router-link>
+      <router-link to="/dashboard/registrations" class="nav-link" active-class="active-link">My Registrations</router-link>
+      <router-link to="/dashboard/instructor-sessions" class="nav-link" active-class="active-link">InstructorSession</router-link>
     </div>
-  </template>
+    <button class="logout-button" @click="logout">Logout</button>
+  </div>
+</template>
 
   <script>
 
@@ -72,4 +72,9 @@
   .logout-button:hover {
     background-color: #ff5733;
   }
+
+  .active-link {
+  background-color: #90e0ef;
+  color: #01161e;
+}
   </style>
