@@ -69,6 +69,17 @@ public class RegistrationService {
         }
     }
 
+    @Transactional
+    public Registration getRegistrationByCustomerId(Integer customerId){
+        Registration registration = registrationRepository.findRegistrationByCustomerId(customerId);
+        if (registration != null){
+            return registration;
+        }
+        else {
+            throw new IllegalArgumentException("Registration not found for id: " + customerId);
+        }
+    }
+
     //verify
     @Transactional
     public List<Registration> getAllRegistrations() {

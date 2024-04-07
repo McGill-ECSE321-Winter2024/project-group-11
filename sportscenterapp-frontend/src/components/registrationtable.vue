@@ -24,12 +24,13 @@
         </tbody>
       </table>
       <div class="action-buttons">
-        <button class="cnl-btn" @click="cancelActiveRegistration" :disabled="activeIndex === null">Cancel</button>
+        <button class="del-btn" @click="deleteActiveRegistration" :disabled="activeIndex === null">Delete</button>
       </div>
     </div>
   </template>
 
   <script>
+  import axios from 'axios'
   export default {
     props: {
       registrations: Array
@@ -40,11 +41,23 @@
       };
     },
     methods: {
-      cancelActiveRegistration() {
+      deleteActiveRegistration() {
         if (this.activeIndex !== null) {
-          // Emit event to parent component to cancel the active registration
-          this.$emit('cancel-registration', this.activeIndex);
+        console.log(`active registration: ${this.activeIndex} and ${this.registrations[this.activeIndex].id}`)
+        const id = this.registrations[this.activeIndex].id;
+        if (!id) {
+          console.log("id could not be parsed")
+          return;
         }
+        axios.delete(`http://localhost:8080/register/${id}`)
+          .then(res => {
+            this.$emit('delete-registration', this.activeIndex);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+      }
       },
       setActiveRow(index) {
         // Set the active index to the clicked row index
@@ -110,7 +123,7 @@
     justify-content: flex-end;
   }
 
-  .cnl-btn {
+  .del-btn {
     background-color: #ef233c;
     color: white;
     border-radius: 4px;
@@ -121,7 +134,7 @@
     margin-left: 10px;
   }
 
-  .cnl-btn:hover{
+  .del-btn:hover{
     background-color: #d90429;
   }
 
