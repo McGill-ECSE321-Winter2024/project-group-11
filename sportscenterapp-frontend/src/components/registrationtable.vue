@@ -15,9 +15,9 @@
           <tr v-for="(registration, index) in registrations" :key="index" :class="{ 'active-row': activeIndex === index }" @click="setActiveRow(index)">
             <td>{{ registration.date }}</td>
             <td>{{ registration.time }}</td>
-            <td>{{ registration.classType.name }}</td>
+            <td>{{ registration.session.classType.name }}</td>
             <td>{{ registration.session.id }}</td>
-            <td>{{ registration.instructor.firstName }}</td>
+            <td>{{ registration.session.instructor.firstName }}</td>
 
 
           </tr>
