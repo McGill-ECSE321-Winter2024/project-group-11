@@ -1,5 +1,6 @@
 <template>
   <div class="profile">
+    <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
     <h2>Create a Class Type</h2>
     <form @submit.prevent="submitForm" class="info-group">
       <div class="form-group">
@@ -30,9 +31,10 @@
 <script>
 import axios from "axios";
 import {showErrMsg} from "./loginform.vue";
-
+import popup from "./popup.vue";
 
 export default {
+  components: {popup},
   props: {
     classTypeId: Number
   },
@@ -43,7 +45,8 @@ export default {
         description: '',
         difficultyLevel: '',
         approved: ''
-      }
+      },
+      errorMessage: ""
     };
   },
   mounted() {
@@ -76,19 +79,14 @@ export default {
       }
       axios.put(`http://localhost:8080/classtypes/${this.classTypeId}`, body)
         .then(res => {
-          showErrMsg.call(this, "Class type updated");
-          this.name = '';
-          this.description = '';
-          this.difficultyLevel = '';
-          this.approved = '';
+          console.log("Class type updated", res.data);
+          this.clearForm();
+          this.$emit('edit-classType', res.data);
+          this.$emit('close');
         }).catch(err => {
-        showErrMsg.call(this, err.response.data);
+        console.error("Error updating class type", err.data);
+        this.errorMessage = err.response.data;
       });
-      console.log(this.classTypeId)
-      console.log(body)
-      console.log("Editing class type:", this.classType);
-      this.$emit('edit-classType', this.classType);
-      this.clearForm();
     },
     cancel() {
       this.clearForm();

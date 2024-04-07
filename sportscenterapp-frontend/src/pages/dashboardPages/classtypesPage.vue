@@ -38,6 +38,7 @@ export default {
   },
   data() {
     return {
+      errorMessage: "",
       showCreateClassTypePopup: false,
       showEditClassTypePopup: false,
       chosenClassType: null,
@@ -61,15 +62,15 @@ export default {
         });
     },
     addClassType(classType) {
-      this.classTypes.push(classType);
+      this.loadClassTypes();
       this.showCreateClassTypePopup = false;
     },
     editClassType(index) {
       this.chosenClassType = index;
       this.showEditClassTypePopup = true;
+      this.loadClassTypes();
     },
     deleteClassType(index) {
-      this.classTypes.splice(index, 1);
       this.loadClassTypes();
     },
     loadClassTypes() {

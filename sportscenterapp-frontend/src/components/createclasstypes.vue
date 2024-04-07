@@ -1,6 +1,7 @@
 <template>
   <div class="profile">
     <h2>Create a Class Type</h2>
+    <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
     <form @submit.prevent="createClassType" class="info-group">
       <div class="form-group">
         <label for="name">Name:</label>
@@ -31,7 +32,7 @@
 <script>
 import axios from "axios";
 import {showErrMsg} from "./loginform.vue";
-
+import popup from "./popup.vue";
 
 export default {
   data() {
@@ -41,8 +42,12 @@ export default {
         description: '',
         difficultyLevel: '',
         approved: ''
-      }
+      },
+      errorMessage: "",
     };
+  },
+  components: {
+    popup
   },
   methods: {
     createClassType() {
@@ -53,19 +58,15 @@ export default {
         approved: 'true'
       }
       axios.post('http://localhost:8080/classtype', body)
-        .then(res => {
-          showErrMsg.call(this, "Class type created");
-          this.name = '';
-          this.description = '';
-          this.difficultyLevel = '';
-          this.approved = '';
-        }).catch(err => {
-        showErrMsg.call(this, err.response.data);
+        .then(response => {
+          console.log("Class type created successfully", response.data);
+          this.clearForm();
+          this.$emit('create-classType', response.data);
+        }).catch(error => {
+        console.error('Error creating class type:', error.response.data);
+        this.errorMessage = error.response.data;
       });
-      console.log(body)
-      console.log("Creating class type:", this.classType);
-      this.$emit('create-classType', this.classType);
-      this.clearForm();
+
     },
     proposeClassType() {
       const body = {
@@ -75,19 +76,15 @@ export default {
         approved: 'false'
       }
       axios.post('http://localhost:8080/classtype', body)
-        .then(res => {
-          showErrMsg.call(this, "Class type proposed");
-          this.name = '';
-          this.description = '';
-          this.difficultyLevel = '';
-          this.approved = '';
-        }).catch(err => {
-        showErrMsg.call(this, err.response.data);
+        .then(response => {
+          console.log("Class type proposed successfully", response.data);
+          this.clearForm();
+          this.$emit('create-classType', response.data);
+        }).catch(error => {
+        console.error('Error proposing class type:', error.response.data);
+        this.errorMessage = error.response.data;
       });
-      console.log(body)
-      console.log("Proposing class type:", this.classType);
-      this.$emit('create-classType', this.classType);
-      this.clearForm();
+
     },
     cancel() {
       this.clearForm();
