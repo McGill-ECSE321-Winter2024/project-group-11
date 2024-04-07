@@ -18,6 +18,7 @@ import ca.mcgill.ecse321.SportsCenterApp.services.OwnerService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("")
 public class OwnerController {
