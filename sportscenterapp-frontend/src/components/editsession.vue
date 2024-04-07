@@ -1,6 +1,6 @@
 <template>
     <div class="profile">
-      <h2>Create a Session</h2>
+      <h2>Edit Session</h2>
       <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
       <form @submit.prevent="editSession" class="info-group">
         <div class="form-group">

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import Dashboard from '@/pages/Dashboard'
 import createviewsessions from '@/components/createviewsessions'
 import sessiontable from '@/components/sessiontable'
@@ -32,12 +32,13 @@ export default {
     Dashboard,
     sessiontable,
     createviewsessions,
-    editsession
+    editsession,
   },
   data() {
     return {
       showCreateSessionPopup: false,
       showEditSessionPopup: false,
+      showAssignPopup: false,
       sessions: [],
       chosenSession: null,
       errorMessage: ''
