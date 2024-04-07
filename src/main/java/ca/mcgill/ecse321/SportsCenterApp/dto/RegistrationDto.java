@@ -14,7 +14,6 @@ public class RegistrationDto {
 
 
     public RegistrationDto(){
-        super();
     }
 
     public RegistrationDto(Date date, Time time, CustomerDto customer, SessionDto session) {

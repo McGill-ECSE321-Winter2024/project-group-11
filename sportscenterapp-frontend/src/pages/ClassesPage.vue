@@ -35,9 +35,37 @@
             {{ session.classType.difficultyLevel }}
           </span>
         </div>
-        <button>Register</button>
+        <button @click="registerSession(session)">Register</button>
       </div>
     </div>
+
+    <div class="modal-overlay" v-if="showConfirmPopup" @click="showConfirmPopup = false">
+        <div v-if="userType === 'Customer'" class="modal-content">
+          <h1>Confirm Registration</h1>
+          <h3>{{selectedSession.classType.difficultyLevel}} {{selectedSession.classType.name}}</h3>
+          <div class="Time">
+            <h3>Date: {{selectedSession.date}}</h3>
+            <h3>Start: {{ selectedSession.startTime }}</h3>
+            <h3>End: {{ selectedSession.endTime }}</h3>
+          </div>
+          <div class="price">
+            <h3> Price: {{ selectedSession.price}}$</h3>
+            <h3>Current balance: {{ customer.accountBalance }}$</h3> 
+          </div>
+          <div class="popup-buttons">
+            <button class="cancel" @click="showConfirmPopup = false">Cancel</button>
+            <button @click="confirmRegistration(selectedSession)">Confirm</button>
+          </div>
+        </div>
+
+        <div v-if="userType !== 'Customer'" class="modal-content">
+          <h1>Want to join us? Create an account!</h1>
+          <router-link to="/authentication" class="create"><button>Enroll now</button></router-link>
+    </div>
+    </div>
+
+    
+    
   </div>
 </template>
 
@@ -52,11 +80,16 @@ export default {
   },
   data() {
     return {
-      sessions: [] // Initialize sessions array
+      sessions: [],
+      showConfirmPopup: false,
+      selectedSession: null,
+      userType: null,
+      customer: null,
     };
   },
   mounted() {
     this.fetchSessions(); // Fetch sessions when component mounts
+    this.getLoggedInUser();
   },
   methods: {
     fetchSessions() {
@@ -67,6 +100,76 @@ export default {
         .catch(error => {
           console.error("There was an error fetching the sessions: ", error.response);
         });
+    },
+
+    getLoggedInUser(){
+      const localObj = JSON.parse(localStorage.getItem('token'));
+        if (!localObj) {
+          this.userType = null;
+          return;
+        }
+
+        this.user = localObj;
+        this.userType = localObj.userType;
+    },
+
+    registerSession(session){
+      this.showConfirmPopup = true;
+      this.selectedSession = session;
+      this.customer = this.fetchCustomer();
+    },
+
+    confirmRegistration(selectedSession){
+      const currentDate = new Date();
+
+      const hours = ("0" + currentDate.getHours()).slice(-2);
+      const minutes = ("0" + currentDate.getMinutes()).slice(-2);
+      const formattedTime = `${hours}:${minutes}:00`;
+
+      const year = currentDate.getFullYear();
+      const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+      const day = ("0" + currentDate.getDate()).slice(-2);
+      const formattedDate = `${year}-${month}-${day}`;
+
+
+      const body = {
+        date: formattedDate,
+        time: formattedTime,
+        session: selectedSession,
+        customer: this.customer,
+        id:0
+      };
+
+      console.log(body);
+      axios.post('http://localhost:8080/register', body)
+      .then(response => {
+          console.log('Registration successful:', response.data);
+          // Handle success (e.g., show confirmation message)
+        })
+        .catch(error => {
+          console.log('Error registering session:', error.response.data);
+          // Handle error (e.g., show error message)
+        })
+
+    },
+
+    fetchCustomer(){
+      const localObj = JSON.parse(localStorage.getItem('token'));
+        if (!localObj) {
+          return;
+        }
+        const id = localObj.id;
+
+        axios.get(`http://localhost:8080/customer/${id}/`)
+          .then(res => {
+            this.customer = res.data;
+          })
+          .catch(err => {
+            console.log(err.data);
+          })
+
+
+
     }
   }
 }
@@ -106,9 +209,18 @@ export default {
     margin: 8px;
   }
 
+  .Time, .price {
+    display: flex;
+    justify-content: space-between;
+  }
+
   h2 {
     color: #333;
     margin-bottom: 10px;
+  }
+
+  h3 {
+    margin: 10px;
   }
 
   p {
@@ -135,6 +247,11 @@ export default {
 
   .title {
     margin: 16px;
+  }
+
+  .cancel {
+    --color: red;
+    border-color:red ;
   }
 
 
@@ -192,6 +309,50 @@ button:hover {
 
 button:active {
  filter: brightness(.8);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the modal is on top of other content */
+}
+
+/* Styles for the modal content */
+.modal-content {
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 400px;
+  max-width: 700px;
+  max-height: 800px;
+  height: auto;
+  overflow-y: auto; /* Enable scrolling if the content exceeds the height */
+  position: absolute;
+  top: 50;
+  left: 35%;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.create:hover {
+  text-decoration: none;
 }
 
 </style>
