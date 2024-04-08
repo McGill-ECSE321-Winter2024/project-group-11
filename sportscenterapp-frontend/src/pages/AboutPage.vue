@@ -86,12 +86,7 @@ export default {
       margin: 8px;
     }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; /* This will space out the cards nicely */
-  margin: 15px; /* Adjust the spacing between cards */
-}
+
 
 
 
