@@ -4,6 +4,7 @@
     <div class="heading">
       <h1 class="title">Offered Sessions</h1>
     </div>
+    <popup :error-message="successMsg" v-if="this.successMsg" popup-color="#77DD77"/>
 
     <div class="card-container">
       <div v-for="session in sessions" :key="session.id" class="card">
@@ -41,6 +42,7 @@
 
     <div class="modal-overlay" v-if="showConfirmPopup" @click="showConfirmPopup = false">
         <div v-if="userType === 'Customer'" class="modal-content">
+          <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
           <h1>Confirm Registration</h1>
           <h3>{{selectedSession.classType.difficultyLevel}} {{selectedSession.classType.name}}</h3>
           <div class="Time">
@@ -50,7 +52,7 @@
           </div>
           <div class="price">
             <h3> Price: {{ selectedSession.price}}$</h3>
-            <h3>Current balance: {{ customer.accountBalance }}$</h3> 
+            <h3>Current balance: {{ customer.accountBalance }}$</h3>
           </div>
           <div class="popup-buttons">
             <button class="cancel" @click="showConfirmPopup = false">Cancel</button>
@@ -64,19 +66,21 @@
     </div>
     </div>
 
-    
-    
+
+
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import navbar from '@/components/Navbar';
+import popup from '@/components/popup';
 
 export default {
   name: 'classes',
   components: {
     navbar,
+    popup
   },
   data() {
     return {
@@ -85,6 +89,8 @@ export default {
       selectedSession: null,
       userType: null,
       customer: null,
+      errorMessage:'',
+      successMsg:''
     };
   },
   mounted() {
@@ -101,6 +107,12 @@ export default {
           console.error("There was an error fetching the sessions: ", error.response);
         });
     },
+    showSuccessMessage(message) {
+    this.successMsg = message;
+    setTimeout(() => {
+      this.successMsg = ''; // Clear the success message after 3 seconds
+    }, 3000); // 3000 milliseconds = 3 seconds
+  },
 
     getLoggedInUser(){
       const localObj = JSON.parse(localStorage.getItem('token'));
@@ -144,11 +156,11 @@ export default {
       axios.post('http://localhost:8080/register', body)
       .then(response => {
           console.log('Registration successful:', response.data);
-          // Handle success (e.g., show confirmation message)
+          this.showSuccessMessage('Successfully registered to session');
         })
         .catch(error => {
           console.log('Error registering session:', error.response.data);
-          // Handle error (e.g., show error message)
+          this.errorMessage = error.response.data;
         })
 
     },
@@ -177,6 +189,14 @@ export default {
 
 <style scoped>
 
+.heading {
+  margin: 50px;
+}
+
+.title {
+  font-weight: bold;
+}
+
   .card {
     background: white;
     border-radius: 8px;
@@ -186,6 +206,10 @@ export default {
     display: flex;
     flex-direction: row;
     max-height: 400px; /* Set a maximum height for the card */
+  }
+
+  .card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 
   .image-container {
@@ -245,9 +269,6 @@ export default {
     font-size: 1.2em;
   }
 
-  .title {
-    margin: 16px;
-  }
 
   .cancel {
     --color: red;
@@ -272,7 +293,7 @@ export default {
  color: var(--color);
  z-index: 1;
  align-self: flex-end;
- 
+
 }
 
 button::before, .button::after {
