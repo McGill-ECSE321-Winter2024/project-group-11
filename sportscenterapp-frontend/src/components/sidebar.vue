@@ -2,13 +2,13 @@
   <div class="sidebar">
     <div class="nav-links">
       <router-link to="/dashboard/profile" class="nav-link" active-class="active-link">Profile</router-link>
-      <router-link to="/dashboard/infos" class="nav-link" active-class="active-link">Center Infos</router-link>
-      <router-link to="/dashboard/sessions" class="nav-link" active-class="active-link">Sessions</router-link>
-      <router-link to="/dashboard/class-types" class="nav-link" active-class="active-link">Class Types</router-link>
-      <router-link to="/dashboard/instructors" class="nav-link" active-class="active-link">Instructors</router-link>
+      <router-link v-if="isOwner" to="/dashboard/infos" class="nav-link" active-class="active-link">Center Infos</router-link>
+      <router-link v-if="isOwner" to="/dashboard/sessions" class="nav-link" active-class="active-link">Sessions</router-link>
+      <router-link v-if="isInstructor" to="/dashboard/instructor-sessions" class="nav-link" active-class="active-link">Sessions</router-link>
+      <router-link v-if="isOwner || isInstructor" to="/dashboard/class-types" class="nav-link" active-class="active-link">Class Types</router-link>
+      <router-link v-if="isOwner"to="/dashboard/instructors" class="nav-link" active-class="active-link">Instructors</router-link>
       <router-link to="/dashboard/customers" class="nav-link" active-class="active-link">Customers</router-link>
-      <router-link to="/dashboard/registrations" class="nav-link" active-class="active-link">My Registrations</router-link>
-      <router-link to="/dashboard/instructor-sessions" class="nav-link" active-class="active-link">InstructorSession</router-link>
+      <router-link v-if="isCustomer" to="/dashboard/registrations" class="nav-link" active-class="active-link">My Registrations</router-link>
     </div>
     <button class="logout-button" @click="logout">Logout</button>
   </div>
@@ -17,12 +17,32 @@
   <script>
 
   export default {
+    data() {
+      return {
+        isOwner: false,
+        isInstructor: false,
+        isCustomer: false
+      }
+    },
     name: 'sidebar',
+    mounted() {
+      this.userVisibility();
+    },
     methods: {
       logout() {
         localStorage.removeItem('token');
         this.$router.push('/');
         console.log("logout");
+      },
+      userVisibility() {
+        const localObj = JSON.parse(localStorage.getItem('token'));
+        if (localObj.userType === 'Owner') {
+          this.isOwner = true;
+        } else if (localObj.userType === 'Instructor') {
+          this.isInstructor = true;
+        } else {
+          this.isCustomer = true;
+        }
       }
     }
   }
