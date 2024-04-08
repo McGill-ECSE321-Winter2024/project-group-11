@@ -4,20 +4,22 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>Time</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th>Class Name</th>
-            <th>Session Id</th>
-            <th>Instructor</th>
+            <th>Room Number</th>
+            <th>Instructor Email</th>
 
           </tr>
         </thead>
         <tbody>
           <tr v-for="(registration, index) in registrations" :key="index" :class="{ 'active-row': activeIndex === index }" @click="setActiveRow(index)">
             <td>{{ registration.date }}</td>
-            <td>{{ registration.time }}</td>
+            <td>{{ registration.session.startTime }}</td>
+            <td>{{ registration.session.endTime }}</td>
             <td>{{ registration.session.classType.name }}</td>
-            <td>{{ registration.session.id }}</td>
-            <td>{{ registration.session.instructor.firstName }}</td>
+            <td>{{ registration.session.roomNumber }}</td>
+            <td>{{ registration.session.instructor.email }}</td>
 
 
           </tr>
