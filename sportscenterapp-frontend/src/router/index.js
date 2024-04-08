@@ -114,22 +114,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const localObj = JSON.parse(localStorage.getItem('token'));
   const securityLevel = to.meta.requiresAuth;
-
-  if (localObj == null && securityLevel !== 0) {
-    next('/authentication');
-  }
-  if (localObj.userType === 'Customer' && securityLevel > 1) {
-    next('/');
-  }
-  if (localObj.userType === 'Instructor' && securityLevel > 2) {
-    next('/');
-  }
-  if (to.name === "instructorSession" && localObj.userType === 'Owner') {
-    next('/');
-  }
-  if (to.name === 'registrations' && localObj.userType !== 'Customer') {
-    next('/');
-  }
   next();
 });
 
