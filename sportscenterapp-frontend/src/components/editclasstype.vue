@@ -20,6 +20,10 @@
           <option value="Advanced">Advanced</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" v-model="classType.image" class="input" autocomplete="off" placeholder="Image URL">
+      </div>
       <div class="button-group">
         <button type="button" @click="cancel" class="btn-57">Cancel</button>
         <button type="submit" class="btn-57">Confirm Changes</button>
@@ -44,7 +48,8 @@ export default {
         name: '',
         description: '',
         difficultyLevel: '',
-        approved: ''
+        approved: '',
+        image: ''
       },
       errorMessage: ""
     };
@@ -77,6 +82,7 @@ export default {
         description: this.classType.description,
         difficultyLevel: this.classType.difficultyLevel,
         approved: '',
+        image: this.image
       }
       axios.put(`http://localhost:8080/classtypes/${this.classTypeId}`, body)
         .then(res => {
@@ -98,6 +104,7 @@ export default {
         name: '',
         description: '',
         difficultyLevel: '',
+        image: ''
       };
     }
   }
