@@ -24,100 +24,112 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: homepage
+      component: homepage,
+      meta: {requiresAuth: 0}
     },
     {
       path: '/authentication',
       name: 'authentication',
-      component: RegisterPage
+      component: RegisterPage,
+      meta: {requiresAuth: 0}
     },
     {
       path: '/about',
       name: 'about',
-      component: AboutPage
+      component: AboutPage,
+      meta: {requiresAuth: 0}
     },
 
     {
       path: '/classes',
       name: 'classes',
-      component: ClassesPage
+      component: ClassesPage,
+      meta: {requiresAuth: 0}
     },
 
     {
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 1}
     },
 
     {
       path: '/dashboard/profile',
       name: 'profile',
       component: profilePage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 1}
     },
 
     {
       path: '/dashboard/infos',
       name: 'infos',
       component: centerinfosPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 3}
     },
 
     {
       path: '/dashboard/sessions',
       name: 'sessions',
       component: sessionPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 3}
     },
 
     {
       path: '/dashboard/class-types',
       name: 'classtypes',
       component: classtypesPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 2}
     },
 
     {
       path: '/dashboard/instructors',
       name: 'instructors',
       component: instructorsPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 3}
     },
 
     {
       path: '/dashboard/customers',
       name: 'customers',
       component: customerPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 0}
     },
 
     {
       path: '/dashboard/registrations',
       name: 'registration',
       component: registrationPage,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 1}
     },
     {
       path:'/dashboard/instructor-sessions',
       name: 'instructorSession',
       component: instructorSession,
-      meta: {requiresAuth: false}
+      meta: {requiresAuth: 2}
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthed = !!localStorage.getItem('token');
-  if (to.meta.requiresAuth && !isAuthed) {
+  const localObj = JSON.parse(localStorage.getItem('token'));
+  const securityLevel = to.meta.requiresAuth;
+
+  if (localObj == null && securityLevel !== 0) {
     next('/authentication');
   }
-  // const token = JSON.parse(localStorage.getItem('token')).token;
-  //
-  // const userType = JSON.parse(localStorage.getItem('token')).userType;
-  // if (to.name === 'instructors' && userType !== 'Owner') {
-  //   next('/dashboard');
-  // }
+  if (localObj.userType === 'Customer' && securityLevel > 1) {
+    next('/');
+  }
+  if (localObj.userType === 'Instructor' && securityLevel > 2) {
+    next('/');
+  }
+  if (to.name === "instructorSession" && localObj.userType === 'Owner') {
+    next('/');
+  }
+  if (to.name === 'registrations' && localObj.userType !== 'Customer') {
+    next('/');
+  }
   next();
 });
 
