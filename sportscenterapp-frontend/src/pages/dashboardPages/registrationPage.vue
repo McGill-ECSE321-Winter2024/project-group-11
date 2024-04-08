@@ -1,12 +1,11 @@
 <template>
-    <Dashboard>
-        <h1>PAGE FOR SEEING ALL CUSTOMER REGISTRATIONS</h1>
-        <h2>Accessible by cusstomer</h2>
-        <p> The customer can see/delete his registrations</p>
-        <registrationtable :registrations="registrations" @delete-registration="deleteRegistration" />
-
-    </Dashboard>
-  </template>
+  <Dashboard>
+    <div class="content">
+      <h1 class="text-center">MY REGISTRATIONS</h1>
+      <registrationtable :registrations="registrations" @delete-registration="deleteRegistration" />
+    </div>
+  </Dashboard>
+</template>
 
   <script>
   import axios from 'axios';
@@ -52,24 +51,23 @@ export default {
       }
 
       console.log(customerId);
-    // In your registrationPage component, after fetching registrations:
-    axios.get(`http://localhost:8080/register/customer/${customerId}`)
-      .then(res => {
-        // Wrap the single registration object in an array
-        this.registrations = [res.data];
-        console.log('Registration fetched:', this.registrations);
-      })
-      .catch(err => {
-        console.error('Error fetching registration:', err.response.data);
-        this.errorMessage = err.response.data;
-      });
+      axios.get(`http://localhost:8080/register/customer/${customerId}`)
+        .then(res => {
+          this.registrations = res.data; // Directly assign the response data
+          console.log('Registrations fetched:', this.registrations);
+        })
+        .catch(err => {
+          console.error('Error fetching registrations:', err.response.data);
+          this.errorMessage = err.response.data;
+        });
+
 
     }
 }
 }
 </script>
 
-<style >
+<style scoped>
 
 
 .button-container {
@@ -128,5 +126,9 @@ button:hover {
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>
