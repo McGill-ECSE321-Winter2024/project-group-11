@@ -91,6 +91,10 @@ export default {
           axios.put(`http://localhost:8080/instructors/${storageObj.id}/bio?bio=${this.editedUser.biography}`)
             .catch(err => {
               this.errMsg = err.response.data;
+            }),
+          axios.put(`http://localhost:8080/instructors/${storageObj.id}/yrOfExp?experience=${this.editedUser.yearsOfExperience}`)
+            .catch(err => {
+              this.errMsg = err.response.data;
             })
         );
       } else {
