@@ -9,7 +9,6 @@ import centerinfosPage from '@/pages/dashboardPages/centerinfosPage'
 import sessionPage from '@/pages/dashboardPages/sessionPage'
 import classtypesPage from '@/pages/dashboardPages/classtypesPage'
 import instructorsPage from '@/pages/dashboardPages/instructorsPage'
-import customerPage from '@/pages/dashboardPages/customerPage'
 import registrationPage from '@/pages/dashboardPages/registrationPage'
 import ClassesPage from '@/pages/ClassesPage'
 import instructorSession from "../pages/dashboardPages/instructorSession.vue";
@@ -87,13 +86,6 @@ const router = new Router({
       name: 'instructors',
       component: instructorsPage,
       meta: {requiresAuth: 3}
-    },
-
-    {
-      path: '/dashboard/customers',
-      name: 'customers',
-      component: customerPage,
-      meta: {requiresAuth: 0}
     },
 
     {

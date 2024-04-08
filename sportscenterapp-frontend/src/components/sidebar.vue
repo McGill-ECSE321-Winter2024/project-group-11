@@ -7,7 +7,6 @@
       <router-link v-if="isInstructor" to="/dashboard/instructor-sessions" class="nav-link" active-class="active-link">Sessions</router-link>
       <router-link v-if="isOwner || isInstructor" to="/dashboard/class-types" class="nav-link" active-class="active-link">Class Types</router-link>
       <router-link v-if="isOwner"to="/dashboard/instructors" class="nav-link" active-class="active-link">Instructors</router-link>
-      <router-link to="/dashboard/customers" class="nav-link" active-class="active-link">Customers</router-link>
       <router-link v-if="isCustomer" to="/dashboard/registrations" class="nav-link" active-class="active-link">My Registrations</router-link>
     </div>
     <button class="logout-button" @click="logout">Logout</button>
