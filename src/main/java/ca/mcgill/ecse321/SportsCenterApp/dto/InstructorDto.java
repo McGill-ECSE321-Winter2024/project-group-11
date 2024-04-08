@@ -10,6 +10,8 @@ public class InstructorDto {
     private Integer aYearsOfExperience;
     private String aBiography;
 
+    private String imageUrl;
+
     public InstructorDto(){
         
     }
@@ -23,6 +25,18 @@ public class InstructorDto {
         this.token = token;
         this.aYearsOfExperience = YearsOfExperience;
         this.aBiography = Biography;
+    }
+
+    public InstructorDto(String firstName, String lastName, String email, String password, Integer id, String token, Integer YearsOfExperience, String Biography, String imageUrl) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.id = id;
+        this.token = token;
+        this.aYearsOfExperience = YearsOfExperience;
+        this.aBiography = Biography;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -52,6 +66,8 @@ public class InstructorDto {
     public String getBiography() {
         return aBiography;
     }
+
+    public String getImageUrl() { return imageUrl; }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

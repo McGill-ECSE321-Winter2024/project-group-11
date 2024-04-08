@@ -65,6 +65,38 @@ public class InstructorService {
         return instructor;
     }
 
+    @Transactional
+    public Instructor createInstructor(String aFirstName, String aLastName, String aEmail, String aPassword, String aToken, Integer aYearsOfExperience, String aBiography, String imageUrl) {
+
+        //Input validation
+        if (!isValidEmailAddress(aEmail)) {
+            throw new IllegalArgumentException("Invalid Email adress");
+        }
+
+        if (!isValidPassword(aPassword)) {
+            throw new IllegalArgumentException("Invalid password, passwrod must have at least 1 digit, one lowercase, one uppercase, no whitespace at least 8 character in length");
+        }
+
+        if (aFirstName == null || aLastName == null || aFirstName.isEmpty() || aLastName.isEmpty()) {
+            throw new IllegalArgumentException("Name fields cannot be empty");
+        }
+
+        if (aYearsOfExperience < 0) {
+            throw new IllegalArgumentException("Instructor cannot have negative years of experience");
+        }
+
+
+        Instructor instructor = instructorRepository.findInstructorByEmail(aEmail);
+        if (instructor != null) {
+            throw new IllegalArgumentException("Instructor with email exists!");
+        }
+        instructor = new Instructor(aFirstName, aLastName, aEmail, aPassword, aToken, aYearsOfExperience, aBiography, imageUrl);
+
+        instructorRepository.save(instructor);
+
+        return instructor;
+    }
+
     /**
 	 * Method to get a instructor by id
 	 * @param id of instructor

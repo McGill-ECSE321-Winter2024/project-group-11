@@ -20,6 +20,8 @@ public class Instructor extends User
   private Integer yearsOfExperience;
   private String biography;
 
+  private String imageUrl;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -35,6 +37,13 @@ public class Instructor extends User
     super(firstName, lastName, email, password, token);
     this.yearsOfExperience = yearsOfExperience;
     this.biography = biography;
+  }
+
+  public Instructor(String firstName, String lastName, String email, String password, String token, Integer yearsOfExperience, String biography, String imageUrl) {
+    super(firstName, lastName, email, password, token);
+    this.yearsOfExperience = yearsOfExperience;
+    this.biography = biography;
+    this.imageUrl = imageUrl;
   }
 
   public Instructor() {
@@ -70,6 +79,8 @@ public class Instructor extends User
   {
     return biography;
   }
+
+  public String getImageUrl() { return imageUrl; }
 
   public void delete()
   {

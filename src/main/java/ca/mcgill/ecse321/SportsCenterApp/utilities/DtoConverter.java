@@ -30,7 +30,7 @@ public class DtoConverter {
         if (instructor == null) {
             return null;
         }
-        return new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography());
+        return new InstructorDto(instructor.getFirstName(), instructor.getLastName(),instructor.getEmail(), instructor.getPassword(), instructor.getId(), instructor.getToken(), instructor.getYearsOfExperience(), instructor.getBiography(), instructor.getImageUrl());
 
     }
 
