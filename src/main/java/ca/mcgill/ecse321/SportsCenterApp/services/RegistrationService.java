@@ -70,10 +70,10 @@ public class RegistrationService {
     }
 
     @Transactional
-    public Registration getRegistrationByCustomerId(Integer customerId){
-        Registration registration = registrationRepository.findRegistrationByCustomerId(customerId);
-        if (registration != null){
-            return registration;
+    public List<Registration> getRegistrationByCustomerId(Integer customerId){
+        List<Registration> registrations = registrationRepository.findRegistrationByCustomerId(customerId);
+        if (registrations != null){
+            return registrations;
         }
         else {
             throw new IllegalArgumentException("Registration not found for id: " + customerId);
@@ -141,8 +141,6 @@ public class RegistrationService {
             throw new IllegalArgumentException("Registration could not be updated with customer id: " + customerId); //rewrite message
         }
     }
-
-    //commplete other updates if time permits
 
 
 }
