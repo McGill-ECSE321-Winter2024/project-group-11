@@ -23,6 +23,10 @@
         <label for="confirmPassword">Confirm password:</label>
         <input type="text" id="confirmPassword" v-model="instructor.confirmPassword" class="input" autocomplete="off" placeholder="password">
       </div>
+      <div class="form-group">
+        <label for="imageUrl">Image Url:</label>
+        <input type="text" id="confirmPassword" v-model="instructor.image" class="input" autocomplete="off" placeholder="image url">
+      </div>
     </form>
     <div class="button-group">
       <button type="button" @click="cancel" class="btn-57">Cancel</button>
@@ -44,6 +48,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        image: ''
       },
       errorMessage: "",
       popupColor: "red"
@@ -64,6 +69,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        image: ''
       };
     },
     async submitForm() {
@@ -78,7 +84,8 @@ export default {
         password: this.instructor.password,
         token: "",
         yearsOfExperience: "0",
-        biography: ""
+        biography: "",
+        imageUrl: this.instructor.image
       }
       axios.post('http://localhost:8080/instructor', body)
         .then(async (res) => {
