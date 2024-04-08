@@ -22,7 +22,7 @@ public class DtoConverter {
         if (ClassType == null) {
             return null;
         }
-        return new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
+        return new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId(), ClassType.getImageUrl());
 
     }
 

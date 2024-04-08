@@ -30,6 +30,8 @@ public class ClassType
   private String description;
   private boolean approved;
   private DifficultyLevel difficultyLevel;
+  private String imageUrl;
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
@@ -52,6 +54,15 @@ public class ClassType
     this.description = description;
     this.approved = approved;
     this.difficultyLevel = difficultyLevel;
+  }
+
+  public ClassType(String aName, String aDescription, boolean aApproved, DifficultyLevel aDifficultyLevel, String imageUrl)
+  {
+    name = aName;
+    description = aDescription;
+    approved = aApproved;
+    difficultyLevel = aDifficultyLevel;
+    this.imageUrl = imageUrl;
   }
 
   public ClassType() {
@@ -102,6 +113,13 @@ public class ClassType
     return wasSet;
   }
 
+  public boolean setImageUrl(String imageUrl){
+    boolean wasSet = false;
+    imageUrl = imageUrl;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -126,6 +144,9 @@ public class ClassType
   {
     return id;
   }
+
+  public String getImageUrl() { return imageUrl; }
+
   /* Code from template attribute_IsBoolean */
   public boolean isApproved()
   {

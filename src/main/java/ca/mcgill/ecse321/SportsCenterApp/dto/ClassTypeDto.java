@@ -10,6 +10,8 @@ public class ClassTypeDto {
     private DifficultyLevel difficultyLevel;
     private Integer id;
 
+    private String imageUrl;
+
     public ClassTypeDto(){
 
     }
@@ -20,6 +22,15 @@ public class ClassTypeDto {
         this.approved = approved;
         this.difficultyLevel = difficultyLevel;
         this.id = id;
+    }
+
+    public ClassTypeDto(String name, String description, boolean approved, DifficultyLevel difficultyLevel, Integer id, String imageUrl){
+        this.name = name;
+        this.description = description;
+        this.approved = approved;
+        this.difficultyLevel = difficultyLevel;
+        this.id = id;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -40,6 +51,8 @@ public class ClassTypeDto {
     public String getDescription() {
         return description;
     }
+
+    public String getImageUrl() { return imageUrl; }
 
 
     public void setDescription(String description) {

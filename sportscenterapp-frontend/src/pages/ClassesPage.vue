@@ -10,7 +10,7 @@
     <div class="card-container">
       <div v-for="session in sessions" :key="session.id" class="card">
         <div class="image-container">
-          <img class="session-image" src="https://www.fitpro.com/blog/wp-content/uploads/2022/07/iStock-927938242-cropped.jpg" alt="Session Image" />
+          <img class="session-image" :src="getImageUrl(session)" alt="Session Image" />
         </div>
 
         <div class="session-details">
@@ -98,6 +98,10 @@ export default {
     this.getLoggedInUser();
   },
   methods: {
+    getImageUrl(session) {
+        return session.classType && session.classType.imageUrl ? session.classType.imageUrl : 'https://www.fitpro.com/blog/wp-content/uploads/2022/07/iStock-927938242-cropped.jpg';
+      },
+
     fetchSessions() {
       axios.get('http://localhost:8080/session/')
         .then(response => {
@@ -187,9 +191,6 @@ export default {
           .catch(err => {
             console.log(err.data);
           })
-
-
-
     }
   }
 }
