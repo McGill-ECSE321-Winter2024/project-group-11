@@ -33,10 +33,30 @@ public class ClassTypeService {
             throw new IllegalArgumentException("Difficulty Level cannot be null!");
         }
 
-
-
-
         ClassType classType = new ClassType(name, description, approved, difficultyLevel);
+
+        classTypeRepository.save(classType);
+
+        return classType;
+    }
+
+    @Transactional
+    public ClassType creatClassType(String name, String description, boolean approved, DifficultyLevel difficultyLevel, String imageUrl){
+
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty!");
+        }
+
+
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("description cannot be empty!");
+        }
+
+        if (difficultyLevel == null) {
+            throw new IllegalArgumentException("Difficulty Level cannot be null!");
+        }
+
+        ClassType classType = new ClassType(name, description, approved, difficultyLevel, imageUrl);
 
         classTypeRepository.save(classType);
 

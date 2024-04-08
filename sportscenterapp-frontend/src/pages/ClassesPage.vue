@@ -8,7 +8,7 @@
     <div class="card-container">
       <div v-for="session in sessions" :key="session.id" class="card">
         <div class="image-container">
-          <img class="session-image" src="https://www.fitpro.com/blog/wp-content/uploads/2022/07/iStock-927938242-cropped.jpg" alt="Session Image" />
+          <img class="session-image" :src="getImageUrl(session)" alt="Session Image" />
         </div>
 
         <div class="session-details">
@@ -19,6 +19,7 @@
           <p>Date & Time: {{ session.date }}: {{ session.startTime }} - {{ session.endTime }}</p>
           <p>Price: ${{ session.price }} | Remaining Capacity: {{ session.remainingCapacity }}</p>
           <p>Room: {{ session.roomNumber }}</p>
+          <p>{{ session.classType.imageUrl }}</p>
           <div>
             <p v-if="session.instructor">
               Instructor: {{ session.instructor.firstName }} {{ session.instructor.lastName }}
@@ -92,6 +93,10 @@ export default {
     this.getLoggedInUser();
   },
   methods: {
+    getImageUrl(session) {
+        return session.classType && session.classType.imageUrl ? session.classType.imageUrl : 'https://www.fitpro.com/blog/wp-content/uploads/2022/07/iStock-927938242-cropped.jpg';
+      },
+
     fetchSessions() {
       axios.get('http://localhost:8080/session/')
         .then(response => {
@@ -167,9 +172,6 @@ export default {
           .catch(err => {
             console.log(err.data);
           })
-
-
-
     }
   }
 }

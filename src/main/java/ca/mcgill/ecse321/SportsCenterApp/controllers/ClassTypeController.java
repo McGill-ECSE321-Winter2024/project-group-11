@@ -25,7 +25,8 @@ public class ClassTypeController {
     @PostMapping("/classtype")
     public ResponseEntity<?> createClassType(@RequestBody ClassTypeDto classTypeDto) {
         try {
-            ClassType classType = service.creatClassType(classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.isApproved(), classTypeDto.getDifficultyLevel());
+            ClassType classType = service.creatClassType(classTypeDto.getName(), classTypeDto.getDescription(), classTypeDto.isApproved(), classTypeDto.getDifficultyLevel(), classTypeDto.getImageUrl());
+            System.out.println(classType);
             return new ResponseEntity<>(convertToDto(classType), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -159,7 +160,8 @@ public class ClassTypeController {
         if (ClassType == null) {
             throw new IllegalArgumentException("There is no such ClassType");
         }
-        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId());
+
+        ClassTypeDto ClassTypeDto = new ClassTypeDto(ClassType.getName(), ClassType.getDescription(), ClassType.getApproved(), ClassType.getDifficultyLevel(), ClassType.getId(), ClassType.getImageUrl());
         return ClassTypeDto;
     }
     
