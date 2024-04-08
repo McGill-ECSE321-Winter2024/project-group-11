@@ -19,7 +19,6 @@
           <p>Date & Time: {{ session.date }}: {{ session.startTime }} - {{ session.endTime }}</p>
           <p>Price: ${{ session.price }} | Remaining Capacity: {{ session.remainingCapacity }}</p>
           <p>Room: {{ session.roomNumber }}</p>
-          <p>{{ session.classType.imageUrl }}</p>
           <div>
             <p v-if="session.instructor">
               Instructor: {{ session.instructor.firstName }} {{ session.instructor.lastName }}
