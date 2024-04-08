@@ -2,8 +2,8 @@
     <Dashboard>
         <h1>PAGE FOR SEEING ALL CUSTOMER REGISTRATIONS</h1>
         <h2>Accessible by cusstomer</h2>
-        <p> The customer can see/cancel his registrations</p>
-        <registrationtable :registrations="registrations" @cancel-registration="cancelRegistration" />
+        <p> The customer can see/delete his registrations</p>
+        <registrationtable :registrations="registrations" @delete-registration="deleteRegistration" />
 
     </Dashboard>
   </template>
@@ -34,18 +34,36 @@ export default {
 
       this.fetchRegistrations();
     },
-    cancelRegistration(index) {
+    deleteRegistration(index) {
       this.registrations.splice(index, 1);
     },
-      fetchRegistrations() {
-          axios.get('http://localhost:8080/register')
-            .then(res => {
-              this.registrations = res.data;
-            })
-            .catch(error => {
-            console.error('There was an error fetching the registrations:', error);
-            this.errorMessage = 'Failed to load registrations.';
-          });
+    fetchRegistrations() {
+      const tokenString = localStorage.getItem('token');
+      if (!tokenString) {
+        this.errorMessage = 'You must be logged in to view registrations.';
+        return;
+      }
+
+      const token = JSON.parse(tokenString);
+      const customerId = token.id; // Assuming the token object has an 'id' field
+      if (!customerId) {
+        this.errorMessage = 'Invalid token. Please log in again.';
+        return;
+      }
+
+      console.log(customerId);
+    // In your registrationPage component, after fetching registrations:
+    axios.get(`http://localhost:8080/register/customer/${customerId}`)
+      .then(res => {
+        // Wrap the single registration object in an array
+        this.registrations = [res.data];
+        console.log('Registration fetched:', this.registrations);
+      })
+      .catch(err => {
+        console.error('Error fetching registration:', err.response.data);
+        this.errorMessage = err.response.data;
+      });
+
     }
 }
 }

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/register")
 public class RegistrationController {
@@ -25,6 +26,20 @@ public class RegistrationController {
     public ResponseEntity<?> getRegistration(@PathVariable("id") Integer id) {
         try {
             Registration registration = registrationService.getRegistration(id);
+            RegistrationDto dto = DtoConverter.convertToDto(registration);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<?> getRegistrationByCustomerId(@PathVariable("id") Integer id){
+        try {
+            Registration registration = registrationService.getRegistrationByCustomerId(id);
             RegistrationDto dto = DtoConverter.convertToDto(registration);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (Exception e) {
