@@ -114,7 +114,34 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const localObj = JSON.parse(localStorage.getItem('token'));
   const securityLevel = to.meta.requiresAuth;
-  next();
+  console.log(securityLevel);
+  console.log(to.name);
+  if (securityLevel === 0) {
+    next();
+  }
+  if (securityLevel === 1 && localObj.userType === 'Customer') {
+    next();
+  }
+  if (securityLevel === 2 && localObj.userType === 'Instructor') {
+    next();
+  }
+  if (securityLevel === 3 && localObj.userType === 'Owner') {
+    next();
+  }
+  if (to.name === "classtypes" && localObj.userType === 'Owner') {
+    next();
+  }
+  if (to.name === 'dashboard' && localObj !== null) {
+    next();
+  }
+  if (to.name === 'profile' && localObj !== null) {
+    next();
+  }
+  if (securityLevel > 0 && localObj == null
+    || securityLevel > 1 && localObj.userType === 'Customer'
+    || securityLevel > 2 && localObj.userType === 'Instructor' ) {
+    next('/');
+  }
 });
 
 export default router;
