@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.SportsCenterApp.controllers;
 
 import ca.mcgill.ecse321.SportsCenterApp.dto.RegistrationDto;
+import ca.mcgill.ecse321.SportsCenterApp.dto.SessionDto;
 import ca.mcgill.ecse321.SportsCenterApp.model.Registration;
 import ca.mcgill.ecse321.SportsCenterApp.services.RegistrationService;
 import ca.mcgill.ecse321.SportsCenterApp.utilities.DtoConverter;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -37,18 +39,16 @@ public class RegistrationController {
     }
 
     @GetMapping("/customer/{id}")
-    public ResponseEntity<?> getRegistrationByCustomerId(@PathVariable("id") Integer id){
+    public ResponseEntity<List<RegistrationDto>> getRegistrationByCustomerId(@PathVariable("id") Integer id){
         try {
-            Registration registration = registrationService.getRegistrationByCustomerId(id);
-            RegistrationDto dto = DtoConverter.convertToDto(registration);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            List<RegistrationDto> registrations = registrationService.getAllRegistrations().stream().map(DtoConverter::convertToDto).collect(Collectors.toList());
+            return new ResponseEntity<>(registrations, HttpStatus.OK);
         } catch (Exception e) {
-            if (e instanceof IllegalArgumentException) {
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @GetMapping("")
     public ResponseEntity<?> getAllRegistrations() {
