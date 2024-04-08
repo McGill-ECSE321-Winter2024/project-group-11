@@ -52,7 +52,7 @@
           </div>
           <div class="price">
             <h3> Price: {{ selectedSession.price}}$</h3>
-            <h3>Current balance: {{ customer.accountBalance }}$</h3> 
+            <h3>Current balance: {{ customer.accountBalance }}$</h3>
           </div>
           <div class="popup-buttons">
             <button class="cancel" @click="showConfirmPopup = false">Cancel</button>
@@ -66,8 +66,8 @@
     </div>
     </div>
 
-    
-    
+
+
   </div>
 </template>
 
@@ -189,6 +189,14 @@ export default {
 
 <style scoped>
 
+.heading {
+  margin: 50px;
+}
+
+.title {
+  font-weight: bold;
+}
+
   .card {
     background: white;
     border-radius: 8px;
@@ -198,6 +206,10 @@ export default {
     display: flex;
     flex-direction: row;
     max-height: 400px; /* Set a maximum height for the card */
+  }
+
+  .card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 
   .image-container {
@@ -257,9 +269,6 @@ export default {
     font-size: 1.2em;
   }
 
-  .title {
-    margin: 16px;
-  }
 
   .cancel {
     --color: red;
@@ -284,7 +293,7 @@ export default {
  color: var(--color);
  z-index: 1;
  align-self: flex-end;
- 
+
 }
 
 button::before, .button::after {

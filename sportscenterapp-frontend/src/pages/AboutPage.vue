@@ -7,10 +7,15 @@
 
     <div class="card-container">
       <div v-for="instructor in instructors" :key="instructor.id" class="card">
-        <h2>{{ instructor.firstName }} {{ instructor.lastName }}</h2>
-        <p> Biography: {{ instructor.biography }}</p>
-        <p>Years of Experience: {{ instructor.yearsOfExperience }} </p>
-        <p>Contact: {{ instructor.email }}</p>
+        <div class="image-container">
+          <img class="instructor-image" src="https://media.licdn.com/dms/image/D4E03AQFWIM6hT9bL5g/profile-displayphoto-shrink_800_800/0/1675634843779?e=2147483647&v=beta&t=G630xyNMuXgKcMSDCd1d3IIPjLjdKFqhRz-9QOYMc4s" alt="Instructor Image" />
+        </div>
+        <div class="instructor-details">
+          <h2>{{ instructor.firstName }} {{ instructor.lastName }}</h2>
+          <p>Biography: {{ instructor.biography }}</p>
+          <p>Years of Experience: {{ instructor.yearsOfExperience }} </p>
+          <p>Contact: {{ instructor.email }}</p>
+        </div>
       </div>
     </div>
 
@@ -60,22 +65,41 @@ export default {
   font-weight: bold;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; /* This will space out the cards nicely */
-  margin: 15px; /* Adjust the spacing between cards */
-}
+  .image-container {
+    width: 400px;
+    flex: 0 0 auto; /* Don't allow the image container to grow or shrink */
+    margin-right: 20px;
+  }
 
-.card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 15px;
-  transition: box-shadow 0.3s ease-in-out;
-  flex: 0 1 calc(33.333% - 30px);
-}
+  .instructor-image {
+    width: 100%;
+    height: 100%;
+    object-fit:contain;
+  }
+
+    .instructor-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: auto;
+      margin: 8px;
+    }
+
+
+
+
+
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 16px;
+    display: flex;
+    flex-direction: row;
+    max-height: 400px; /* Set a maximum height for the card */
+  }
 
 .card:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -88,7 +112,6 @@ h2 {
 
 p {
   color: #666;
-  line-height: 1.6;
 }
 
 h3 {
