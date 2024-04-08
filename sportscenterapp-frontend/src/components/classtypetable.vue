@@ -1,5 +1,6 @@
 <template>
   <div class="classType-table">
+    <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
     <table>
       <thead>
       <tr>
@@ -30,6 +31,7 @@
 
 <script>
 import axios from "axios";
+import popup from "./popup.vue";
 
 export default {
   props: {
@@ -40,9 +42,14 @@ export default {
       activeIndex: null, // Index of the currently active row
       showEditClassTypePopup: false,
       showButton: false,
+      errorMessage:''
     };
   },
+  components: {
+    popup
+  },
   mounted () {
+    this.loadClassTypes();
     this.showModifyButton();
   },
   methods: {
@@ -66,7 +73,7 @@ export default {
             this.$emit('delete-classType', this.activeIndex);
           })
           .catch(err => {
-            console.log(err);
+            this.showErrorMessage('Error deleting class type');
           })
 
       }
@@ -90,6 +97,21 @@ export default {
       else {
         this.showButton = false
       }
+    },
+    loadClassTypes() {
+      axios.get('http://localhost:8080/classtypes')
+        .then(res => {
+          this.classTypes = res.data;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    showErrorMessage(message){
+      this.errorMessage = message;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
     },
     }
 };

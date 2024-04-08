@@ -23,7 +23,6 @@ import createclasstypes from '@/components/createclasstypes'
 import classtypetable from '@/components/classtypetable'
 import editclasstype from '@/components/editclasstype'
 import axios from 'axios'
-import {showErrMsg} from "../../components/loginform.vue";
 
 export default {
   name: 'classTypePage',
@@ -39,9 +38,7 @@ export default {
       showCreateClassTypePopup: false,
       showEditClassTypePopup: false,
       chosenClassType: null,
-      classTypes: [
-        this.loadClassTypes()
-      ],
+      classTypes: [],
     };
   },
   mounted() {
