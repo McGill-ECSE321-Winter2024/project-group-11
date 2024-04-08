@@ -5,6 +5,7 @@
       <h1 class="title">Offered Sessions</h1>
     </div>
     <popup :error-message="successMsg" v-if="this.successMsg" popup-color="#77DD77"/>
+    <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
 
     <div class="card-container">
       <div v-for="session in sessions" :key="session.id" class="card">
@@ -42,7 +43,6 @@
 
     <div class="modal-overlay" v-if="showConfirmPopup" @click="showConfirmPopup = false">
         <div v-if="userType === 'Customer'" class="modal-content">
-          <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
           <h1>Confirm Registration</h1>
           <h3>{{selectedSession.classType.difficultyLevel}} {{selectedSession.classType.name}}</h3>
           <div class="Time">
@@ -114,6 +114,13 @@ export default {
     }, 3000); // 3000 milliseconds = 3 seconds
   },
 
+    showErrorMessage(message){
+      this.errorMessage = message;
+      setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
+    },
+
     getLoggedInUser(){
       const localObj = JSON.parse(localStorage.getItem('token'));
         if (!localObj) {
@@ -157,10 +164,11 @@ export default {
       .then(response => {
           console.log('Registration successful:', response.data);
           this.showSuccessMessage('Successfully registered to session');
+          this.showConfirmPopup = false;
         })
         .catch(error => {
           console.log('Error registering session:', error.response.data);
-          this.errorMessage = error.response.data;
+          this.showErrorMessage('Error: ' + error.response.data);
         })
 
     },
