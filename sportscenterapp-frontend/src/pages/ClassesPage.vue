@@ -8,7 +8,7 @@
     <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
 
     <div class="card-container">
-      <div v-for="session in sessions" :key="session.id" class="card">
+      <div v-for="session in sessionsWithInstructor" :key="session.id" class="card">
         <div class="image-container">
           <img class="session-image" :src="getImageUrl(session)" alt="Session Image" />
         </div>
@@ -92,6 +92,11 @@ export default {
       errorMessage:'',
       successMsg:''
     };
+  },
+  computed: {
+    sessionsWithInstructor(){
+      return this.sessions.filter(session => session.instructor !== null);
+    }
   },
   mounted() {
     this.fetchSessions(); // Fetch sessions when component mounts
