@@ -8,7 +8,7 @@
     <div class="card-container">
       <div v-for="instructor in instructors" :key="instructor.id" class="card">
         <div class="image-container">
-          <img class="instructor-image" src="https://media.licdn.com/dms/image/D4E03AQFWIM6hT9bL5g/profile-displayphoto-shrink_800_800/0/1675634843779?e=2147483647&v=beta&t=G630xyNMuXgKcMSDCd1d3IIPjLjdKFqhRz-9QOYMc4s" alt="Instructor Image" />
+          <img class="instructor-image" :src="getImageUrl(instructor)" alt="Instructor Image" />
         </div>
         <div class="instructor-details">
           <h2>{{ instructor.firstName }} {{ instructor.lastName }}</h2>
@@ -42,6 +42,10 @@ export default {
     this.fetchInstructors(); // Fetch instructors when component mounts
   },
   methods: {
+    getImageUrl(instructor) {
+          return instructor.imageUrl ? instructor.imageUrl : 'https://media.licdn.com/dms/image/D4E03AQFWIM6hT9bL5g/profile-displayphoto-shrink_800_800/0/1675634843779?e=2147483647&v=beta&t=G630xyNMuXgKcMSDCd1d3IIPjLjdKFqhRz-9QOYMc4s';
+      },
+
     fetchInstructors() {
       axios.get('http://localhost:8080/instructors')
         .then(response => {
