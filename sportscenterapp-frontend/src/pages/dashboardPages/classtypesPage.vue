@@ -12,7 +12,7 @@
       <createclasstypes class ="modal-content" @close="showCreateClassTypePopup = false" @create-classType="addClassType" />
     </div>
     <div class="modal-overlay" v-if="showEditClassTypePopup">
-      <editclasstype :classTypeId="chosenClassType" class ="modal-content" @close="showEditClassTypePopup = false"  @edit-classType="loadClassTypes"/>
+      <editclasstype :classTypeId="chosenClassType" class ="modal-content" @close="showEditClassTypePopup = false"  @edit-classType="editClassType"/>
     </div>
   </div>
 </template>
@@ -32,9 +32,6 @@ export default {
     classtypetable,
     createclasstypes,
     editclasstype
-  },
-  props: {
-    classTypeId: Number
   },
   data() {
     return {
@@ -83,13 +80,14 @@ export default {
         });
     },
     approveClassType(id) {
-      console.log(this.classTypeId)
-      axios.put(`http://localhost:8080/classtypes/${this.classTypeId}/approve`)
+      axios.put(`http://localhost:8080/classtypes/${id}/approve`)
         .then(res => {
           showErrMsg.call(this, "Class type approved");
+          this.loadClassTypes()
         }).catch(err => {
         showErrMsg.call(this, err.response.data);
       });
+      this.loadClassTypes();
     },
   }
 };

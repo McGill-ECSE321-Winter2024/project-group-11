@@ -2,14 +2,14 @@
   <div class="profile">
     <h2>Create a Class Type</h2>
     <popup :error-message="this.errorMessage" v-if="this.errorMessage" />
-    <form @submit.prevent="createClassType" class="info-group">
+    <form @submit.prevent="submitForm" class="info-group">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="classType.name" class="input" autocomplete="off" placeholder="Name">
+        <input type="text" id="name" v-model="classType.name" class="input" autocomplete="off" placeholder="Name" required>
       </div>
       <div class="form-group">
         <label for="description">Description:</label>
-        <input type="text" id="description" v-model="classType.description" class="input" autocomplete="off" placeholder="Description">
+        <input type="text" id="description" v-model="classType.description" class="input" autocomplete="off" placeholder="Description" required>
       </div>
       <div class="form-group">
         <label for="difficultyLevel">Difficulty Level:</label>
@@ -20,12 +20,12 @@
           <option value="Advanced">Advanced</option>
         </select>
       </div>
+      <div class="button-group">
+        <button type="button" @click="cancel" class="btn-57">Cancel</button>
+        <button type="submit" name="createClassType" v-if="showButton" class="btn-57">Create Class Type</button>
+        <button type="submit" name="proposeClassType" class="btn-57">Propose Class type</button>
+      </div>
     </form>
-    <div class="button-group">
-      <button type="button" @click="cancel" class="btn-57">Cancel</button>
-      <button type="submit" @click="createClassType" class="btn-57">Create Class Type</button>
-      <button type="submit" @click="proposeClassType" class="btn-57">Propose Class type</button>
-    </div>
   </div>
 </template>
 
@@ -44,10 +44,14 @@ export default {
         approved: ''
       },
       errorMessage: "",
+      showButton: false,
     };
   },
   components: {
     popup
+  },
+  mounted() {
+    this.showCreateButton();
   },
   methods: {
     createClassType() {
@@ -55,7 +59,7 @@ export default {
         name: this.classType.name,
         description: this.classType.description,
         difficultyLevel: this.classType.difficultyLevel,
-        approved: 'true'
+        approved: true
       }
       axios.post('http://localhost:8080/classtype', body)
         .then(response => {
@@ -66,14 +70,13 @@ export default {
         console.error('Error creating class type:', error.response.data);
         this.errorMessage = error.response.data;
       });
-
     },
     proposeClassType() {
       const body = {
         name: this.classType.name,
         description: this.classType.description,
         difficultyLevel: this.classType.difficultyLevel,
-        approved: 'false'
+        approved: false
       }
       axios.post('http://localhost:8080/classtype', body)
         .then(response => {
@@ -84,7 +87,17 @@ export default {
         console.error('Error proposing class type:', error.response.data);
         this.errorMessage = error.response.data;
       });
-
+    },
+    submitForm(event) {
+      if (this.classType.difficultyLevel === '') {
+        return;
+      }
+      const clickedButtonForm = event.submitter.name;
+      if (clickedButtonForm === 'createClassType') {
+        this.createClassType();
+      } else if (clickedButtonForm === 'proposeClassType') {
+        this.proposeClassType();
+      }
     },
     cancel() {
       this.clearForm();
@@ -96,6 +109,16 @@ export default {
         description: '',
         difficultyLevel: '',
       };
+    },
+    showCreateButton() {
+      const storedObj = JSON.parse(localStorage.getItem('token'));
+      if (storedObj) {
+        console.log(storedObj.userType)
+        this.showButton = storedObj.userType === 'Owner';
+      }
+      else {
+        this.showButton = false
+      }
     }
   }
 };

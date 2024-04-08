@@ -21,9 +21,9 @@
       </tbody>
     </table>
     <div class="action-buttons">
-      <button class="edit-btn" @click="editClassTypes" :disabled="activeIndex === null">Edit</button>
-      <button class="del-btn" @click="deleteClassTypes" :disabled="activeIndex === null">Delete</button>
-      <button class="approve-btn" @click="approveClassTypes" :disabled="activeIndex === null">Approve</button>
+      <button class="edit-btn" @click="editClassTypes" :disabled="activeIndex === null" v-if="showButton">Edit</button>
+      <button class="del-btn" @click="deleteClassTypes" :disabled="activeIndex === null" v-if="showButton">Delete</button>
+      <button class="approve-btn" @click="approveClassTypes" :disabled="activeIndex === null" v-if="showButton">Approve</button>
     </div>
   </div>
 </template>
@@ -39,13 +39,17 @@ export default {
     return {
       activeIndex: null, // Index of the currently active row
       showEditClassTypePopup: false,
+      showButton: false,
     };
+  },
+  mounted () {
+    this.showModifyButton();
   },
   methods: {
     editClassTypes() {
       if (this.activeIndex !== null) {
         // Emit event to parent component to edit the active class type
-        this.$emit('edit-classType', this.activeIndex);
+        this.$emit('edit-classType', this.classTypes[this.activeIndex].id);
       }
     },
     deleteClassTypes() {
@@ -70,12 +74,22 @@ export default {
     approveClassTypes() {
       if (this.activeIndex != null) {
         // Emit event to parent component to delete the active session
-        this.$emit('approve-classType', this.activeIndex);
+        this.$emit('approve-classType', this.classTypes[this.activeIndex].id);
       }
     },
     setActiveRow(index) {
       // Set the active index to the clicked row index
       this.activeIndex = index;
+    },
+    showModifyButton() {
+      const storedObj = JSON.parse(localStorage.getItem('token'));
+      if (storedObj) {
+        console.log(storedObj.userType)
+        this.showButton = storedObj.userType === 'Owner';
+      }
+      else {
+        this.showButton = false
+      }
     },
     }
 };

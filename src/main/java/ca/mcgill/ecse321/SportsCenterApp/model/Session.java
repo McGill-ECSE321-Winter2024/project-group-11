@@ -33,7 +33,7 @@ public class Session
   //Session Associations
   @ManyToOne
   private Instructor instructor;
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, cascade = CascadeType.ALL)
   private ClassType classType;
 
   //------------------------

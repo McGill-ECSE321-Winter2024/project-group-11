@@ -5,11 +5,11 @@
     <form @submit.prevent="submitForm" class="info-group">
       <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="classType.name" class="input" autocomplete="off" placeholder="Name">
+        <input type="text" id="name" v-model="classType.name" class="input" autocomplete="off" placeholder="Name" >
       </div>
       <div class="form-group">
         <label for="description">Description:</label>
-        <input type="text" id="description" v-model="classType.description" class="input" autocomplete="off" placeholder="Description">
+        <input type="text" id="description" v-model="classType.description" class="input" autocomplete="off" placeholder="Description" >
       </div>
       <div class="form-group">
         <label for="difficultyLevel">Difficulty Level:</label>
@@ -20,11 +20,11 @@
           <option value="Advanced">Advanced</option>
         </select>
       </div>
+      <div class="button-group">
+        <button type="button" @click="cancel" class="btn-57">Cancel</button>
+        <button type="submit" class="btn-57">Confirm Changes</button>
+      </div>
     </form>
-    <div class="button-group">
-      <button type="button" @click="cancel" class="btn-57">Cancel</button>
-      <button type="submit" @click="submitForm" class="btn-57">Confirm Changes</button>
-    </div>
   </div>
 </template>
 
@@ -51,6 +51,7 @@ export default {
   },
   mounted() {
     this.fetchClassType(this.classTypeId);
+    console.log(this.classTypeId);
   },
   methods: {
     fetchClassType(id) {
