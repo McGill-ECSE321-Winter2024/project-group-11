@@ -146,3 +146,60 @@ See project report here: [Deliverable 2](https://github.com/McGill-ECSE321-Winte
 </table>
 
 Classes were split up between all six members and each member was responsible for the respective Service, Controller, ServiceTest, and DTO classes.
+
+## Deliverable 3
+See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winter2024/project-group-11/wiki)<table>
+  <tbody>
+    <tr>
+      <th>Team Member</th>
+      <th>Responsibilities</th>
+      <th>Hours (incl. meetings)</th>
+    </tr>
+    <tr>
+      <td>Yazid Asselah</td>
+      <td>
+        <ul>
+          <li>Big Y</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+      <td>Kenny Duy Nguyen</td>
+      <td>
+        <ul>
+          <li>Class types UI page</li>
+        </ul>
+      </td>
+      <td>x hours </td>
+    </tr>
+    <tr>
+      <td>Liam Di Chiro</td>
+      <td>
+        <ul>
+          <li>Registration UI page</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+      <td>Seungyeon Lee</td>
+      <td>
+        <ul>
+          <li>Instructors UI page</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+      <td>Luke Freund</td>
+      <td>
+        <ul>
+          <li>About, Classes and Instructors (Dashboard) UI pages</li>
+        </ul>
+      </td>
+      <td>x hours</td>
+    </tr>
+    <tr>
+  </tbody>
+</table>
