@@ -159,7 +159,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
       <td>Yazid Asselah</td>
       <td>
         <ul>
-          <li>Big Y</li>
+          <li>Home, Profile, Center Infos and Sessions UI pages</li>
         </ul>
       </td>
       <td>x hours</td>
