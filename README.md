@@ -159,7 +159,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
       <td>Yazid Asselah</td>
       <td>
         <ul>
-          <li>Home, Profile, Center Infos and Sessions UI pages</li>
+          <li>Home, Classes, Profile, Center Infos and Sessions UI pages</li>
         </ul>
       </td>
       <td>40 hours</td>
