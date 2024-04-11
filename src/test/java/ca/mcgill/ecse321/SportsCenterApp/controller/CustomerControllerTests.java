@@ -13,13 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CustomerControllerTests {
     @Autowired
@@ -47,8 +47,8 @@ public class CustomerControllerTests {
     private List<String> testCreateCustomer() {
         List<String> parameters = new ArrayList<>();
 
-        CustomerDto customerDto = new CustomerDto("kenny", "nguyen", "kenner@email.com", "ken23", null, "aToken", 0.45f);
-        CustomerDto customerDto2 = new CustomerDto("lee", "dee", "cee@email.com", "sup21!",null, "aToken", 135f);
+        CustomerDto customerDto = new CustomerDto("kenny", "nguyen", "kenner@email.com", "ken23!Abcd", null, "aToken", 0.45f);
+        CustomerDto customerDto2 = new CustomerDto("lee", "dee", "cee@email.com", "sup21!Abcd",null, "aToken", 135f);
 
 
         ResponseEntity<CustomerDto> response = client.postForEntity("/customer", customerDto, CustomerDto.class);
@@ -86,18 +86,18 @@ public class CustomerControllerTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(2, response.getBody().size());
         assertEquals("kenner@email.com", response.getBody().get(0).getEmail());
-        assertEquals("sup21!", response.getBody().get(1).getPassword());
+        assertEquals("sup21!Abcd", response.getBody().get(1).getPassword());
     }
 
 
     @Test
     public void createInvalidCustomer(){
-        CustomerDto customerDto = new CustomerDto("Spice", "Adams", null, "123@password", null, "atoken", 34f);
+        CustomerDto customerDto = new CustomerDto("Spice", "Adams", "blabla", "123@password!Abcd", null, "atoken", 34f);
 
         ResponseEntity<String> response = client.postForEntity("/customer", customerDto, String.class);
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Email cannot be null", response.getBody());
+        assertEquals("Invalid Email address", response.getBody());
     }
     @Test
     public void getInvalidCustomer(){
@@ -113,7 +113,7 @@ public class CustomerControllerTests {
 
     @Test
     public void testUpdateCustomerAccountBalance(){
-        CustomerDto customerDto = new CustomerDto("patty", "stluck", "patty@gmail.com", "123era", null, "aToken", 100f);
+        CustomerDto customerDto = new CustomerDto("patty", "stluck", "patty@gmail.com", "123era!Abcd", null, "aToken", 100f);
         ResponseEntity<CustomerDto> response = client.postForEntity("/customer", customerDto, CustomerDto.class);
         assertNotNull(response.getBody());
         Integer id = response.getBody().getId();
@@ -133,9 +133,9 @@ public class CustomerControllerTests {
 
     @Test
     public void testDeleteCustomer(){
-        CustomerDto customerDto = new CustomerDto("Antonio", "Brown", "CTESPN@yahoo.ca","cte123!",null, "aToken", 84.84f);
+        CustomerDto customerDto = new CustomerDto("Antonio", "Brown", "CTESPN@yahoo.ca","cte123!Abcd",null, "aToken", 84.84f);
 
-        CustomerDto customerDto2 = new CustomerDto("Tom", "Brady", "tb12@gmail.com", "tb12!", null, "aToken", 41.6f);
+        CustomerDto customerDto2 = new CustomerDto("Tom", "Brady", "tb12@gmail.com", "tb12!Abcd", null, "aToken", 41.6f);
 
         ResponseEntity<CustomerDto> response = client.postForEntity("/customer", customerDto, CustomerDto.class);
 
