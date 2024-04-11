@@ -162,7 +162,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
           <li>Home, Profile, Center Infos and Sessions UI pages</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>40 hours</td>
     </tr>
     <tr>
       <td>Kenny Duy Nguyen</td>
@@ -171,7 +171,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
           <li>Class types UI page</li>
         </ul>
       </td>
-      <td>x hours </td>
+      <td>25 hours </td>
     </tr>
     <tr>
       <td>Liam Di Chiro</td>
@@ -180,7 +180,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
           <li>Registration UI page</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>26 hours</td>
     </tr>
     <tr>
       <td>Seungyeon Lee</td>
@@ -189,7 +189,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
           <li>Instructors UI page</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>28 hours</td>
     </tr>
     <tr>
       <td>Luke Freund</td>
@@ -198,7 +198,7 @@ See project report here: [Deliverable 3](https://github.com/McGill-ECSE321-Winte
           <li>About, Classes and Instructors (Dashboard) UI pages</li>
         </ul>
       </td>
-      <td>x hours</td>
+      <td>25 hours</td>
     </tr>
     <tr>
   </tbody>
